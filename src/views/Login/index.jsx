@@ -34,7 +34,9 @@ const Login = () => {
         leftIcon={<ArrowRightOnRectangleIcon height={16} />}
       />
       <div className="flex flex-col gap-[1rem]">
-        <p className="text-sm text-blue-700">Don't have an account?</p>
+        <p className="text-sm text-blue-700 select-none">
+          Don't have an account?
+        </p>
         <Button
           text="Sign up now"
           rightIcon={<ArrowRightIcon height={16} />}
