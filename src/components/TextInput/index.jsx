@@ -18,12 +18,19 @@ const TextInput = ({
   isEmail = false,
   loading = false,
   disabled = false,
-  valid = false,
   error = "",
+  value = "",
+  touched = false,
+  onChange = () => {},
+  onBlur = () => {},
 }) => {
   const [shown, setShown] = useState(false);
 
   const toggleShown = () => setShown((shown) => !shown);
+
+  const errorToShow = touched ? error : "";
+
+  const valid = !error && !!value;
 
   return (
     <div className="w-full">
@@ -41,15 +48,21 @@ const TextInput = ({
         ) : valid ? (
           <CheckCircleIcon height={16} className="text-green-500" />
         ) : (
-          !!error && <XCircleIcon height={16} className="text-coral-500" />
+          !!errorToShow && (
+            <XCircleIcon height={16} className="text-coral-500" />
+          )
         )}
       </div>
       <div className="relative">
         <input
           id={id}
           name={name}
-          className={`border-[0.75px] border-neutral-500 text-neutral-900 text-sm rounded-md outline-transparent focus:outline-blue-700 block w-full p-2.5 placeholder:text-neutral-400 placeholder:select-none transition-all disabled:bg-neutral-100 ${
-            valid ? "border-green-500" : !!error && "border-coral-500"
+          className={`border-[0.75px] text-neutral-900 text-sm rounded-md outline-transparent focus:outline-blue-700 block w-full p-2.5 placeholder:text-neutral-400 placeholder:select-none transition-all disabled:bg-neutral-100 ${
+            valid
+              ? "border-green-500"
+              : !!errorToShow
+              ? "border-coral-500"
+              : "border-neutral-500"
           } ${secure && "pr-[2rem]"}`}
           placeholder={placeholder}
           required={required}
@@ -57,6 +70,10 @@ const TextInput = ({
             secure ? (shown ? "text" : "password") : isEmail ? "email" : "text"
           }
           disabled={disabled || loading}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          autoComplete="off"
         />
         {secure && (
           <span
@@ -76,9 +93,9 @@ const TextInput = ({
           {helperText}
         </p>
       )}
-      {!!error && (
+      {!!errorToShow && (
         <p className="py-[0.25rem] text-xs text-coral-400 select-none">
-          {error}
+          {errorToShow}
         </p>
       )}
     </div>

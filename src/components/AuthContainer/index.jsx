@@ -6,8 +6,8 @@ const AuthContainer = ({
   contentContainerClassName = "",
 }) => {
   return (
-    <div className="w-screen min-h-screen flex flex-row items-center justify-center bg-blue-50 md:p-[3rem]">
-      <div className="max-w-[32rem] w-full md:p-[3rem] p-[2rem] flex flex-col gap-[3rem] items-center bg-white shadow-md">
+    <div className="w-screen min-h-screen flex flex-row items-center justify-center bg-blue-50 md:p-[3rem] wave-bg">
+      <div className="max-w-[36rem] w-full md:p-[3rem] p-[2rem] flex flex-col gap-[3rem] items-center bg-white shadow-md">
         <img
           src={AppLogoWithTitleSrc}
           alt="app-logo-with-title"

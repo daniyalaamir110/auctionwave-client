@@ -5,8 +5,14 @@ import {
   ArrowRightIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
+import useLogin from "./useSignup";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const login = useLogin();
+
   return (
     <AuthContainer
       contentContainerClassName="flex flex-col gap-[2rem]"
@@ -15,6 +21,11 @@ const Login = () => {
       <div className="flex flex-col gap-[1rem]">
         <TextInput
           id="username"
+          value={login.form.values.username}
+          onChange={login.form.handleChange("username")}
+          onBlur={login.form.handleBlur("username")}
+          error={login.form.errors.username}
+          touched={login.form.touched.username}
           name="username"
           placeholder="Enter Username"
           label="Username"
@@ -22,6 +33,11 @@ const Login = () => {
         />
         <TextInput
           id="password"
+          value={login.form.values.password}
+          onChange={login.form.handleChange("password")}
+          onBlur={login.form.handleBlur("password")}
+          error={login.form.errors.password}
+          touched={login.form.touched.password}
           name="password"
           placeholder="Enter Password"
           label="Password"
@@ -32,6 +48,9 @@ const Login = () => {
       <Button
         text="Log in"
         leftIcon={<ArrowRightOnRectangleIcon height={16} />}
+        loading={login.requestStatus.loading}
+        disabled={!login.form.isValid}
+        onClick={login.form.handleSubmit}
       />
       <div className="flex flex-col gap-[1rem]">
         <p className="text-sm text-blue-700 select-none">
@@ -41,6 +60,9 @@ const Login = () => {
           text="Sign up now"
           rightIcon={<ArrowRightIcon height={16} />}
           variant="secondary"
+          onClick={() => {
+            navigate("/auth/signup");
+          }}
         />
       </div>
     </AuthContainer>

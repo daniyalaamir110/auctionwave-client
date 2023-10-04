@@ -1,8 +1,14 @@
-import Login from "@/views/Login";
-import Signup from "@/views/Signup";
+import Router from "@/router";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-  return <Signup />;
+  return (
+    <>
+      <Router />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default App;

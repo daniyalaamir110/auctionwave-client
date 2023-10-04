@@ -12,3 +12,10 @@
 * {
   font-family: Lato, Arial, Helvetica, sans-serif;
 }
+
+.wave-bg {
+  background-image: url(./assets/images/wave-background-vector.svg);
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
