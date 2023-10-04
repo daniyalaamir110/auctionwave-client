@@ -15,14 +15,14 @@ const useLogin = () => {
       username: Yup.string().trim().required("Required"),
       password: Yup.string().trim().required("Required"),
     }),
-    isInitialValid: false,
+    validateOnMount: true,
     validateOnBlur: true,
     validateOnChange: false,
     onSubmit: (values, helpers) => {
       requestStatus.setLoading(true);
       setTimeout(() => {
         requestStatus.setLoading(false);
-        toast("Logged in successfully");
+        toast("Logged in successfully", { type: "success" });
       }, 2000);
     },
   });

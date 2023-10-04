@@ -29,7 +29,7 @@ const useSignup = () => {
         .required("Required")
         .oneOf([Yup.ref("password")], "Passwords must match"),
     }),
-    isInitialValid: false,
+    validateOnMount: true,
     validateOnBlur: true,
     validateOnChange: false,
     onSubmit: (values, helpers) => {

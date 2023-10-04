@@ -36,7 +36,7 @@ const TextInput = ({
     <div className="w-full">
       <div className="flex flex-row justify-between items-center w-full">
         <label
-          for={id}
+          htmlFor={id}
           className={`block mb-2 text-sm font-medium text-black select-none ${
             required ? " required" : ""
           }`}
