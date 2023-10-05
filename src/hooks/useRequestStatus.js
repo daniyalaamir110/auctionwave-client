@@ -9,6 +9,12 @@ const useRequestStatus = ({
   const [error, setError] = useState(initialError);
   const [data, setData] = useState(initialData);
 
+  const reset = () => {
+    setLoading(initialLoading);
+    setError(initialError);
+    setData(initialData);
+  };
+
   return {
     loading,
     error,
@@ -16,6 +22,7 @@ const useRequestStatus = ({
     setLoading,
     setError,
     setData,
+    reset,
   };
 };
 
