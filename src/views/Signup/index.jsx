@@ -51,7 +51,7 @@ const Signup = () => {
           error={signup.form.errors.email}
           touched={signup.form.touched.email}
           name="email"
-          placeholder="Enter Email"
+          placeholder="Enter email"
           label="Email"
           required
           isEmail
@@ -66,28 +66,32 @@ const Signup = () => {
             error={signup.form.errors.username}
             touched={signup.form.touched.username}
             name="username"
-            placeholder="Enter Username"
+            placeholder="Enter username"
             label="Username"
             required
           />
-          {/* <div className="flex flex-row gap-[0.5rem] items-center text-blue-800">
-            <p className="text-xs">Loading Suggestions</p>
-            <LoadingSpinner />
-          </div> */}
-          {/* <div className="flex flex-row gap-[0.5rem] items-center flex-wrap">
-            {["daamir1", "daniyala8", "daniyalaamir12"].map((un, idx) => (
-              <div
-                key={idx}
-                className={`text-xs bg-blue-50 p-[0.5rem] rounded-lg text-blue-700 cursor-pointer hover:bg-blue-200 transition-all border-[0.75px] ${
-                  idx === 0
-                    ? "border-blue-700 bg-blue-100"
-                    : "border-transparent"
-                }`}
-              >
-                {un}
-              </div>
-            ))}
-          </div> */}
+          {signup.loadUsernames.requestStatus.loading ? (
+            <div className="flex flex-row gap-[0.5rem] items-center text-blue-800">
+              <p className="text-xs">Loading Suggestions</p>
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <div className="flex flex-row gap-[0.5rem] items-center flex-wrap">
+              {signup.loadUsernames.requestStatus.data?.map((username, idx) => (
+                <div
+                  key={idx}
+                  className={`text-xs bg-blue-50 p-[0.5rem] rounded-lg text-blue-700 cursor-pointer hover:bg-blue-200 transition-all border-[0.75px] ${
+                    signup.isUsername(username)
+                      ? "border-blue-700 bg-blue-100"
+                      : "border-transparent"
+                  }`}
+                  onClick={() => signup.selectUsername(username)}
+                >
+                  {username}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <TextInput
           id="password"
@@ -97,7 +101,7 @@ const Signup = () => {
           error={signup.form.errors.password}
           touched={signup.form.touched.password}
           name="password"
-          placeholder="Enter Password"
+          placeholder="Enter password"
           label="Password"
           required
           secure

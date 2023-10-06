@@ -6,7 +6,7 @@ import {
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import useLogin from "./useSignup";
+import useLogin from "./useLogin";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Login = () => {
           error={login.form.errors.username}
           touched={login.form.touched.username}
           name="username"
-          placeholder="Enter Username"
+          placeholder="Enter username"
           label="Username"
           required
         />
@@ -39,7 +39,7 @@ const Login = () => {
           error={login.form.errors.password}
           touched={login.form.touched.password}
           name="password"
-          placeholder="Enter Password"
+          placeholder="Enter password"
           label="Password"
           required
           secure

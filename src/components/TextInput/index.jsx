@@ -37,7 +37,7 @@ const TextInput = ({
       <div className="flex flex-row justify-between items-center w-full">
         <label
           htmlFor={id}
-          className={`block mb-2 text-sm font-medium text-black select-none ${
+          className={`block mb-2 text-sm font-medium text-black select-none hover:text-blue-700 hover:cursor-pointer active:text-blue-800 transition-all ${
             required ? " required" : ""
           }`}
         >
@@ -57,7 +57,7 @@ const TextInput = ({
         <input
           id={id}
           name={name}
-          className={`border-[0.75px] text-neutral-900 text-sm rounded-md outline-transparent focus:outline-blue-700 block w-full p-2.5 placeholder:text-neutral-400 placeholder:select-none transition-all disabled:bg-neutral-100 ${
+          className={`border-[1px] text-neutral-900 text-sm rounded-md outline-transparent focus:outline-blue-700 block w-full p-2.5 placeholder:text-neutral-400 placeholder:select-none transition-all disabled:bg-neutral-100 ${
             valid
               ? "border-green-500"
               : !!errorToShow
