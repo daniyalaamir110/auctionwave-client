@@ -28,9 +28,9 @@ const TextInput = ({
 
   const toggleShown = () => setShown((shown) => !shown);
 
-  const errorToShow = touched ? error : "";
+  const errorToShow = touched && !loading ? error : "";
 
-  const valid = !error && !!value;
+  const valid = !loading && !error && !!value;
 
   return (
     <div className="w-full">

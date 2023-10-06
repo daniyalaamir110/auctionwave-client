@@ -50,6 +50,7 @@ const Signup = () => {
           onBlur={signup.form.handleBlur("email")}
           error={signup.form.errors.email}
           touched={signup.form.touched.email}
+          loading={signup.checkingEmail}
           name="email"
           placeholder="Enter email"
           label="Email"
@@ -65,6 +66,7 @@ const Signup = () => {
             onBlur={signup.form.handleBlur("username")}
             error={signup.form.errors.username}
             touched={signup.form.touched.username}
+            loading={signup.checkingUsername}
             name="username"
             placeholder="Enter username"
             label="Username"
@@ -80,7 +82,7 @@ const Signup = () => {
               {signup.loadUsernames.requestStatus.data?.map((username, idx) => (
                 <div
                   key={idx}
-                  className={`text-xs bg-blue-50 p-[0.5rem] rounded-lg text-blue-700 cursor-pointer hover:bg-blue-200 transition-all border-[0.75px] ${
+                  className={`text-xs bg-blue-50 p-[0.5rem] rounded-lg text-blue-700 cursor-pointer hover:bg-blue-200 transition-all border-[1px] ${
                     signup.isUsername(username)
                       ? "border-blue-700 bg-blue-100"
                       : "border-transparent"
