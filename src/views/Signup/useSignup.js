@@ -3,6 +3,7 @@ import useLoadUsernames from "@/hooks/useLoadUsernames";
 import useRequestStatus from "@/hooks/useRequestStatus";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 const emailValidationApi = (email) => {
@@ -124,6 +125,8 @@ const useSignup = () => {
       requestStatus.setLoading(true);
       setTimeout(() => {
         requestStatus.setLoading(false);
+        toast("Signed up in successfully", { type: "success" });
+        helpers.resetForm();
       }, 2000);
     },
   });

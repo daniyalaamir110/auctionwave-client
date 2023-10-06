@@ -23,6 +23,7 @@ const useLogin = () => {
       setTimeout(() => {
         requestStatus.setLoading(false);
         toast("Logged in successfully", { type: "success" });
+        helpers.resetForm();
       }, 2000);
     },
   });
