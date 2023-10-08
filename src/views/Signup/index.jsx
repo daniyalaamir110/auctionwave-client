@@ -127,7 +127,6 @@ const Signup = () => {
         text="Sign up"
         leftIcon={<UserPlusIcon height={16} />}
         loading={signup.requestStatus.loading}
-        disabled={!signup.form.isValid}
         onClick={signup.form.handleSubmit}
       />
       <div className="flex flex-col gap-[1rem]">

@@ -49,7 +49,6 @@ const Login = () => {
         text="Log in"
         leftIcon={<ArrowRightOnRectangleIcon height={16} />}
         loading={login.requestStatus.loading}
-        disabled={!login.form.isValid}
         onClick={login.form.handleSubmit}
       />
       <div className="flex flex-col gap-[1rem]">
