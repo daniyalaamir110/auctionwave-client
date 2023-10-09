@@ -42,7 +42,7 @@ const Product = () => {
         <div>
           <h3 className="text-xs text-neutral-900">BASE PRICE</h3>
           <p className="text-blue-700">
-            <span className="text-xs">PKR </span>280,000
+            <span className="text-xs">PKR </span>2,800,000
           </p>
           <div className="flex flex-row py-[1rem]">
             <TimeLeft />
@@ -116,7 +116,7 @@ const CategoryItem = ({ id = 0, name = "", active = false, all = false }) => {
 
 const FiltersSection = ({ activeCategoryId = null }) => {
   return (
-    <div className="w-[16rem] p-[2rem] pr-0 h-full overflow-scroll hidden md:block">
+    <div className="w-[16rem] p-[2rem] h-full overflow-scroll hidden md:block">
       <h2 className="text-2xl text-blue-700">Categories</h2>
       <div className="flex flex-col gap-[0.5rem] py-[1.25rem]">
         <TextInput
@@ -155,9 +155,9 @@ const Products = () => {
   }
 
   return (
-    <div className="flex flex-row justify-between gap-[2rem] flex-wrap">
+    <div className="flex flex-row justify-between gap-[2rem] h-full flex-wrap">
       <FiltersSection activeCategoryId={activeCategoryId} />
-      <div className="flex-1 p-[2rem] flex flex-col gap-[2rem]">
+      <div className="flex-1 p-[2rem] h-full flex flex-col gap-[2rem] overflow-scroll">
         <h1 className="text-4xl">Auctions</h1>
         <div className="flex flex-row gap-[2rem] w-full flex-wrap">
           <Product />
