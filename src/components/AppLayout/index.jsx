@@ -7,9 +7,12 @@ const AppLayout = () => {
   const { shown, show, hide } = useSidebar();
 
   return (
-    <div>
+    <div className="flex flex-col w-[100svw] h-[100svh] overflow-hidden">
       <Navbar onClickMenu={show} />
       <Sidebar shown={shown} hide={hide} />
+      <div className="flex-1 overflow-scroll">
+        <Outlet />
+      </div>
     </div>
   );
 };
