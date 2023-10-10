@@ -53,36 +53,6 @@ const Product = () => {
           variant="secondary"
           rightIcon={<ArrowTopRightOnSquareIcon width={16} />}
         />
-        {/* <p>
-          {`
-            Are you in search of a reliable and stylish companion for your daily drives? Look no further! Presenting this stunning 2005 Honda Accord, a true gem that has been meticulously cared for and is now up for auction. 
-            
-            🚗 Key Features:
-            - Year of Registration: 2005
-            - Condition: Mint and Excellent
-            - Exterior Color: Silverstone
-            - Engine: Sealed and Own, No Compromises
-            - Mileage: Only 91,000 km
-            - Wheels: Alloy Rims for that Extra Touch of Elegance
-            - Entertainment: Aftermarket, Latest Android Panel Installed
-            - Convenience: Retractable Mirrors for Easy Parking
-            - Luxury: Full Option with Electronic Seats
-            - Documentation: All Original Documents Complete
-            - Fuel: Petrol Driven, CNG Never Installed
-            - Accident History: None, 100% Clean
-            - Original Book Available for Verification
-            
-            This Honda Accord is a true masterpiece, boasting a timeless Silverstone exterior that exudes class and sophistication. With an exceptionally low mileage of just 91,000 km, you can expect years of smooth and trouble-free driving ahead.
-            
-            The interior is a testament to its excellent condition. The electronic seats provide comfort during long journeys, and the retractable mirrors make parking a breeze. Additionally, an aftermarket, latest Android panel has been installed to keep you connected and entertained on the road.
-            
-            Rest assured, this Accord has never been involved in any accidents, and all original documents are available for your peace of mind. It has been driven on petrol only, with CNG never installed, ensuring optimal performance.
-            
-            Don't miss this opportunity to own a pristine 2005 Honda Accord that combines style, reliability, and value. Bid now and experience the pleasure of owning a vehicle that sets the standard for excellence. Act fast; this beauty won't be available for long!
-            
-            For inquiries or to schedule a viewing, please contact us today. Bid with confidence, and let this remarkable Honda Accord elevate your driving experience to a whole new level.
-            `}
-        </p> */}
       </div>
     </div>
   );
@@ -103,7 +73,7 @@ const categories = [
 const CategoryItem = ({ id = 0, name = "", active = false, all = false }) => {
   return (
     <Link
-      to={all ? "/app/products" : `/app/products?category=${id}`}
+      to={all ? "/app/auctions" : `/app/auctions?category=${id}`}
       className={`text-neutral-60 text-sm transition-all flex flex-row p-[0.125rem] gap-[0.125rem] hover:text-blue-700 rounded-md ${
         active && "font-bold bg-blue-100"
       }`}
@@ -146,7 +116,7 @@ const FiltersSection = ({ activeCategoryId = null }) => {
   );
 };
 
-const Products = () => {
+const Auctions = () => {
   const query = useQuery();
 
   let activeCategoryId = query.get("category");
@@ -176,4 +146,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Auctions;

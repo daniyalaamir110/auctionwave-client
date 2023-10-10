@@ -1,8 +1,9 @@
 import AppLayout from "@/components/AppLayout";
+import Auctions from "@/views/Auctions";
 import Login from "@/views/Login";
-import Products from "@/views/Products";
+import Page404 from "@/views/Page404";
 import Signup from "@/views/Signup";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Router = () => {
   return (
@@ -11,9 +12,9 @@ const Router = () => {
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<Signup />} />
         <Route element={<AppLayout />}>
-          <Route path="/app/products" element={<Products />} />
+          <Route path="/app/auctions" element={<Auctions />} />
         </Route>
-        <Route path="*" element={<Navigate to="/app/products" replace />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </BrowserRouter>
   );
