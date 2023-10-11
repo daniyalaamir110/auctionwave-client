@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, verify } from "./actions";
+import { login, verify, logout } from "./async-actions";
+import { toast } from "react-toastify";
 
 const initialState = {
   loading: false,
@@ -12,7 +13,13 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state = initialState;
+      localStorage.clear();
+      toast("Logged out", { type: "info" });
+    },
+  },
   extraReducers: (builder) => {
     /**
      * Login
@@ -49,5 +56,6 @@ const authSlice = createSlice({
 });
 
 const authReducer = authSlice.reducer;
+export const { actions } = authSlice;
 
 export default authReducer;

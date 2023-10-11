@@ -1,5 +1,5 @@
 import api from "@/services/api";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 export const login = createAsyncThunk(
@@ -29,8 +29,7 @@ export const refresh = createAsyncThunk(
         const { access } = res.data;
         localStorage.setItem("access", access);
       } catch (error) {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
+        localStorage.clear();
         const message = error.response?.data?.detail || "Something went wrong";
         toast(message, { type: "error" });
         rejectWithValue(message);
@@ -48,8 +47,7 @@ export const verify = createAsyncThunk(
         await api.auth.verify({ token });
         toast("Welcome back", { type: "success" });
       } catch (error) {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
+        localStorage.clear();
         const message = error.response?.data?.detail || "Something went wrong";
         toast(message, { type: "error" });
         rejectWithValue(message);
@@ -57,3 +55,5 @@ export const verify = createAsyncThunk(
     }
   }
 );
+
+export const logout = createAction("auth/logout");

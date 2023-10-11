@@ -6,6 +6,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider as ReduxStoreProvider } from "react-redux";
 import AuthHOC from "@/redux/auth/AuthHOC";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,6 +15,7 @@ root.render(
     <ReduxStoreProvider store={store}>
       <AuthHOC>
         <App />
+        <ToastContainer position="bottom-right" />
       </AuthHOC>
     </ReduxStoreProvider>
   </React.StrictMode>
