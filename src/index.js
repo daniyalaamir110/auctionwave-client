@@ -5,12 +5,15 @@ import reportWebVitals from "@/reportWebVitals";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider as ReduxStoreProvider } from "react-redux";
+import AuthHOC from "@/redux/auth/AuthHOC";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ReduxStoreProvider store={store}>
-      <App />
+      <AuthHOC>
+        <App />
+      </AuthHOC>
     </ReduxStoreProvider>
   </React.StrictMode>
 );

@@ -54,7 +54,7 @@ const useSignup = () => {
                 }
                 return this.resolve(value);
               })
-              .catch((e) => {
+              .catch(() => {
                 setEmailUnique(false);
                 return this.createError({ message: "Email is already taken" });
               })
@@ -114,11 +114,18 @@ const useSignup = () => {
     onSubmit: (values, helpers) => {
       loadUsernames.clear();
       requestStatus.setLoading(true);
-      setTimeout(() => {
-        requestStatus.setLoading(false);
-        toast("Signed up in successfully", { type: "success" });
-        helpers.resetForm();
-      }, 2000);
+      api.users
+        .register(values)
+        .then((res) => {
+          toast("Signed up successfully", { type: "success" });
+          helpers.resetForm();
+        })
+        .catch((err) => {
+          toast("Couldn't sign you up", { type: "error" });
+        })
+        .finally(() => {
+          requestStatus.setLoading(false);
+        });
     },
   });
 

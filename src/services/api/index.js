@@ -18,6 +18,14 @@ const auth = {
   login: ({ username = "", password = "" }) => {
     return apiInstance.post("/auth/login/", { username, password });
   },
+
+  verify: ({ token = "" }) => {
+    return apiInstance.post("/auth/verify/", { token });
+  },
+
+  refresh: ({ refresh = "" }) => {
+    return apiInstance.post("/auth/refresh/", { refresh });
+  },
 };
 
 const users = {

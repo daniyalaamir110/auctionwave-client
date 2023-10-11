@@ -9,7 +9,15 @@ const useAuth = () => {
     dispatch(actions.login(data));
   };
 
-  return { state, login };
+  const verify = () => {
+    dispatch(actions.verify());
+  };
+
+  const refresh = () => {
+    dispatch(actions.refresh());
+  };
+
+  return { state, login, verify, refresh };
 };
 
 export default useAuth;
