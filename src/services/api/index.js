@@ -14,14 +14,48 @@ apiInstance.interceptors.request.use((request) => {
   return request;
 });
 
-const login = ({ username = "", password = "" }) => {
-  return apiInstance.post("/auth/login", { username, password });
+const auth = {
+  login: ({ username = "", password = "" }) => {
+    return apiInstance.post("/auth/login/", { username, password });
+  },
+};
+
+const users = {
+  register: ({
+    firstName = "",
+    lastName = "",
+    email = "",
+    username = "",
+    password = "",
+  }) => {
+    return apiInstance.post("/users/", {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      username,
+      password,
+    });
+  },
+
+  getUsernameSuggestions: ({ firstName = "", lastName = "" }) => {
+    return apiInstance.post("/users/username-suggestions/", {
+      first_name: firstName,
+      last_name: lastName,
+    });
+  },
+
+  getUsernameAvailability: ({ username = "" }) => {
+    return apiInstance.post("/users/username-availability/", { username });
+  },
+
+  getEmailAvailability: ({ email = "" }) => {
+    return apiInstance.post("/users/email-availability/", { email });
+  },
 };
 
 const api = {
-  auth: {
-    login,
-  },
+  auth,
+  users,
 };
 
 export default api;

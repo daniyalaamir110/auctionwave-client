@@ -1,10 +1,11 @@
 import useRequestStatus from "@/hooks/useRequestStatus";
+import useAuth from "@/redux/auth/useAuth";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 const useLogin = () => {
-  const requestStatus = useRequestStatus();
+  const auth = useAuth();
 
   const form = useFormik({
     initialValues: {
@@ -19,16 +20,11 @@ const useLogin = () => {
     validateOnBlur: true,
     validateOnChange: false,
     onSubmit: (values, helpers) => {
-      requestStatus.setLoading(true);
-      setTimeout(() => {
-        requestStatus.setLoading(false);
-        toast("Logged in successfully", { type: "success" });
-        helpers.resetForm();
-      }, 2000);
+      auth.login(values);
     },
   });
 
-  return { form, requestStatus };
+  return { form };
 };
 
 export default useLogin;

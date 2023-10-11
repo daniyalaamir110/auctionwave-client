@@ -77,6 +77,10 @@ const Signup = () => {
               <p className="text-xs">Loading Suggestions</p>
               <LoadingSpinner />
             </div>
+          ) : signup.loadUsernames.requestStatus.error ? (
+            <p className="text-xs">
+              {signup.loadUsernames.requestStatus.error}
+            </p>
           ) : (
             <div className="flex flex-row gap-[0.5rem] items-center flex-wrap">
               {signup.loadUsernames.requestStatus.data?.map((username, idx) => (

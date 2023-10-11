@@ -1,14 +1,23 @@
+import api from "@/services/api";
 import useRequestStatus from "./useRequestStatus";
 
 const useLoadUsernames = () => {
   const requestStatus = useRequestStatus();
 
   const load = (firstName = "", lastName = "") => {
+    requestStatus.reset();
     requestStatus.setLoading(true);
-    setTimeout(() => {
-      requestStatus.setLoading(false);
-      requestStatus.setData(["daniyala11", "daamir12", "daniyal.aamir9"]);
-    }, 2000);
+    api.users
+      .getUsernameSuggestions({ firstName, lastName })
+      .then((res) => {
+        requestStatus.setData(res.data);
+      })
+      .catch((err) => {
+        requestStatus.setError("Couldn't fetch suggestions");
+      })
+      .finally(() => {
+        requestStatus.setLoading(false);
+      });
   };
 
   const clear = requestStatus.reset;

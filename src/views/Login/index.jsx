@@ -7,11 +7,14 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import useLogin from "./useLogin";
+import useAuth from "@/redux/auth/useAuth";
 
 const Login = () => {
   const navigate = useNavigate();
 
   const login = useLogin();
+
+  const auth = useAuth();
 
   return (
     <AuthContainer
@@ -48,7 +51,7 @@ const Login = () => {
       <Button
         text="Log in"
         leftIcon={<ArrowRightOnRectangleIcon height={16} />}
-        loading={login.requestStatus.loading}
+        loading={auth.state.loading}
         onClick={login.form.handleSubmit}
       />
       <div className="flex flex-col gap-[1rem]">

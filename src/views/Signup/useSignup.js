@@ -1,34 +1,11 @@
 import useDebounce from "@/hooks/useDebounce";
 import useLoadUsernames from "@/hooks/useLoadUsernames";
 import useRequestStatus from "@/hooks/useRequestStatus";
+import api from "@/services/api";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-
-const emailValidationApi = (email) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email === "daniyal.amir110@gmail.com") {
-        reject("Email is already taken");
-      } else {
-        resolve();
-      }
-    }, 1000);
-  });
-};
-
-const usernameValidationApi = (username) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (username === "daniyal.aamir8") {
-        reject("Username is already taken");
-      } else {
-        resolve();
-      }
-    }, 1000);
-  });
-};
 
 const useSignup = () => {
   // Initializing the hooks
@@ -59,22 +36,27 @@ const useSignup = () => {
         .required("Required")
         .email("Invalid email")
         .test({
-          message: "Email already taken",
+          message: "Email is already taken",
           test: function (value) {
             if (checkedEmail) {
               return emailUnique;
             }
             setCheckingEmail(true);
-            return emailValidationApi(value)
+            return api.users
+              .getEmailAvailability({ email: value })
               .then((res) => {
-                const message = res;
-                console.log("API Response:", message);
-                setEmailUnique(true);
+                const isAvailable = res.data;
+                setEmailUnique(isAvailable);
+                if (!isAvailable) {
+                  return this.createError({
+                    message: "Email is already taken",
+                  });
+                }
                 return this.resolve(value);
               })
               .catch((e) => {
                 setEmailUnique(false);
-                return this.createError({ message: e });
+                return this.createError({ message: "Email is already taken" });
               })
               .finally(() => {
                 setCheckingEmail(false);
@@ -92,14 +74,23 @@ const useSignup = () => {
               return usernameUnique;
             }
             setCheckingUsername(true);
-            return usernameValidationApi(value)
-              .then(() => {
-                setUsernameUnique(true);
+            return api.users
+              .getUsernameAvailability({ username: value })
+              .then((res) => {
+                const isAvailable = res.data;
+                setUsernameUnique(isAvailable);
+                if (!isAvailable) {
+                  return this.createError({
+                    message: "Username is already taken",
+                  });
+                }
                 return this.resolve(value);
               })
               .catch((e) => {
                 setUsernameUnique(false);
-                return this.createError({ message: e });
+                return this.createError({
+                  message: "Username is already taken",
+                });
               })
               .finally(() => {
                 setCheckingUsername(false);
