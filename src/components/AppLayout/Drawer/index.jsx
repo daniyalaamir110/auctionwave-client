@@ -1,20 +1,21 @@
 import AppLogoWithoutTitleSrc from "@/assets/images/app-logo-without-title.png";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import SideMenu from "../SideMenu";
 
-const Sidebar = ({ shown = false, hide = () => {} }) => {
+const Drawer = ({ shown = false, hide = () => {} }) => {
   return (
     <div
-      className={`fixed bg-black bg-opacity-50 w-screen h-screen top-0 transition-all ${
+      className={`md:hidden fixed bg-black bg-opacity-50 w-[100svw] h-[100svh] top-0 transition-all ${
         !shown ? "bg-transparent -z-50" : "z-50"
       }`}
       onClick={hide}
     >
       <div
-        className={`bg-white w-full max-w-[16rem] h-full p-[1.5rem] transition-all ${
+        className={`bg-white flex flex-col w-full max-w-[16rem] h-full transition-all ${
           !shown ? "-translate-x-full" : "shadow-md"
         }`}
       >
-        <div className="flex flex-row justify-between items-start">
+        <div className="flex flex-row p-[1.5rem] justify-between items-start">
           <img
             src={AppLogoWithoutTitleSrc}
             alt="app-logo-without-title"
@@ -24,9 +25,12 @@ const Sidebar = ({ shown = false, hide = () => {} }) => {
             <XMarkIcon width={32} />
           </button>
         </div>
+        <div className="flex-1 overflow-scroll p-[1.5rem]">
+          <SideMenu />
+        </div>
       </div>
     </div>
   );
 };
 
-export default Sidebar;
+export default Drawer;

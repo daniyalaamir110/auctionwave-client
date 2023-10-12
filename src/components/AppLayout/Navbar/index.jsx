@@ -12,7 +12,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
       <div className="flex flex-row gap-[1rem] items-center">
         <Bars3Icon
           width={24}
-          className="hover:text-blue-700 transition-all cursor-pointer"
+          className="hover:text-blue-700 transition-all cursor-pointer md:hidden"
           onClick={onClickMenu}
         />
         <div className="flex flex-row items-center gap-[0.25rem]">

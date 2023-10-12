@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const SideLink = ({ text = "", icon = null, active = false }) => {
   return (
     <Link
-      className={`p-[1rem] rounded-md flex flex-row gap-[0.5rem] items-center transition-all ${
+      className={`p-[0.75rem] rounded-lg text-sm flex flex-row gap-[0.5rem] items-center transition-all ${
         active
           ? "bg-blue-700 text-white shadow-lg hover:bg-blue-800"
           : "hover:text-blue-700 hover:bg-blue-100 text-neutral-900"
