@@ -117,11 +117,11 @@ const useSignup = () => {
       api.users
         .register(values)
         .then((res) => {
-          toast("Signed up successfully", { type: "success" });
+          toast.success("Signed up successfully");
           helpers.resetForm();
         })
         .catch((err) => {
-          toast("Couldn't sign you up", { type: "error" });
+          toast.error("Couldn't sign you up");
         })
         .finally(() => {
           requestStatus.setLoading(false);

@@ -1,5 +1,5 @@
 import api from "@/services/api";
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 export const login = createAsyncThunk(
@@ -10,11 +10,11 @@ export const login = createAsyncThunk(
       const { access, refresh } = res.data;
       localStorage.setItem("access", access);
       localStorage.setItem("refresh", refresh);
-      toast("Logged in successfully", { type: "success" });
+      toast.success("Logged in successfully");
     } catch (error) {
       const message = error.response?.data?.detail || "Something went wrong";
-      toast(message, { type: "error" });
-      rejectWithValue(message);
+      toast.error(message);
+      return rejectWithValue(message);
     }
   }
 );
@@ -31,29 +31,31 @@ export const refresh = createAsyncThunk(
       } catch (error) {
         localStorage.clear();
         const message = error.response?.data?.detail || "Something went wrong";
-        toast(message, { type: "error" });
-        rejectWithValue(message);
+        toast.error(message);
+        return rejectWithValue(message);
       }
+    } else {
+      return rejectWithValue("No refresh token found");
     }
   }
 );
 
 export const verify = createAsyncThunk(
   "auth/verify",
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, fulfillWithValue }) => {
     const token = localStorage.getItem("access");
     if (token) {
       try {
         await api.auth.verify({ token });
-        toast("Welcome back", { type: "success" });
+        toast.success("Welcome back");
       } catch (error) {
         localStorage.clear();
         const message = error.response?.data?.detail || "Something went wrong";
-        toast(message, { type: "error" });
-        rejectWithValue(message);
+        toast.error(message);
+        return rejectWithValue(message);
       }
+    } else {
+      return rejectWithValue("No accesss token found");
     }
   }
 );
-
-export const logout = createAction("auth/logout");

@@ -1,11 +1,8 @@
 import Button from "@/components/Button";
-import TextInput from "@/components/TextInput";
+import Pagination from "@/components/Pagination";
 import useQuery from "@/hooks/useQuery";
-import {
-  ArrowTopRightOnSquareIcon,
-  CheckCircleIcon,
-} from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import AuctionItem from "./AuctionItem";
 
 const TimeLeft = () => {
   return (
@@ -58,63 +55,63 @@ const Product = () => {
   );
 };
 
-const categories = [
-  "Cars",
-  "Mobiles",
-  "Gadgets",
-  "PCs/Laptops",
-  "Kitchen",
-  "Art",
-  "Ornaments",
-  "Clothing",
-  "Books",
-];
+// const categories = [
+//   "Cars",
+//   "Mobiles",
+//   "Gadgets",
+//   "PCs/Laptops",
+//   "Kitchen",
+//   "Art",
+//   "Ornaments",
+//   "Clothing",
+//   "Books",
+// ];
 
-const CategoryItem = ({ id = 0, name = "", active = false, all = false }) => {
-  return (
-    <Link
-      to={all ? "/app/auctions" : `/app/auctions?category=${id}`}
-      className={`text-neutral-60 text-sm transition-all flex flex-row p-[0.125rem] gap-[0.125rem] hover:text-blue-700 rounded-md ${
-        active && "font-bold bg-blue-100"
-      }`}
-    >
-      <CheckCircleIcon width={16} visibility={active ? "visible" : "hidden"} />
-      {all ? "All categories" : name}
-    </Link>
-  );
-};
+// const CategoryItem = ({ id = 0, name = "", active = false, all = false }) => {
+//   return (
+//     <Link
+//       to={all ? "/app/auctions" : `/app/auctions?category=${id}`}
+//       className={`text-neutral-60 text-sm transition-all flex flex-row p-[0.125rem] gap-[0.125rem] hover:text-blue-700 rounded-md ${
+//         active && "font-bold bg-blue-100"
+//       }`}
+//     >
+//       <CheckCircleIcon width={16} visibility={active ? "visible" : "hidden"} />
+//       {all ? "All categories" : name}
+//     </Link>
+//   );
+// };
 
-const FiltersSection = ({ activeCategoryId = null }) => {
-  return (
-    <div className="w-[16rem] p-[2rem] h-full overflow-scroll hidden md:block">
-      <h2 className="text-2xl text-blue-700">Categories</h2>
-      <div className="flex flex-col gap-[0.5rem] py-[1.25rem]">
-        <TextInput
-          label="Search category"
-          placeholder="Enter category name"
-          name="searchCategory"
-          id="searchCategory"
-        />
-        <CategoryItem all active={activeCategoryId === null} />
-        {categories.map((category, idx) => {
-          return (
-            <CategoryItem
-              name={category}
-              id={idx}
-              key={idx}
-              active={activeCategoryId === idx}
-            />
-          );
-        })}
-      </div>
-      <Button
-        variant="secondary"
-        text="View all categories"
-        rightIcon={<ArrowTopRightOnSquareIcon width={16} />}
-      />
-    </div>
-  );
-};
+// const FiltersSection = ({ activeCategoryId = null }) => {
+//   return (
+//     <div className="w-[16rem] p-[2rem] h-full overflow-scroll hidden md:block">
+//       <h2 className="text-2xl text-blue-700">Categories</h2>
+//       <div className="flex flex-col gap-[0.5rem] py-[1.25rem]">
+//         <TextInput
+//           label="Search category"
+//           placeholder="Enter category name"
+//           name="searchCategory"
+//           id="searchCategory"
+//         />
+//         <CategoryItem all active={activeCategoryId === null} />
+//         {categories.map((category, idx) => {
+//           return (
+//             <CategoryItem
+//               name={category}
+//               id={idx}
+//               key={idx}
+//               active={activeCategoryId === idx}
+//             />
+//           );
+//         })}
+//       </div>
+//       <Button
+//         variant="secondary"
+//         text="View all categories"
+//         rightIcon={<ArrowTopRightOnSquareIcon width={16} />}
+//       />
+//     </div>
+//   );
+// };
 
 const Auctions = () => {
   const query = useQuery();
@@ -125,23 +122,14 @@ const Auctions = () => {
   }
 
   return (
-    <div className="flex flex-row justify-between gap-[2rem] h-full flex-wrap">
-      <FiltersSection activeCategoryId={activeCategoryId} />
-      <div className="flex-1 p-[2rem] h-full flex flex-col gap-[2rem] overflow-scroll">
-        <h1 className="text-4xl">Auctions</h1>
-        <div className="flex flex-row gap-[2rem] w-full flex-wrap">
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-        </div>
+    <div className="flex flex-col gap-[2rem]">
+      <h1 className="text-4xl">Auctions</h1>
+      <div className="flex flex-row gap-[2rem] w-full flex-wrap">
+        {new Array(12).fill(0).map(() => (
+          <AuctionItem />
+        ))}
       </div>
+      <Pagination />
     </div>
   );
 };

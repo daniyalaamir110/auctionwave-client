@@ -2,7 +2,7 @@ import ErrorIllustrationSrc from "@/assets/images/error-illustration.svg";
 
 const ErrorLayout = ({ children }) => {
   return (
-    <div className="w-[100svw] h-[100svh] flex flex-col justify-center items-center gap-[2rem]">
+    <div className="w-[100svw] h-[100svh] p-[1rem] flex flex-col justify-center items-center gap-[2rem]">
       <img
         src={ErrorIllustrationSrc}
         alt="error"

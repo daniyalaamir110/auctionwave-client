@@ -17,7 +17,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state = initialState;
       localStorage.clear();
-      toast("Logged out", { type: "info" });
+      toast.info("Logged out");
     },
   },
   extraReducers: (builder) => {
