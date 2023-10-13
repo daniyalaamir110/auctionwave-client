@@ -15,14 +15,14 @@ const Drawer = ({ shown = false, hide = () => {} }) => {
           !shown ? "-translate-x-full" : "shadow-md"
         }`}
       >
-        <div className="flex flex-row p-[1.5rem] justify-between items-start">
+        <div className="flex flex-row p-[1.5rem] justify-between items-center">
           <img
             src={AppLogoWithoutTitleSrc}
             alt="app-logo-without-title"
             className="w-[4rem]"
           />
           <button onClick={hide}>
-            <XMarkIcon width={32} />
+            <XMarkIcon width={24} />
           </button>
         </div>
         <div className="flex-1 overflow-scroll p-[1.5rem]">

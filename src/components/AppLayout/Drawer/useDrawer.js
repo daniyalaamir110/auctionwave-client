@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useSidebar = () => {
+const useDrawer = () => {
   const [shown, setShown] = useState(false);
 
   const show = () => setShown(true);
@@ -10,4 +10,4 @@ const useSidebar = () => {
   return { shown, show, hide };
 };
 
-export default useSidebar;
+export default useDrawer;

@@ -3,6 +3,7 @@ import Pagination from "@/components/Pagination";
 import useQuery from "@/hooks/useQuery";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import AuctionItem from "./AuctionItem";
+import SearchInput from "@/components/SearchInput";
 
 const TimeLeft = () => {
   return (
@@ -124,6 +125,16 @@ const Auctions = () => {
   return (
     <div className="flex flex-col gap-[2rem]">
       <h1 className="text-4xl">Auctions</h1>
+      <SearchInput
+        id="search"
+        name="search"
+        placeholder="Search by title"
+        label="Search"
+        loading={false}
+        value=""
+        onChange={() => {}}
+        onBlur={() => {}}
+      />
       <div className="flex flex-row gap-[2rem] w-full flex-wrap">
         {new Array(12).fill(0).map(() => (
           <AuctionItem />

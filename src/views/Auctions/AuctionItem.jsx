@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import ImageNotFoundSrc from "@/assets/images/image-not-found.svg";
 
 const TimeLeft = ({ value = 45 }) => {
   return (
@@ -18,10 +19,15 @@ const AuctionItem = () => {
       <div className="flex flex-col items-center justify-center">
         <div className="w-full h-[16rem] flex flex-col items-center justify-center overflow-hidden">
           <img
+            src={ImageNotFoundSrc}
+            alt="Image not found"
+            className="max-w-[8rem] max-h-[8rem] object-cover"
+          />
+          {/* <img
             src="https://edgecast-img.yahoo.net/mysterio/api/1AB9D71DA2AC883590B5893D8393F54084A48CD4CF9B713795FEB576D14EBEFE/autoblog/resizefill_w1200_h675;quality_80;format_webp;cc_31536000;/http://s.aolcdn.com/commerce/blogcdn/www.autoblog.com/media/2010/11/01-2005-honda-accord-hybrid.jpg"
             alt="Honda Accord 2005"
             className="min-w-full min-h-full object-cover"
-          />
+          /> */}
         </div>
       </div>
       <div className="p-[1rem] flex flex-col gap-[1rem]">

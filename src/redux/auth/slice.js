@@ -15,7 +15,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state = initialState;
+      state.success = initialState.success;
+      state.error = initialState.error;
+      state.user = initialState.user;
+      state.verifying = initialState.verifying;
+      state.loading = initialState.loading;
       localStorage.clear();
       toast.info("Logged out");
     },
