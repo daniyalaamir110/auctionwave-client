@@ -15,6 +15,7 @@ const TextInput = ({
   required = false,
   secure = false,
   helperText = "",
+  isNumber = false,
   isEmail = false,
   loading = false,
   disabled = false,
@@ -67,7 +68,15 @@ const TextInput = ({
           placeholder={placeholder}
           required={required}
           type={
-            secure ? (shown ? "text" : "password") : isEmail ? "email" : "text"
+            isNumber
+              ? "number"
+              : secure
+              ? shown
+                ? "text"
+                : "password"
+              : isEmail
+              ? "email"
+              : "text"
           }
           disabled={disabled || loading}
           value={value}

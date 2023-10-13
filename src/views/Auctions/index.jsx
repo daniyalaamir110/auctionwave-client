@@ -1,121 +1,19 @@
 import Button from "@/components/Button";
 import Pagination from "@/components/Pagination";
-import useQuery from "@/hooks/useQuery";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import AuctionItem from "./AuctionItem";
 import SearchInput from "@/components/SearchInput";
-
-const TimeLeft = () => {
-  return (
-    <div className="w-full max-w-[180rem] flex flex-col gap-[0.25rem] items-end">
-      <div className="w-full bg-blue-200 rounded-full overflow-hidden">
-        <div className="bg-blue-700 w-[calc(100%/3)] p-[0.125rem]" />
-      </div>
-      <p className="text-[0.625rem] text-neutral-600">1 DAY LEFT</p>
-    </div>
-  );
-};
-
-const Product = () => {
-  return (
-    <div className="xl:w-[calc((100%/3)-2rem*((3-1)/3))] lg:w-[calc((100%/2)-2rem*((2-1)/2))] shadow-md rounded-md flex flex-col overflow-hidden">
-      <div className="flex flex-col items-center justify-center">
-        <img
-          src="https://edgecast-img.yahoo.net/mysterio/api/1AB9D71DA2AC883590B5893D8393F54084A48CD4CF9B713795FEB576D14EBEFE/autoblog/resizefill_w1200_h675;quality_80;format_webp;cc_31536000;/http://s.aolcdn.com/commerce/blogcdn/www.autoblog.com/media/2010/11/01-2005-honda-accord-hybrid.jpg"
-          alt="Honda Accord 2005"
-        />
-      </div>
-      <div className="p-[1rem] flex flex-col gap-[1rem]">
-        <p className="bg-green-100 p-[0.25rem] text-xs text-green-700 rounded-md w-fit">
-          Cars
-        </p>
-        <div>
-          <h2 className="text-xl">Honda Accord 2005</h2>
-          <p className="text-xs text-neutral-400">2 DAYS AGO</p>
-        </div>
-        <p className="text-sm text-neutral-600">
-          Immaculate 2005 Honda Accord in Silverstone - Low Mileage, Full
-          Options, Pristine Condition!
-        </p>
-        <div>
-          <h3 className="text-xs text-neutral-900">BASE PRICE</h3>
-          <p className="text-blue-700">
-            <span className="text-xs">PKR </span>2,800,000
-          </p>
-          <div className="flex flex-row py-[1rem]">
-            <TimeLeft />
-          </div>
-        </div>
-        <Button
-          text="View Details"
-          variant="secondary"
-          rightIcon={<ArrowTopRightOnSquareIcon width={16} />}
-        />
-      </div>
-    </div>
-  );
-};
-
-// const categories = [
-//   "Cars",
-//   "Mobiles",
-//   "Gadgets",
-//   "PCs/Laptops",
-//   "Kitchen",
-//   "Art",
-//   "Ornaments",
-//   "Clothing",
-//   "Books",
-// ];
-
-// const CategoryItem = ({ id = 0, name = "", active = false, all = false }) => {
-//   return (
-//     <Link
-//       to={all ? "/app/auctions" : `/app/auctions?category=${id}`}
-//       className={`text-neutral-60 text-sm transition-all flex flex-row p-[0.125rem] gap-[0.125rem] hover:text-blue-700 rounded-md ${
-//         active && "font-bold bg-blue-100"
-//       }`}
-//     >
-//       <CheckCircleIcon width={16} visibility={active ? "visible" : "hidden"} />
-//       {all ? "All categories" : name}
-//     </Link>
-//   );
-// };
-
-// const FiltersSection = ({ activeCategoryId = null }) => {
-//   return (
-//     <div className="w-[16rem] p-[2rem] h-full overflow-scroll hidden md:block">
-//       <h2 className="text-2xl text-blue-700">Categories</h2>
-//       <div className="flex flex-col gap-[0.5rem] py-[1.25rem]">
-//         <TextInput
-//           label="Search category"
-//           placeholder="Enter category name"
-//           name="searchCategory"
-//           id="searchCategory"
-//         />
-//         <CategoryItem all active={activeCategoryId === null} />
-//         {categories.map((category, idx) => {
-//           return (
-//             <CategoryItem
-//               name={category}
-//               id={idx}
-//               key={idx}
-//               active={activeCategoryId === idx}
-//             />
-//           );
-//         })}
-//       </div>
-//       <Button
-//         variant="secondary"
-//         text="View all categories"
-//         rightIcon={<ArrowTopRightOnSquareIcon width={16} />}
-//       />
-//     </div>
-//   );
-// };
+import useQuery from "@/hooks/useQuery";
+import {
+  AdjustmentsHorizontalIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
+import AuctionItem from "./AuctionItem";
+import Modal from "@/components/Modal";
+import useModal from "@/components/Modal/useModal";
+import TextInput from "@/components/TextInput";
 
 const Auctions = () => {
   const query = useQuery();
+  const filtersModal = useModal();
 
   let activeCategoryId = query.get("category");
   if (activeCategoryId !== null) {
@@ -125,22 +23,75 @@ const Auctions = () => {
   return (
     <div className="flex flex-col gap-[2rem]">
       <h1 className="text-4xl">Auctions</h1>
-      <SearchInput
-        id="search"
-        name="search"
-        placeholder="Search by title"
-        label="Search"
-        loading={false}
-        value=""
-        onChange={() => {}}
-        onBlur={() => {}}
-      />
+      <div className="max-w-[48rem] flex flex-col-reverse md:flex-row gap-[0.5rem]">
+        <Button
+          variant="secondary"
+          text="Apply Filters"
+          leftIcon={<AdjustmentsHorizontalIcon width={16} />}
+          onClick={filtersModal.show}
+        />
+        <SearchInput
+          id="search"
+          name="search"
+          placeholder="Search by title"
+          label="Search"
+          // loading
+          value=""
+          onChange={() => {}}
+          onBlur={() => {}}
+        />
+      </div>
       <div className="flex flex-row gap-[2rem] w-full flex-wrap">
         {new Array(12).fill(0).map(() => (
           <AuctionItem />
         ))}
       </div>
       <Pagination />
+      <Modal shown={filtersModal.shown} hide={filtersModal.hide}>
+        <div className="flex flex-col gap-[1rem]">
+          <div className="flex flex-row justify-between items-center">
+            <h3 className="text-md text-blue-700">Category Filter</h3>
+            <div className="text-xs">(None)</div>
+          </div>
+          <TextInput
+            label="Search category"
+            placeholder="Enter category name"
+          />
+          <div className="flex flex-row gap-[0.5rem] flex-wrap">
+            {[
+              "Car",
+              "Mobile",
+              "TV",
+              "Furniture",
+              "Art",
+              "PCs/Laptops",
+              "Cutlery",
+              "Kitchenware",
+              "Phones",
+              "Gadgets",
+            ].map((c, idx) => (
+              <button
+                key={idx}
+                className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
+                  idx === 0
+                    ? "bg-blue-700 text-white"
+                    : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-row justify-between items-center">
+            <h3 className="text-md text-blue-700">Price Filter</h3>
+          </div>
+          <div className="flex flex-row gap-[1rem]">
+            <TextInput label="Minimum price" isNumber />
+            <TextInput label="Maximum price" isNumber />
+          </div>
+          <Button text="Apply" leftIcon={<CheckIcon width={16} />} />
+        </div>
+      </Modal>
     </div>
   );
 };
