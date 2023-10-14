@@ -1,24 +1,21 @@
 import Button from "@/components/Button";
+import Modal from "@/components/Modal";
+import useModal from "@/components/Modal/useModal";
 import Pagination from "@/components/Pagination";
 import SearchInput from "@/components/SearchInput";
+import TextInput from "@/components/TextInput";
 import useQuery from "@/hooks/useQuery";
 import {
   AdjustmentsHorizontalIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
 import AuctionItem from "./AuctionItem";
-import Modal from "@/components/Modal";
-import useModal from "@/components/Modal/useModal";
-import TextInput from "@/components/TextInput";
+import useFilters from "./useFilters";
 
 const Auctions = () => {
   const query = useQuery();
   const filtersModal = useModal();
-
-  let activeCategoryId = query.get("category");
-  if (activeCategoryId !== null) {
-    activeCategoryId = +activeCategoryId;
-  }
+  const filters = useFilters();
 
   return (
     <div className="flex flex-col gap-[2rem]">
@@ -86,10 +83,38 @@ const Auctions = () => {
             <h3 className="text-md text-blue-700">Price Filter</h3>
           </div>
           <div className="flex flex-row gap-[1rem]">
-            <TextInput label="Minimum price" isNumber />
-            <TextInput label="Maximum price" isNumber />
+            <TextInput
+              label="Minimum price"
+              isNumber
+              id="minPrice"
+              value={filters.form.values.minPrice}
+              onChange={filters.form.handleChange("minPrice")}
+              onBlur={filters.form.handleBlur("minPrice")}
+              error={filters.form.errors.minPrice}
+              touched={filters.form.touched.minPrice}
+              name="minPrice"
+              placeholder="Min price"
+              required
+            />
+            <TextInput
+              label="Maximum price"
+              isNumber
+              id="maxPrice"
+              value={filters.form.values.maxPrice}
+              onChange={filters.form.handleChange("maxPrice")}
+              onBlur={filters.form.handleBlur("maxPrice")}
+              error={filters.form.errors.maxPrice}
+              touched={filters.form.touched.maxPrice}
+              name="maxPrice"
+              placeholder="Max price"
+              required
+            />
           </div>
-          <Button text="Apply" leftIcon={<CheckIcon width={16} />} />
+          <Button
+            text="Apply"
+            onClick={filters.form.handleSubmit}
+            leftIcon={<CheckIcon width={16} />}
+          />
         </div>
       </Modal>
     </div>
