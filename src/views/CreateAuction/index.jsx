@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import FileInput from "@/components/FileInput";
 import RichTextEditor from "@/components/RichTextEditor";
 import TextInput from "@/components/TextInput";
 import { CheckIcon } from "@heroicons/react/24/outline";
@@ -7,7 +8,7 @@ const CreateAuction = () => {
   return (
     <div className="flex flex-col gap-[2rem]">
       <h1 className="text-4xl">Create Auction</h1>
-      <div className="flex flex-col gap-[1rem] max-w-[32rem] w-full">
+      <div className="flex flex-col gap-[1rem] max-w-[36rem] w-full">
         <TextInput
           label="Auction title"
           placeholder="Enter auction title"
@@ -32,6 +33,11 @@ const CreateAuction = () => {
           id="additionalDetails"
           placeholder="Enter additional details."
           helperText="Put some additional details about your action item here."
+        />
+        <FileInput
+          label="Display image"
+          helperText="Provide a suitable image for your auction item to display"
+          required
         />
         <Button text="Done" leftIcon={<CheckIcon width={16} />} />
       </div>
