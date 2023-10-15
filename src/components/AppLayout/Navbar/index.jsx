@@ -13,7 +13,7 @@ import AccountPopover from "./AccountPopover";
 import useAccountPopover from "./AccountPopover/useAccountPopover";
 import useAuth from "@/redux/auth/useAuth";
 import Button from "@/components/Button";
-import { NavLink, useMatch, useNavigate } from "react-router-dom";
+import { Link, NavLink, useMatch, useNavigate } from "react-router-dom";
 import useNavbarCollapse from "./useNavbarCollapse";
 
 const NavItem = ({ text, to = "/", icon = null }) => {
@@ -57,22 +57,27 @@ const Navbar = ({ onClickMenu = () => {} }) => {
   const auth = useAuth();
   const navigate = useNavigate();
   const navbarCollapse = useNavbarCollapse();
+  const isHome = useMatch("/");
 
   return (
     <div className="shadow">
       <div className="flex flex-row p-[1rem] h-[5rem] gap-[1rem] items-center justify-between">
         <div className="flex flex-row gap-[1rem] items-center">
-          <Bars3Icon
-            width={24}
-            className="hover:text-blue-700 transition-all cursor-pointer md:hidden"
-            onClick={onClickMenu}
-          />
-          <div className="flex flex-row items-center gap-[0.25rem]">
-            <img
-              src={AppLogoWithoutTitleSrc}
-              alt="app-logo-without-title"
-              className="w-[4rem]"
+          {!isHome && (
+            <Bars3Icon
+              width={24}
+              className="hover:text-blue-700 transition-all cursor-pointer md:hidden"
+              onClick={onClickMenu}
             />
+          )}
+          <div className="flex flex-row items-center gap-[0.25rem]">
+            <Link to="/">
+              <img
+                src={AppLogoWithoutTitleSrc}
+                alt="app-logo-without-title"
+                className="w-[4rem]"
+              />
+            </Link>
             <div className="hidden md:flex flex-row gap-[1rem] p-[1rem]">
               <NavItemList />
             </div>

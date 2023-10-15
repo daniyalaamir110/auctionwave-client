@@ -2,6 +2,7 @@ import AppLayout from "@/components/AppLayout";
 import useAuth from "@/redux/auth/useAuth";
 import Auctions from "@/views/Auctions";
 import CreateAuction from "@/views/CreateAuction";
+import HomePage from "@/views/HomePage";
 import Login from "@/views/Login";
 import Page404 from "@/views/Page404";
 import Signup from "@/views/Signup";
@@ -31,12 +32,16 @@ const Router = () => {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
         </Route>
-        <Route path="/app" element={<AppLayout />}>
-          <Route path="auctions" element={<Auctions />} />
-          <Route path="auctions/create" element={<CreateAuction />} />
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="app">
+            <Route path="auctions">
+              <Route index element={<Auctions />} />
+              <Route path="create" element={<CreateAuction />} />
+            </Route>
+          </Route>
           <Route path="*" element={<Page404 />} />
         </Route>
-        <Route path="*" element={<Page404 />} />
       </Routes>
     </BrowserRouter>
   );
