@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, verify, logout } from "./async-actions";
 import { toast } from "react-toastify";
+import { login, verify } from "./async-actions";
 
 const initialState = {
   loading: false,

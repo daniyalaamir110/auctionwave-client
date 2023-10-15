@@ -4,7 +4,6 @@ import {
   ArrowRightIcon,
   ChatBubbleBottomCenterIcon,
   Cog8ToothIcon,
-  InformationCircleIcon,
   MegaphoneIcon,
   RectangleGroupIcon,
 } from "@heroicons/react/24/outline";
