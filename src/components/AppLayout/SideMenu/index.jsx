@@ -7,7 +7,7 @@ import {
   MegaphoneIcon,
   RectangleGroupIcon,
 } from "@heroicons/react/24/outline";
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, useNavigate } from "react-router-dom";
 
 const SideLink = ({ text = "", to = "/", icon = null }) => {
   const match = useMatch(to);
@@ -29,6 +29,7 @@ const SideLink = ({ text = "", to = "/", icon = null }) => {
 
 const SideMenu = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-[1rem]">
@@ -67,11 +68,17 @@ const SideMenu = () => {
             text="Log in"
             variant="secondary"
             rightIcon={<ArrowRightIcon width={16} />}
+            onClick={() => {
+              navigate("/auth/login");
+            }}
           />
           <Button
             text="Register"
             variant="secondary"
             rightIcon={<ArrowRightIcon width={16} />}
+            onClick={() => {
+              navigate("/auth/signup");
+            }}
           />
         </>
       )}

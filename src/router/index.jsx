@@ -18,7 +18,7 @@ const AuthRedirectRoute = () => {
   const auth = useAuth();
 
   if (auth.state.success) {
-    return <Navigate to="/app/auctions" replace />;
+    return <Navigate to="/app/dashboard" replace />;
   }
 
   return <Outlet />;

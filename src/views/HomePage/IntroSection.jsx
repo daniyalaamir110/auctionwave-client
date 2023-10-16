@@ -1,10 +1,12 @@
-import React from "react";
-import WelcomeIllustrationSrc from "@/assets/images/welcome-illustration.svg";
 import AppLogoWithoutTitle from "@/assets/images/app-logo-without-title.png";
+import WelcomeIllustrationSrc from "@/assets/images/welcome-illustration.svg";
 import Button from "@/components/Button";
 import { ArrowRightIcon, BoltIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 const IntroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="p-[4rem] flex lg:flex-row flex-col gap-[8rem] items-center justify-between bg-blue-50">
       <div className="flex-1">
@@ -30,6 +32,9 @@ const IntroSection = () => {
             large
             variant="secondary"
             rightIcon={<ArrowRightIcon width={20} />}
+            onClick={() => {
+              navigate("/auth/login");
+            }}
           />
         </div>
       </div>
