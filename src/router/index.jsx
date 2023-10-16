@@ -4,6 +4,7 @@ import Auctions from "@/views/Auctions";
 import CreateAuction from "@/views/CreateAuction";
 import HomePage from "@/views/HomePage";
 import Login from "@/views/Login";
+import Page403 from "@/views/Page403";
 import Page404 from "@/views/Page404";
 import Signup from "@/views/Signup";
 import {
@@ -24,6 +25,16 @@ const AuthRedirectRoute = () => {
   return <Outlet />;
 };
 
+const ProtectedRoute = () => {
+  const auth = useAuth();
+
+  if (!auth.state.success) {
+    return <Page403 />;
+  }
+
+  return <Outlet />;
+};
+
 const Router = () => {
   return (
     <BrowserRouter>
@@ -37,7 +48,9 @@ const Router = () => {
           <Route path="app">
             <Route path="auctions">
               <Route index element={<Auctions />} />
-              <Route path="create" element={<CreateAuction />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="create" element={<CreateAuction />} />
+              </Route>
             </Route>
           </Route>
           <Route path="*" element={<Page404 />} />
