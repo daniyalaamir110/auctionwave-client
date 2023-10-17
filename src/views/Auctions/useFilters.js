@@ -24,12 +24,12 @@ const useFilters = () => {
 
       const { minPrice, maxPrice } = values;
 
-      // Check if the values are positive
+      // Check if the values are non-negative
       if (minPrice < 0) {
-        errors.minPrice = "Must be a positive number";
+        errors.minPrice = "Must be a non-negative number";
       }
       if (maxPrice < 0) {
-        errors.maxPrice = "Must be a positive number";
+        errors.maxPrice = "Must be a non-negative number";
       }
 
       // Check if the range is valid

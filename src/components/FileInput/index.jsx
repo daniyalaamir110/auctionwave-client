@@ -1,27 +1,59 @@
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import {
+  CheckCircleIcon,
+  InformationCircleIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
 import React from "react";
+import LoadingSpinner from "../LoadingSpinner";
 
 const FileInput = ({
   label = "",
   required = false,
   id = "",
   helperText = "",
+  name = "",
+  value = null,
+  touched = false,
+  loading = false,
+  error = "",
+  onChange = () => {},
 }) => {
+  const errorToShow = !loading ? error : "";
+
+  const valid = !loading && !error && !!value;
+
   return (
     <div className="w-full">
-      <label
-        htmlFor={id}
-        className={`block mb-2 text-sm font-medium text-black select-none hover:text-blue-700 hover:cursor-pointer active:text-blue-800 transition-all ${
-          required ? " required" : ""
-        }`}
-      >
-        {label}
-      </label>
+      <div className="flex flex-row justify-between items-center w-full">
+        <label
+          htmlFor={id}
+          className={`block mb-2 text-sm font-medium text-black select-none hover:text-blue-700 hover:cursor-pointer active:text-blue-800 transition-all ${
+            required ? " required" : ""
+          }`}
+        >
+          {label}
+        </label>
+        {loading ? (
+          <LoadingSpinner />
+        ) : valid ? (
+          <CheckCircleIcon height={16} className="text-green-500" />
+        ) : (
+          !!errorToShow && (
+            <XCircleIcon height={16} className="text-coral-500" />
+          )
+        )}
+      </div>
       <div className="flex flex-row justify-between items-center w-full">
         <div className="flex items-center justify-center w-full">
           <label
-            htmlFor="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-64 border-2 border-neutral-500 hover:border-blue-700 hover:text-blue-700 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-white transition-all"
+            htmlFor={id}
+            className={`flex flex-col items-center justify-center w-full h-64 border-2 ${
+              valid
+                ? "border-green-500"
+                : !!errorToShow
+                ? "border-coral-500"
+                : "border-neutral-500"
+            } hover:border-blue-700 hover:text-blue-700 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-white transition-all`}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
@@ -43,9 +75,14 @@ const FileInput = ({
                 <span className="font-semibold">Click to upload</span> or drag
                 and drop
               </p>
-              <p className="text-xs">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
             </div>
-            <input id="dropzone-file" type="file" className="hidden" />
+            <input
+              id={id}
+              name={name}
+              type="file"
+              className="hidden"
+              onChange={onChange}
+            />
           </label>
         </div>
       </div>
@@ -53,6 +90,11 @@ const FileInput = ({
         <p className="py-[0.25rem] text-xs text-neutral-400 select-none flex flex-row gap-[.25rem] items-center">
           <InformationCircleIcon width={12} />
           {helperText}
+        </p>
+      )}
+      {!!errorToShow && (
+        <p className="py-[0.25rem] text-xs text-coral-400 select-none">
+          {errorToShow}
         </p>
       )}
     </div>

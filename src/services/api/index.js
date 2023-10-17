@@ -61,9 +61,35 @@ const users = {
   },
 };
 
+const auctions = {
+  create: ({
+    title = "",
+    description = "",
+    category = 0,
+    image = "",
+    basePrice = 0,
+  }) => {
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("base_price", basePrice);
+    formData.append("category", category);
+    formData.append("image", image, image.name);
+    formData.append("valid_till", "2023-10-20T10:56:10.326957Z");
+
+    return apiInstance.post("/products/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+};
+
 const api = {
   auth,
   users,
+  auctions,
 };
 
 export default api;

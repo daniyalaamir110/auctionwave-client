@@ -1,3 +1,5 @@
+import { validFileExtensions } from "@/constants";
+
 export const clean = (obj) => {
   for (const propName in obj) {
     if (!obj[propName]) {
@@ -22,4 +24,11 @@ export const constructURL = (baseURL, query) => {
   } else {
     return baseURL;
   }
+};
+
+export const isValidFileType = (fileName, fileType) => {
+  return (
+    fileName &&
+    validFileExtensions[fileType].indexOf(fileName.split(".").pop()) > -1
+  );
 };

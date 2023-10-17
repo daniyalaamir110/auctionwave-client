@@ -1,12 +1,32 @@
-import React, { useState, useRef } from "react";
-import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
-import "draft-js/dist/Draft.css";
-import "./style.css";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  convertToRaw,
+  getDefaultKeyBinding,
+} from "draft-js";
+import "draft-js/dist/Draft.css";
+import { useRef, useState } from "react";
+import "./style.css";
 
-const RichTextEditor = (props) => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const RichTextEditor = ({
+  id = "",
+  label = "",
+  placeholder = "",
+  required = false,
+  helperText = "",
+  name = "",
+  value = null,
+  touched = false,
+  loading = false,
+  error = "",
+  // onChange = () => {},
+}) => {
   const editorRef = useRef(null);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  console.log(convertToRaw(editorState.getCurrentContent()));
 
   const onChange = (newEditorState) => setEditorState(newEditorState);
 
@@ -56,13 +76,13 @@ const RichTextEditor = (props) => {
     <div className="w-full">
       <div className="flex flex-row justify-between items-center w-full">
         <label
-          htmlFor={props.id}
+          htmlFor={id}
           className={`block mb-2 text-sm font-medium text-black select-none hover:text-blue-700 hover:cursor-pointer active:text-blue-800 transition-all ${
-            props.required ? " required" : ""
+            required ? " required" : ""
           }`}
           onClick={focus}
         >
-          {props.label}
+          {label}
         </label>
       </div>
       <div
@@ -86,7 +106,7 @@ const RichTextEditor = (props) => {
             handleKeyCommand={handleKeyCommand}
             keyBindingFn={mapKeyToEditorCommand}
             onChange={onChange}
-            placeholder={props.placeholder}
+            placeholder={placeholder}
             ref={editorRef}
             spellCheck
             onFocus={() => setFocused(true)}
@@ -94,10 +114,10 @@ const RichTextEditor = (props) => {
           />
         </div>
       </div>
-      {!!props.helperText && (
+      {!!helperText && (
         <p className="py-[0.25rem] text-xs text-neutral-400 select-none flex flex-row gap-[.25rem] items-center">
           <InformationCircleIcon width={12} />
-          {props.helperText}
+          {helperText}
         </p>
       )}
     </div>
@@ -114,14 +134,14 @@ const styleMap = {
   },
 };
 
-function getBlockStyle(block) {
+const getBlockStyle = (block) => {
   switch (block.getType()) {
     case "blockquote":
       return "RichEditor-blockquote";
     default:
       return null;
   }
-}
+};
 
 const StyleButton = (props) => {
   const onToggle = (e) => {
