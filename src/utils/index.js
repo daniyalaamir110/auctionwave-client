@@ -15,7 +15,9 @@ export const constructURL = (baseURL, query) => {
 
   for (const prop in query) {
     if (query.hasOwnProperty(prop)) {
-      queryParams.push(`${prop}=${encodeURIComponent(query[prop])}`);
+      if (query[prop]) {
+        queryParams.push(`${prop}=${encodeURIComponent(query[prop])}`);
+      }
     }
   }
 

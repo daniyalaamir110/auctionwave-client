@@ -37,7 +37,7 @@ const useRequestStatus = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const setState = (updates = {}) => {
-    dispatch(actions.setState(...updates));
+    dispatch(actions.setState(updates));
   };
 
   const setLoading = (loading = initialState.loading) => {

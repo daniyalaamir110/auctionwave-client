@@ -1,4 +1,5 @@
 import { MAX_FILE_SIZE } from "@/constants";
+import useCategories from "@/hooks/useCategories";
 import useRequestStatus from "@/hooks/useRequestStatus";
 import api from "@/services/api";
 import { createDateFromStrings, isValidFileType } from "@/utils";
@@ -25,10 +26,7 @@ const useCreateAuction = () => {
     validationSchema: Yup.object().shape({
       title: Yup.string().trim().required("Required"),
       description: Yup.string().trim().required("Required"),
-      category: Yup.number()
-        .required("Category is required")
-        .integer()
-        .positive(),
+      category: Yup.object().required("Category is required"),
       image: Yup.mixed()
         .required("Required")
         .test("is-valid-type", "Not a valid image type", (value) =>
@@ -79,8 +77,9 @@ const useCreateAuction = () => {
       );
       const validTill = combinedDateTime.toISOString().slice(0, -1);
       values.validTill = validTill;
+      values.category = values.category.id;
       api.auctions.create(values).then(() => {
-        toast("Auction created");
+        toast.success("Auction created");
       });
     },
   });

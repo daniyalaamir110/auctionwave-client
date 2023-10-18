@@ -1,3 +1,4 @@
+import { constructURL } from "@/utils";
 import axios from "axios";
 
 const apiInstance = axios.create({
@@ -68,6 +69,7 @@ const auctions = {
     category = 0,
     image = "",
     basePrice = 0,
+    validTill = "",
   }) => {
     const formData = new FormData();
 
@@ -76,7 +78,7 @@ const auctions = {
     formData.append("base_price", basePrice);
     formData.append("category", category);
     formData.append("image", image, image.name);
-    formData.append("valid_till", "2023-10-20T10:56:10.326957Z");
+    formData.append("valid_till", validTill);
 
     return apiInstance.post("/products/", formData, {
       headers: {
@@ -86,10 +88,18 @@ const auctions = {
   },
 };
 
+const categories = {
+  get: ({ search = "", pageSize = 10, page = 1 }) => {
+    const url = constructURL("/categories/", { search, pageSize, page });
+    return apiInstance.get(url);
+  },
+};
+
 const api = {
-  auth,
-  users,
   auctions,
+  auth,
+  categories,
+  users,
 };
 
 export default api;

@@ -47,7 +47,7 @@ const useFilters = () => {
 
       const newQuery = clean(values);
 
-      const url = constructURL("/app/auctions", newQuery);
+      const url = constructURL("/app/auctions/", newQuery);
 
       navigate(url);
     },
