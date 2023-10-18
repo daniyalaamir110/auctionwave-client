@@ -3,46 +3,67 @@ import FileInput from "@/components/FileInput";
 import TextInput from "@/components/TextInput";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import useCreateAuction from "./useCreateAuction";
+import SearchInput from "@/components/SearchInput";
 
 const CreateAuction = () => {
   const createAuction = useCreateAuction();
-
-  console.log(createAuction.form.values);
 
   return (
     <div className="flex flex-col gap-[2rem]">
       <h1 className="text-4xl">Create Auction</h1>
       <div className="flex flex-col gap-[1rem] max-w-[36rem] w-full">
-        <TextInput label="Search category" placeholder="Enter category name" />
-        <div className="flex flex-row gap-[0.5rem] flex-wrap">
-          {[
-            "Car",
-            "Mobile",
-            "TV",
-            "Furniture",
-            "Art",
-            "PCs/Laptops",
-            "Cutlery",
-            "Kitchenware",
-            "Phones",
-            "Gadgets",
-          ].map((c, idx) => {
-            const selected = idx === createAuction.form.values.category;
-            return (
-              <button
-                key={idx}
-                disabled={selected}
-                className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
-                  selected
-                    ? "bg-blue-700 text-white"
-                    : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
-                }`}
-                onClick={() => createAuction.form.setFieldValue("category", 1)}
-              >
-                {c}
-              </button>
-            );
-          })}
+        <TextInput
+          label="Category title"
+          placeholder="Select category from below ↓"
+          required
+          disabled
+          name="category"
+          id="category"
+          value={createAuction.form.values.category || ""}
+          touched={createAuction.form.touched.category}
+          error={createAuction.form.errors.category}
+          onChange={createAuction.form.handleChange("category")}
+          onBlur={createAuction.form.handleBlur("category")}
+          helperText="You must select a category for your auction item, which you can find and select from the box below."
+        />
+        <div className="p-[1rem] bg-blue-50 rounded-lg flex flex-col gap-[1rem]">
+          <SearchInput
+            label="Search category"
+            placeholder="Search category by name"
+            value=""
+          />
+          <div className="flex flex-row gap-[0.5rem] flex-wrap">
+            {[
+              "Car",
+              "Mobile",
+              "TV",
+              "Furniture",
+              "Art",
+              "PCs/Laptops",
+              "Cutlery",
+              "Kitchenware",
+              "Phones",
+              "Gadgets",
+            ].map((c, idx) => {
+              const selected = idx === createAuction.form.values.category;
+              return (
+                <button
+                  key={idx}
+                  disabled={selected}
+                  className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
+                    selected
+                      ? "bg-blue-700 text-white"
+                      : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
+                  }`}
+                  onClick={() =>
+                    createAuction.form.setFieldValue("category", 1)
+                  }
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
         </div>
         <TextInput
           label="Auction title"
@@ -84,6 +105,34 @@ const CreateAuction = () => {
           onChange={createAuction.form.handleChange("basePrice")}
           onBlur={createAuction.form.handleBlur("basePrice")}
         />
+        <TextInput
+          label="Valid till date"
+          placeholder="Enter valid till date"
+          required
+          helperText="Provide the date till which you want your auction to continue."
+          isDate
+          name="validTillDate"
+          id="validTillDate"
+          value={createAuction.form.values.validTillDate}
+          touched={createAuction.form.touched.validTillDate}
+          error={createAuction.form.errors.validTillDate}
+          onChange={createAuction.form.handleChange("validTillDate")}
+          onBlur={createAuction.form.handleBlur("validTillDate")}
+        />
+        <TextInput
+          label="Valid till time"
+          placeholder="Enter valid till time"
+          required
+          helperText="Provide the time till which you want your auction to continue on the last day."
+          isTime
+          name="validTillTime"
+          id="validTillTime"
+          value={createAuction.form.values.validTillTime}
+          touched={createAuction.form.touched.validTillTime}
+          error={createAuction.form.errors.validTillTime}
+          onChange={createAuction.form.handleChange("validTillTime")}
+          onBlur={createAuction.form.handleBlur("validTillTime")}
+        />
         {/* <RichTextEditor
           label="Additional Details"
           placeholder="Enter additional details."
@@ -106,6 +155,7 @@ const CreateAuction = () => {
           touched={createAuction.form.touched.image}
           error={createAuction.form.errors.image}
           onChange={(event) => {
+            createAuction.form.setFieldTouched("image", true);
             createAuction.form.setFieldValue(
               "image",
               event.currentTarget.files[0]

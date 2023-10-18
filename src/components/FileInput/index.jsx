@@ -18,7 +18,7 @@ const FileInput = ({
   error = "",
   onChange = () => {},
 }) => {
-  const errorToShow = !loading ? error : "";
+  const errorToShow = touched && !loading ? error : "";
 
   const valid = !loading && !error && !!value;
 

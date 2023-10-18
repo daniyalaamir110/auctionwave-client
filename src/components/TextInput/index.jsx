@@ -25,6 +25,8 @@ const TextInput = ({
   touched = false,
   multiline = false,
   numberOfLines = 1,
+  isDate = false,
+  isTime = false,
   onChange = () => {},
   onBlur = () => {},
 }) => {
@@ -93,7 +95,11 @@ const TextInput = ({
               placeholder={placeholder}
               required={required}
               type={
-                isNumber
+                isDate
+                  ? "date"
+                  : isTime
+                  ? "time"
+                  : isNumber
                   ? "number"
                   : secure
                   ? shown

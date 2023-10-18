@@ -1,4 +1,5 @@
 import { validFileExtensions } from "@/constants";
+import moment from "moment";
 
 export const clean = (obj) => {
   for (const propName in obj) {
@@ -31,4 +32,14 @@ export const isValidFileType = (fileName, fileType) => {
     fileName &&
     validFileExtensions[fileType].indexOf(fileName.split(".").pop()) > -1
   );
+};
+
+export const createDateFromStrings = (dateString, timeString) => {
+  const combinedDateTimeString = `${dateString} ${timeString}`;
+  const combinedDate = moment(
+    combinedDateTimeString,
+    "YYYY-MM-DD HH:mm"
+  ).toDate();
+
+  return combinedDate;
 };
