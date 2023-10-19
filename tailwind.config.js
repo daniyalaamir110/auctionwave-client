@@ -155,4 +155,7 @@ module.exports = {
   },
   plugins: [],
   extend: {},
+  layers: {
+    utilities: ["@keyframes"],
+  },
 };

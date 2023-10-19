@@ -4,6 +4,7 @@ import {
   Cog8ToothIcon,
 } from "@heroicons/react/24/outline";
 import { useRef } from "react";
+import ReactDOM from "react-dom";
 
 const Item = ({
   text = "",

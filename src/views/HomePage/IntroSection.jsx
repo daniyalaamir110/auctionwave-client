@@ -8,7 +8,7 @@ const IntroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-[4rem] flex lg:flex-row flex-col gap-[8rem] items-center justify-between bg-blue-50">
+    <div className="py-[4rem] md:px-[4rem] px-[2rem] flex lg:flex-row flex-col gap-[8rem] items-center justify-between bg-blue-50">
       <div className="flex-1">
         <img
           src={AppLogoWithoutTitle}

@@ -1,8 +1,7 @@
 import { MAX_FILE_SIZE } from "@/constants";
-import useCategories from "@/hooks/useCategories";
 import useRequestStatus from "@/hooks/useRequestStatus";
 import api from "@/services/api";
-import { createDateFromStrings, isValidFileType } from "@/utils";
+import { isValidFileType } from "@/utils";
 import { useFormik } from "formik";
 import moment from "moment";
 import { toast } from "react-toastify";

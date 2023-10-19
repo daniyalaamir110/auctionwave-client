@@ -63,6 +63,27 @@ const users = {
 };
 
 const auctions = {
+  getAvailable: ({
+    search = "",
+    category = 0,
+    minPrice = "",
+    maxPrice = "",
+    ordering = "",
+    pageSize = 10,
+    page = 1,
+  }) => {
+    const url = constructURL("/products/", {
+      search,
+      category,
+      min_price: minPrice,
+      max_price: maxPrice,
+      ordering,
+      page_size: pageSize,
+      page,
+    });
+    return apiInstance.get(url);
+  },
+
   create: ({
     title = "",
     description = "",
@@ -90,7 +111,16 @@ const auctions = {
 
 const categories = {
   get: ({ search = "", pageSize = 10, page = 1 }) => {
-    const url = constructURL("/categories/", { search, pageSize, page });
+    const url = constructURL("/categories/", {
+      search,
+      page_size: pageSize,
+      page,
+    });
+    return apiInstance.get(url);
+  },
+
+  getById: (id = 0) => {
+    const url = `/categories/${id}`;
     return apiInstance.get(url);
   },
 };

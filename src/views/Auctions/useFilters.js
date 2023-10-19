@@ -1,7 +1,10 @@
 import useQuery from "@/hooks/useQuery";
+import api from "@/services/api";
 import { clean, constructURL } from "@/utils";
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const useFilters = () => {
   const navigate = useNavigate();
@@ -15,7 +18,7 @@ const useFilters = () => {
 
   const form = useFormik({
     initialValues: {
-      category,
+      category: null,
       minPrice,
       maxPrice,
     },
@@ -44,14 +47,27 @@ const useFilters = () => {
     },
     onSubmit: (values) => {
       values.search = search;
+      values.category = values.category?.id;
 
       const newQuery = clean(values);
 
-      const url = constructURL("/app/auctions/", newQuery);
+      const url = constructURL("/app/auctions", newQuery);
 
       navigate(url);
     },
   });
+
+  useEffect(() => {
+    if (!!category) {
+      api.categories
+        .getById(category)
+        .then((res) => {
+          const category = res.data;
+          form.setFieldValue("category", category);
+        })
+        .catch((err) => {});
+    }
+  }, [category]);
 
   return { form };
 };

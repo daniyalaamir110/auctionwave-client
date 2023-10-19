@@ -45,3 +45,32 @@ export const createDateFromStrings = (dateString, timeString) => {
 
   return combinedDate;
 };
+
+export const getTimeAgo = (dateString) => {
+  const date = moment(dateString);
+  const timeAgo = date.fromNow();
+  return timeAgo;
+};
+
+export const getTimeLeft = (dateString) => {
+  const date = moment(dateString);
+  const timeLeft = date.fromNow();
+  return timeLeft;
+};
+
+export const getPercentageTimeLeft = (startDateString, endDateString) => {
+  const startDate = moment(startDateString);
+  const endDate = moment(endDateString);
+  const currentDate = moment();
+
+  const totalTime = endDate - startDate;
+  const leftTime = endDate - currentDate;
+
+  const percentageTimeLeft = Math.ceil((leftTime / totalTime) * 100);
+
+  return percentageTimeLeft;
+};
+
+export const formatNumber = (value = 0) => {
+  return Intl.NumberFormat("en-US").format(value);
+};

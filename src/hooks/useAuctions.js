@@ -1,42 +1,47 @@
-import { useReducer } from "react";
+import React from "react";
 import useRequestStatus from "./useRequestStatus";
-
-const initialQuery = {
-  category: null,
-  search: null,
-  creator: null,
-  minPrice: null,
-  maxPrice: null,
-};
-
-const actions = {
-  reset: (state) => {
-    state = initialQuery;
-  },
-  setCategory: (state, { payload }) => {
-    state.category = payload;
-  },
-  setSearch: (state, { payload }) => {
-    state.search = payload;
-  },
-  setCreator: (state, { payload }) => {
-    state.creator = payload;
-  },
-  setMinPrice: (state, { payload }) => {
-    state.minPrice = payload;
-  },
-  setMaxPrice: (state, { payload }) => {
-    state.maxPrice = payload;
-  },
-  setState: (state, { payload }) => {
-    state = { ...state, ...payload };
-  },
-};
+import api from "@/services/api";
 
 const useAuctions = () => {
   const requestStatus = useRequestStatus();
 
-  //   const [query, dispatch] = useReducer(initialQuery);
+  const getAvailable = ({
+    search = "",
+    category = "",
+    minPrice = "",
+    maxPrice = "",
+    ordering = "",
+    pageSize = 10,
+    page = 1,
+  }) => {
+    requestStatus.reset();
+    requestStatus.setLoading(true);
+    api.auctions
+      .getAvailable({
+        search,
+        category,
+        minPrice,
+        maxPrice,
+        ordering,
+        pageSize,
+        page,
+      })
+      .then((res) => {
+        const data = res.data;
+        requestStatus.setData(data);
+      })
+      .catch((err) => {
+        requestStatus.setError("Couldn't fetch auctions");
+      })
+      .finally(() => {
+        requestStatus.setLoading(false);
+      });
+  };
+
+  return {
+    getAvailable,
+    requestStatus,
+  };
 };
 
 export default useAuctions;

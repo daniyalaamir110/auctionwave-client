@@ -16,7 +16,7 @@ const FeatureItem = ({ title, description, icon }) => {
 
 const FeaturesSection = () => {
   return (
-    <div className="p-[4rem]">
+    <div className="py-[4rem] md:px-[4rem] px-[2rem]">
       <h2 className="text-center text-4xl mb-[4rem]">How It Works</h2>
       <div className="flex lg:flex-row flex-col gap-[2rem] justify-evenly">
         <FeatureItem

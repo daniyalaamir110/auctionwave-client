@@ -14,7 +14,7 @@ const WhyUsItem = ({ title, description }) => {
 
 const WhyUsSection = () => {
   return (
-    <div className="p-[4rem] bg-blue-50">
+    <div className="py-[4rem] md:px-[4rem] px-[2rem] bg-blue-50">
       <h2 className="text-center text-4xl mb-[4rem]">
         Why <span className="text-blue-700">AuctionWave</span>?
       </h2>

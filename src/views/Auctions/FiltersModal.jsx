@@ -3,9 +3,13 @@ import { default as Modal } from "@/components/Modal";
 import TextInput from "@/components/TextInput";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import useFilters from "./useFilters";
+import useSearchCategories from "@/hooks/useSearchCategories";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import SearchInput from "@/components/SearchInput";
 
 const FiltersModal = ({ shown = false, hide = () => {} }) => {
   const filters = useFilters();
+  const searchCategories = useSearchCategories({ fetchFirst: true });
 
   return (
     <Modal shown={shown} hide={hide}>
@@ -20,40 +24,59 @@ const FiltersModal = ({ shown = false, hide = () => {} }) => {
               className="flex flex-row gap-[0.5rem] px-[0.5rem] py-[0.25rem] items-center text-xs text-green-700 bg-green-100 hover:bg-green-200 transition-all rounded"
             >
               <XMarkIcon width={12} />
-              <span>{filters.form.values.category}</span>
+              <span>
+                {filters.form.values.category?.title ||
+                  filters.form.values.category}
+              </span>
             </button>
           )}
         </div>
-        <TextInput label="Search category" placeholder="Enter category name" />
         <div className="flex flex-row gap-[0.5rem] flex-wrap">
-          {[
-            "Car",
-            "Mobile",
-            "TV",
-            "Furniture",
-            "Art",
-            "PCs/Laptops",
-            "Cutlery",
-            "Kitchenware",
-            "Phones",
-            "Gadgets",
-          ].map((c, idx) => {
-            const selected = c === filters.form.values.category;
-            return (
-              <button
-                key={idx}
-                disabled={selected}
-                className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
-                  selected
-                    ? "bg-blue-700 text-white"
-                    : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
-                }`}
-                onClick={() => filters.form.setFieldValue("category", c)}
-              >
-                {c}
-              </button>
-            );
-          })}
+          <SearchInput
+            label="Search category"
+            placeholder="Search category by name"
+            value={searchCategories.value}
+            id="searchCategories"
+            name="searchCategories"
+            loading={searchCategories.categories.requestStatus.loading}
+            onChange={searchCategories.handleChange}
+            onSubmit={searchCategories.handleSubmit}
+          />
+          {searchCategories.categories.requestStatus.loading ? (
+            <div className="flex flex-row gap-[0.5rem] items-center text-blue-800">
+              <p className="text-xs">Loading Categories</p>
+              <LoadingSpinner />
+            </div>
+          ) : searchCategories.categories.requestStatus.error ? (
+            <p className="text-xs">
+              {searchCategories.categories.requestStatus.error}
+            </p>
+          ) : (
+            <div className="flex flex-row gap-[0.5rem] items-center flex-wrap">
+              {searchCategories.categories.requestStatus.data?.results?.map?.(
+                (categoryObj) => {
+                  const selected =
+                    categoryObj.id === filters.form.values.category?.id;
+                  return (
+                    <button
+                      key={categoryObj.id}
+                      disabled={selected}
+                      className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
+                        selected
+                          ? "bg-blue-700 text-white"
+                          : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
+                      }`}
+                      onClick={() =>
+                        filters.form.setFieldValue("category", categoryObj)
+                      }
+                    >
+                      {categoryObj.title}
+                    </button>
+                  );
+                }
+              )}
+            </div>
+          )}
         </div>
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-md text-blue-700">Price Filter</h3>

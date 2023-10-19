@@ -7,7 +7,7 @@ const GetStartedSection = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-[4rem] bg-blue-700">
+    <div className="py-[4rem] md:px-[4rem] px-[2rem] bg-blue-700">
       <h2 className="text-center text-4xl mb-[4rem] text-white">Get Started</h2>
       <p className="text-white text-xl mx-auto text-center mb-[4rem]">
         Ready to embark on your auction journey? Sign up now and start bidding
