@@ -4,7 +4,6 @@ import { clean, constructURL } from "@/utils";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const useFilters = () => {
   const navigate = useNavigate();

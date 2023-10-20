@@ -9,6 +9,7 @@ import FiltersModal from "./FiltersModal";
 import useAvailableAuctions from "./useAvailableAuctions";
 import useSearch from "./useSearch";
 import NoResultsIllustraionSrc from "@/assets/images/no-results-illustration.svg";
+import usePagination from "@/components/Pagination/usePagination";
 
 const Auctions = () => {
   const filtersModal = useModal();
@@ -17,6 +18,8 @@ const Auctions = () => {
   const noResults =
     !auctions.requestStatus.loading &&
     !auctions.requestStatus.data?.results?.length;
+
+  const pagination = usePagination({ count: 200, pageSize: 10 });
 
   return (
     <div className="flex flex-col gap-[2rem] min-h-full">
@@ -59,7 +62,7 @@ const Auctions = () => {
           </div>
         )}
       </div>
-      {!noResults && <Pagination />}
+      {!noResults && <Pagination {...pagination} />}
       <FiltersModal shown={filtersModal.shown} hide={filtersModal.hide} />
     </div>
   );

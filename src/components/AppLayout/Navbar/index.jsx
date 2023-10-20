@@ -60,11 +60,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
   const isHome = useMatch("/");
 
   return (
-    <div
-      className={`transition-all max-h-full shadow duration-700 z-10 ${
-        navbarCollapse.collapsed ? "max-h-[5rem]" : "max-h-full"
-      }`}
-    >
+    <>
       <div className="flex flex-row p-[1rem] h-[5rem] gap-[1rem] items-center justify-between">
         <div className="flex flex-row gap-[1rem] items-center">
           {!isHome && (
@@ -127,14 +123,17 @@ const Navbar = ({ onClickMenu = () => {} }) => {
           )}
         </div>
       </div>
-      {!navbarCollapse.collapsed && (
-        <div className="overflow-scroll md:hidden">
-          <div className="flex flex-col gap-[0.5rem] p-[1rem]">
-            <NavItemList />
-          </div>
+      <div
+        className={`overflow-scroll md:hidden transition-all duration-700 ${
+          !navbarCollapse.collapsed ? "max-h-0" : "max-h-full"
+        }`}
+      >
+        <div className="flex flex-col gap-[0.5rem] p-[1rem]">
+          <NavItemList />
         </div>
-      )}
-    </div>
+      </div>
+      <div className="shadow z-[1] border-b border-transparent" />
+    </>
   );
 };
 
