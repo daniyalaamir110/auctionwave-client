@@ -1,13 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from "@/App";
+import "@/index.css";
+import store from "@/redux/store";
+import reportWebVitals from "@/reportWebVitals";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider as ReduxStoreProvider } from "react-redux";
+import AuthHOC from "@/redux/auth/AuthHOC";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <ReduxStoreProvider store={store}>
+      <AuthHOC>
+        <App />
+        <ToastContainer position="bottom-right" />
+      </AuthHOC>
+    </ReduxStoreProvider>
   </React.StrictMode>
 );
 
