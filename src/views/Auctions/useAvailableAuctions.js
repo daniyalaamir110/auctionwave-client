@@ -10,10 +10,11 @@ const useAvailableAuctions = () => {
   const minPrice = query.get("minPrice") || "";
   const maxPrice = query.get("maxPrice") || "";
   const search = query.get("search") || "";
+  const page = query.get("page") || 1;
 
   useEffect(() => {
-    auctions.getAvailable({ search, category, minPrice, maxPrice });
-  }, [category, minPrice, maxPrice, search]);
+    auctions.getAvailable({ search, category, minPrice, maxPrice, page });
+  }, [category, minPrice, maxPrice, search, page]);
 
   return {
     auctions,

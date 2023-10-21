@@ -29,7 +29,9 @@ const reducer = createReducer(initialState, (builder) => {
     state.data = payload;
   });
   builder.addCase(actions.reset, (state) => {
-    state = initialState;
+    state.data = initialState.data;
+    state.error = initialState.error;
+    state.loading = initialState.loading;
   });
 });
 

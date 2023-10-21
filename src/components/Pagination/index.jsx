@@ -7,7 +7,7 @@ import {
 const PaginationButton = ({ children, active = false, onClick = () => {} }) => {
   return (
     <button
-      className={`text-sm transition-all min-w-[1.5rem] h-[1.5rem] rounded-lg flex flex-row items-center justify-center ${
+      className={`text-sm transition-all min-w-[1.75rem] h-[1.75rem] rounded-lg flex flex-row items-center justify-center ${
         active
           ? "text-white bg-blue-700"
           : "text-black hover:text-blue-700 hover:bg-blue-100 active:bg-blue-200"

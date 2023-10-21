@@ -33,9 +33,7 @@ const CreateAuction = () => {
           />
           {!!createAuction.form.values.category && (
             <button
-              onClick={() => {
-                createAuction.form.setFieldValue("category", null);
-              }}
+              onClick={() => createAuction.form.setFieldValue("category", null)}
               className="p-[0.25rem] bg-cerise-100 text-cerise-700 rounded-full h-fit w-fit shadow border border-cerise-200 hover:bg-cerise-200 transition-all active:bg-cerise-300"
             >
               <NoSymbolIcon width={16} />
@@ -77,12 +75,15 @@ const CreateAuction = () => {
                           ? "bg-blue-700 text-white"
                           : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
                       }`}
-                      onClick={() =>
+                      onClick={() => {
                         createAuction.form.setFieldValue(
                           "category",
                           categoryObj
-                        )
-                      }
+                        );
+                        setTimeout(() => {
+                          createAuction.form.setFieldTouched("category", true);
+                        }, 0);
+                      }}
                     >
                       {categoryObj.title}
                     </button>
