@@ -1,5 +1,6 @@
 import AppLayout from "@/components/AppLayout";
 import useAuth from "@/redux/auth/useAuth";
+import AuctionPage from "@/views/AuctionPage";
 import Auctions from "@/views/Auctions";
 import CreateAuction from "@/views/CreateAuction";
 import HomePage from "@/views/HomePage";
@@ -51,6 +52,7 @@ const Router = () => {
               <Route element={<ProtectedRoute />}>
                 <Route path="create" element={<CreateAuction />} />
               </Route>
+              <Route path=":id" element={<AuctionPage />} />
             </Route>
           </Route>
           <Route path="*" element={<Page404 />} />

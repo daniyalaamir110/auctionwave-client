@@ -125,7 +125,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
       </div>
       <div
         className={`overflow-scroll md:hidden transition-all duration-700 ${
-          !navbarCollapse.collapsed ? "max-h-0" : "max-h-full"
+          navbarCollapse.collapsed ? "max-h-0" : "max-h-full"
         }`}
       >
         <div className="flex flex-col gap-[0.5rem] p-[1rem]">
