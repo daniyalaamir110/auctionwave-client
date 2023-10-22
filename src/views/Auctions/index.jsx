@@ -18,7 +18,7 @@ const Auctions = () => {
   const noResults =
     !auctions.requestStatus.loading &&
     !auctions.requestStatus.data?.results?.length;
-  const count = auctions.requestStatus.data?.results?.length || 0;
+  const count = auctions.requestStatus.data?.count || 0;
   const pagination = usePagination({ count, pageSize: 10 });
 
   return (
@@ -55,7 +55,7 @@ const Auctions = () => {
         ) : (
           <div className="flex flex-row gap-[2rem] w-full flex-wrap">
             {auctions.requestStatus.loading
-              ? [...Array(10)].map((_, idx) => <AuctionItemLoading key={idx} />)
+              ? [...Array(3)].map((_, idx) => <AuctionItemLoading key={idx} />)
               : auctions.requestStatus.data?.results?.map?.((auction, idx) => (
                   <AuctionItem key={idx} auction={auction} />
                 ))}

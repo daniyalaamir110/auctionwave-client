@@ -1,6 +1,5 @@
-import React from "react";
-import useRequestStatus from "./useRequestStatus";
 import api from "@/services/api";
+import useRequestStatus from "./useRequestStatus";
 
 const useAuctions = () => {
   const requestStatus = useRequestStatus();

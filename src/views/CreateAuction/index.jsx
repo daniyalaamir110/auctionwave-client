@@ -99,6 +99,7 @@ const CreateAuction = () => {
           required
           name="title"
           id="title"
+          disabled={createAuction.requestStatus.loading}
           value={createAuction.form.values.title}
           touched={createAuction.form.touched.title}
           error={createAuction.form.errors.title}
@@ -113,6 +114,7 @@ const CreateAuction = () => {
           numberOfLines={4}
           name="description"
           id="description"
+          disabled={createAuction.requestStatus.loading}
           value={createAuction.form.values.description}
           touched={createAuction.form.touched.description}
           error={createAuction.form.errors.description}
@@ -127,6 +129,7 @@ const CreateAuction = () => {
           isNumber
           name="basePrice"
           id="basePrice"
+          disabled={createAuction.requestStatus.loading}
           value={createAuction.form.values.basePrice}
           touched={createAuction.form.touched.basePrice}
           error={createAuction.form.errors.basePrice}
@@ -141,6 +144,7 @@ const CreateAuction = () => {
           isDate
           name="validTillDate"
           id="validTillDate"
+          disabled={createAuction.requestStatus.loading}
           value={createAuction.form.values.validTillDate}
           touched={createAuction.form.touched.validTillDate}
           error={createAuction.form.errors.validTillDate}
@@ -155,6 +159,7 @@ const CreateAuction = () => {
           isTime
           name="validTillTime"
           id="validTillTime"
+          disabled={createAuction.requestStatus.loading}
           value={createAuction.form.values.validTillTime}
           touched={createAuction.form.touched.validTillTime}
           error={createAuction.form.errors.validTillTime}
@@ -179,6 +184,7 @@ const CreateAuction = () => {
           required
           name="image"
           id="image"
+          disabled={createAuction.requestStatus.loading}
           value={createAuction.form.values.image}
           touched={createAuction.form.touched.image}
           error={createAuction.form.errors.image}
@@ -194,6 +200,7 @@ const CreateAuction = () => {
           text="Done"
           leftIcon={<CheckIcon width={16} />}
           onClick={createAuction.form.handleSubmit}
+          disabled={createAuction.requestStatus.loading}
         />
       </div>
     </div>

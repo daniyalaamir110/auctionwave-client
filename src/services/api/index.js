@@ -107,6 +107,16 @@ const auctions = {
       },
     });
   },
+
+  getById: (id = 0) => {
+    const url = constructURL(`/products/${id}`);
+    return apiInstance.get(url);
+  },
+
+  getTopBidsById: (id = 0) => {
+    const url = constructURL(`/products/${id}/bids`);
+    return apiInstance.get(url);
+  },
 };
 
 const categories = {

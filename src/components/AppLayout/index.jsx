@@ -16,11 +16,11 @@ const AppLayout = () => {
       <div className="flex-1 overflow-scroll">
         <div className="flex flex-row justify-between gap-[2rem] h-full flex-wrap">
           {!isHome && (
-            <div className="w-[16rem] p-[2rem] h-full overflow-scroll hidden md:block shadow-md">
+            <div className="w-[16rem] p-[2rem] h-full overflow-scroll hidden lg:block shadow-md">
               <SideMenu />
             </div>
           )}
-          <div className="flex-1 p-[2rem] h-full overflow-scroll">
+          <div className="flex-1 sm:p-[2rem] p-[1rem] h-full overflow-scroll">
             <Outlet />
           </div>
         </div>

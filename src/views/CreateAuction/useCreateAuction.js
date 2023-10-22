@@ -76,10 +76,19 @@ const useCreateAuction = () => {
       );
       const validTill = combinedDateTime.toISOString().slice(0, -1);
       values.validTill = validTill;
-      values.category = values.category.id;
-      api.auctions.create(values).then(() => {
-        toast.success("Auction created");
-      });
+      requestStatus.reset();
+      requestStatus.setLoading(true);
+      api.auctions
+        .create({ ...values, category: values.category.id })
+        .then(() => {
+          toast.success("Auction created");
+        })
+        .catch(() => {
+          toast.error("Auction couldn't be created");
+        })
+        .finally(() => {
+          requestStatus.setLoading(false);
+        });
     },
   });
 

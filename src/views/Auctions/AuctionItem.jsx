@@ -1,28 +1,17 @@
 import Button from "@/components/Button";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import ImageNotFoundSrc from "@/assets/images/image-not-found.svg";
+import TimeLeft from "@/components/TimeLeft";
 import {
   formatNumber,
   getPercentageTimeLeft,
   getTimeAgo,
   getTimeLeft,
 } from "@/utils";
-
-const TimeLeft = ({ value = 45, text = "" }) => {
-  return (
-    <div className="w-full max-w-[180rem] flex flex-col gap-[0.25rem] items-end">
-      <div className="w-full bg-blue-200 rounded-full overflow-hidden">
-        <div
-          className={`bg-blue-700 p-[0.125rem]`}
-          style={{ width: `${value}%` }}
-        />
-      </div>
-      <p className="text-[0.625rem] text-neutral-600 uppercase">Ends {text}</p>
-    </div>
-  );
-};
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 const AuctionItem = ({ auction }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="xl:w-[calc((100%/3)-2rem*((3-1)/3))] lg:w-[calc((100%/2)-2rem*((2-1)/2))] shadow-md rounded-md flex flex-col overflow-hidden">
       <div className="flex flex-col items-center justify-center">
@@ -72,6 +61,9 @@ const AuctionItem = ({ auction }) => {
           text="View Details"
           variant="secondary"
           rightIcon={<ArrowTopRightOnSquareIcon width={16} />}
+          onClick={() => {
+            navigate(`${auction.id}`);
+          }}
         />
       </div>
     </div>

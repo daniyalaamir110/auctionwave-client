@@ -66,7 +66,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
           {!isHome && (
             <Bars3Icon
               width={24}
-              className="hover:text-blue-700 transition-all cursor-pointer md:hidden"
+              className="hover:text-blue-700 transition-all cursor-pointer lg:hidden"
               onClick={onClickMenu}
             />
           )}
@@ -78,7 +78,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
                 className="w-[4rem]"
               />
             </Link>
-            <div className="hidden md:flex flex-row gap-[1rem] p-[1rem]">
+            <div className="hidden lg:flex flex-row gap-[1rem] p-[1rem]">
               <NavItemList />
             </div>
           </div>
@@ -86,7 +86,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
         <div className="flex flex-row gap-[1rem]"></div>
         <div className="flex flex-row items-center gap-[1rem] justify-end">
           <button
-            className={`md:hidden transition-all hover:text-blue-700 ${
+            className={`lg:hidden transition-all hover:text-blue-700 ${
               navbarCollapse.collapsed ? "" : "rotate-180"
             }`}
             onClick={navbarCollapse.toggle}
@@ -124,7 +124,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
         </div>
       </div>
       <div
-        className={`overflow-scroll md:hidden transition-all duration-700 ${
+        className={`overflow-scroll lg:hidden transition-all duration-700 ${
           navbarCollapse.collapsed ? "max-h-0" : "max-h-full"
         }`}
       >
