@@ -11,7 +11,10 @@ const UserItem = ({ user }) => {
     <div className="flex flex-row gap-[1rem] items-start">
       <Avatar />
       <div className="flex flex-col">
-        <h3 className="text-md text-blue-700">{name}</h3>
+        <h3 className="text-md text-blue-700">
+          {name}
+          {user.is_self ? " (You)" : ""}
+        </h3>
         <p className="text-xs">@{user.username}</p>
       </div>
     </div>

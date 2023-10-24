@@ -132,7 +132,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
           <NavItemList />
         </div>
       </div>
-      <div className="shadow z-[1] border-b border-transparent" />
+      <div className="shadow border-b border-transparent" />
     </>
   );
 };

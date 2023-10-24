@@ -16,6 +16,7 @@ import {
 import moment from "moment";
 import BidModal from "./BidModal";
 import useAuction from "./useAuction";
+import TimeLeft from "@/components/TimeLeft";
 
 const AuctionPage = () => {
   const auction = useAuction();
@@ -65,14 +66,17 @@ const AuctionPage = () => {
                         : "–"}
                     </p>
                   </div>
-                  <div className="flex sm:flex-col flex-row justify-between gap-[0.5rem] p-[1rem] text-blue-900 bg-blue-50 rounded-md sm:w-1/3">
-                    <div className="flex flex-row gap-[0.5rem] items-center sm:text-sm text-xs uppercase">
-                      <ClockIcon className="w-[1rem]" />
-                      <h3>Ends in</h3>
+                  <div className="flex flex-col gap-[0.5rem] p-[1rem] text-blue-900 bg-blue-50 rounded-md sm:w-1/3">
+                    <div className="flex sm:flex-col flex-row justify-between gap-[0.5rem]">
+                      <div className="flex flex-row gap-[0.5rem] items-center sm:text-sm text-xs uppercase">
+                        <ClockIcon className="w-[1rem]" />
+                        <h3>Ends in</h3>
+                      </div>
+                      <p className="text-right text-lg sm:text-xl">
+                        {moment(auction.status.data?.valid_till).fromNow(true)}
+                      </p>
                     </div>
-                    <p className="text-right text-lg sm:text-xl">
-                      {moment(auction.status.data?.valid_till).fromNow(true)}
-                    </p>
+                    <TimeLeft value={45} />
                   </div>
                 </div>
                 <div className="flex flex-col gap-[0.5rem]">
@@ -92,18 +96,33 @@ const AuctionPage = () => {
             </div>
             <div className="flex-1 flex flex-col gap-[1rem] max-w-[36rem]">
               <div className="p-[1rem] shadow-md rounded-lg flex flex-row gap-[1rem] justify-between items-start bg-blue-50">
-                <div className="flex flex-col gap-[0.5rem]">
-                  <h3 className="uppercase text-sm text-blue-900">Your Bid</h3>
-                  {!currentUserBid ? (
-                    <p className="text-2xl">None</p>
-                  ) : (
-                    <p className="text-2xl">
-                      {formatNumber(currentUserBid.bid_amount)}
-                    </p>
+                <div className="flex flex-row gap-[1rem] items-center">
+                  {!!currentUserBid && auction.bid.canBid && (
+                    <div className="text-blue-700 text-3xl">
+                      <span className="text-xl">#</span>
+                      {currentUserBid.rank}
+                    </div>
                   )}
+                  <div className="flex flex-col gap-[0.25rem]">
+                    <h3 className="uppercase text-sm text-blue-900">
+                      Your Bid
+                    </h3>
+                    {!currentUserBid || !auction.bid.canBid ? (
+                      <p className="text-xl">None</p>
+                    ) : (
+                      <div>
+                        <p className="text-xl">
+                          {formatNumber(currentUserBid.bid_amount)}
+                        </p>
+                        <p className="text-xs text-neutral-600">
+                          {moment(currentUserBid.updated_at).fromNow()}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-[0.5rem]">
-                  {!currentUserBid ? (
+                  {!currentUserBid || !auction.bid.canBid ? (
                     <Button
                       text="Bid"
                       leftIcon={<ArrowDownOnSquareIcon className="w-[1rem]" />}
@@ -129,7 +148,7 @@ const AuctionPage = () => {
               <div className="flex flex-col gap-[1rem]">
                 {auction.topBids.status.loading ? (
                   <Note text="Loading top bids" loading />
-                ) : !auction.topBids.status.data?.length || true ? (
+                ) : !auction.topBids.status.data?.length ? (
                   <Note text="Be the first to place a bid! Start the excitement now – there are no bids to show yet." />
                 ) : (
                   auction.topBids.status.data.map((item, idx) => {
@@ -144,7 +163,7 @@ const AuctionPage = () => {
                         <UserItem user={item.bidder} />
                         <div className="flex flex-col items-end">
                           <p>{formatNumber(item.bid_amount)}</p>
-                          <p className="text-xs">
+                          <p className="text-xs text-neutral-600">
                             {moment(item.updated_at).fromNow()}
                           </p>
                         </div>
