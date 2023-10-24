@@ -12,7 +12,7 @@ const FiltersModal = ({ shown = false, hide = () => {} }) => {
   const searchCategories = useSearchCategories({ fetchFirst: true });
 
   return (
-    <Modal shown={shown} hide={hide}>
+    <Modal shown={shown} hide={hide} title="Apply Filters">
       <div className="flex flex-col gap-[1rem]">
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-md text-blue-700">Category Filter</h3>

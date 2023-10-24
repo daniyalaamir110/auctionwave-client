@@ -1,39 +1,117 @@
 import useRequestStatus from "@/hooks/useRequestStatus";
 import api from "@/services/api";
-import { useCallback, useEffect } from "react";
+import { useFormik } from "formik";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 const useAuction = () => {
   const params = useParams();
   const status = useRequestStatus();
+  const bidStatus = useRequestStatus();
+  const topBidsStatus = useRequestStatus();
 
   const auctionId = params.id;
 
-  const get = useCallback(
-    (id = 0) => {
-      status.reset();
-      status.setLoading(true);
-      api.auctions
-        .getById(id)
-        .then((res) => {
-          const { data } = res;
-          status.setData(data);
-        })
-        .catch(() => {
-          status.setError("Error");
-        })
-        .finally(() => {
-          status.setLoading(false);
-        });
-    },
-    [status]
-  );
+  const get = (id = 0) => {
+    status.reset();
+    status.setLoading(true);
+    api.auctions
+      .getById(id)
+      .then((res) => {
+        const { data } = res;
+        status.setData(data);
+        getTopBids(id);
+      })
+      .catch(() => {
+        status.setError("Error");
+      })
+      .finally(() => {
+        status.setLoading(false);
+      });
+  };
+
+  const getTopBids = (id = 0) => {
+    topBidsStatus.reset();
+    topBidsStatus.setLoading(true);
+    api.auctions
+      .getTopBidsById(id)
+      .then((res) => {
+        const { data } = res;
+        topBidsStatus.setData(data);
+      })
+      .catch(() => {
+        topBidsStatus.setError("Error");
+      })
+      .finally(() => {
+        topBidsStatus.setLoading(false);
+      });
+  };
 
   useEffect(() => {
     get(auctionId);
+    // eslint-disable-next-line
   }, [auctionId]);
 
-  return { status };
+  const placeBid = (bidAmount = 0) => {
+    bidStatus.reset();
+    bidStatus.setLoading(true);
+    api.auctions
+      .placeBidById(auctionId, bidAmount)
+      .then(() => {
+        toast.success("Bid placed succesfully");
+      })
+      .catch(() => {
+        toast.error("Error placing bid");
+      })
+      .finally(() => {
+        bidStatus.setLoading(false);
+        get(auctionId);
+      });
+  };
+
+  const rebid = (bidAmount = 0) => {
+    bidStatus.reset();
+    bidStatus.setLoading(true);
+    api.auctions
+      .rebidById(status.data?.current_user_bid?.id, bidAmount)
+      .then(() => {
+        toast.success("Rebid succesfully");
+      })
+      .catch(() => {
+        toast.error("Error rebidding");
+      })
+      .finally(() => {
+        bidStatus.setLoading(false);
+        get(auctionId);
+      });
+  };
+
+  const placeBidForm = useFormik({
+    initialValues: {
+      bidAmount: "",
+    },
+    validationSchema: Yup.object().shape({
+      bidAmount: Yup.number().required().min(status.data?.base_price),
+    }),
+    validateOnBlur: true,
+    validateOnChange: false,
+    onSubmit: (values, helpers) => {
+      const { bidAmount } = values;
+      if (status.data?.current_user_bid) {
+        rebid(bidAmount);
+      } else {
+        placeBid(bidAmount);
+      }
+    },
+  });
+
+  return {
+    status,
+    bid: { status: bidStatus, form: placeBidForm },
+    topBids: { status: topBidsStatus },
+  };
 };
 
 export default useAuction;

@@ -24,7 +24,7 @@ const useCreateAuction = () => {
     },
     validationSchema: Yup.object().shape({
       title: Yup.string().trim().required("Required"),
-      description: Yup.string().trim().required("Required"),
+      description: Yup.string().trim().required("Required").max(500),
       category: Yup.object().required("Category is required"),
       image: Yup.mixed()
         .required("Required")

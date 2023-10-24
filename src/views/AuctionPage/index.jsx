@@ -1,20 +1,25 @@
-import Avatar from "@/components/Avatar";
 import Button from "@/components/Button";
+import useModal from "@/components/Modal/useModal";
 import Paragraph from "@/components/Paragraph";
+import UserItem from "@/components/UserItem";
 import { formatNumber } from "@/utils";
 import {
   ArrowDownOnSquareIcon,
+  ArrowPathIcon,
   ArrowTopRightOnSquareIcon,
   BoltIcon,
   ClockIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
-import useAuction from "./useAuction";
 import moment from "moment";
-import UserItem from "@/components/UserItem";
+import BidModal from "./BidModal";
+import useAuction from "./useAuction";
 
 const AuctionPage = () => {
   const auction = useAuction();
+  const bidModal = useModal();
+
+  const currentUserBid = auction.status.data?.current_user_bid;
 
   return (
     <div className="flex flex-col gap-[2rem]">
@@ -87,86 +92,66 @@ const AuctionPage = () => {
               <div className="p-[1rem] shadow-md rounded-lg flex flex-row gap-[1rem] justify-between items-start bg-blue-50">
                 <div className="flex flex-col gap-[0.5rem]">
                   <h3 className="uppercase text-sm text-blue-900">Your Bid</h3>
-                  <p className="text-right text-2xl">{formatNumber(2400000)}</p>
-                  {/* <p className="text-right text-2xl">(None yet)</p> */}
+                  {!currentUserBid ? (
+                    <p className="text-2xl">None</p>
+                  ) : (
+                    <p className="text-2xl">
+                      {formatNumber(currentUserBid.bid_amount)}
+                    </p>
+                  )}
                 </div>
                 <div className="flex flex-col gap-[0.5rem]">
-                  <Button
-                    text="Bid"
-                    leftIcon={<ArrowDownOnSquareIcon className="w-[1rem]" />}
-                  />
+                  {!currentUserBid ? (
+                    <Button
+                      text="Bid"
+                      leftIcon={<ArrowDownOnSquareIcon className="w-[1rem]" />}
+                      onClick={bidModal.show}
+                    />
+                  ) : (
+                    <Button
+                      text="Rebid"
+                      leftIcon={<ArrowPathIcon className="w-[1rem]" />}
+                      onClick={bidModal.show}
+                    />
+                  )}
                 </div>
               </div>
               <h2 className="text-2xl text-blue-900 mt-[1rem]">Top Bids</h2>
               <div className="flex flex-col gap-[1rem]">
-                <div className="flex flex-row justify-between items-center p-[1rem] bg-green-100 rounded-lg">
-                  <div className="flex flex-row items-center gap-[0.5rem]">
-                    <Avatar />
-                    <div className="flex flex-col">
-                      <h3 className="text-md text-blue-700">Daniyal Aamir</h3>
-                      <p className="text-xs">@daniyal.aamir</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <p>{formatNumber(2600000)}</p>
-                    <p className="text-xs">1 DAY AGO</p>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-between items-center p-[1rem] rounded-lg">
-                  <div className="flex flex-row items-center gap-[0.5rem]">
-                    <Avatar />
-                    <div className="flex flex-col">
-                      <h3 className="text-md text-blue-700">Daniyal Aamir</h3>
-                      <p className="text-xs">@daniyal.aamir</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <p>{formatNumber(2600000)}</p>
-                    <p className="text-xs">1 DAY AGO</p>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-between items-center p-[1rem] rounded-lg">
-                  <div className="flex flex-row items-center gap-[0.5rem]">
-                    <Avatar />
-                    <div className="flex flex-col">
-                      <h3 className="text-md text-blue-700">Daniyal Aamir</h3>
-                      <p className="text-xs">@daniyal.aamir</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <p>{formatNumber(2600000)}</p>
-                    <p className="text-xs">1 DAY AGO</p>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-between items-center p-[1rem] rounded-lg">
-                  <div className="flex flex-row items-center gap-[0.5rem]">
-                    <Avatar />
-                    <div className="flex flex-col">
-                      <h3 className="text-md text-blue-700">Daniyal Aamir</h3>
-                      <p className="text-xs">@daniyal.aamir</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <p>{formatNumber(2600000)}</p>
-                    <p className="text-xs">1 DAY AGO</p>
-                  </div>
-                </div>
-                <div className="flex flex-row justify-between items-center p-[1rem] rounded-lg">
-                  <div className="flex flex-row items-center gap-[0.5rem]">
-                    <Avatar />
-                    <div className="flex flex-col">
-                      <h3 className="text-md text-blue-700">Daniyal Aamir</h3>
-                      <p className="text-xs">@daniyal.aamir</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <p>{formatNumber(2600000)}</p>
-                    <p className="text-xs">1 DAY AGO</p>
-                  </div>
-                </div>
+                {auction.topBids.status.loading ? (
+                  <></>
+                ) : !auction.topBids.status.data?.length ? (
+                  <></>
+                ) : (
+                  auction.topBids.status.data.map((item, idx) => {
+                    const isFirst = idx === 0;
+                    return (
+                      <div
+                        key={item.id}
+                        className={`flex flex-row justify-between items-center p-[1rem] ${
+                          isFirst && "bg-green-100 "
+                        }rounded-lg`}
+                      >
+                        <UserItem user={item.bidder} />
+                        <div className="flex flex-col items-end">
+                          <p>{formatNumber(item.bid_amount)}</p>
+                          <p className="text-xs">
+                            {moment(item.updated_at).fromNow()}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>
+          <BidModal
+            hide={bidModal.hide}
+            shown={bidModal.shown}
+            currentUserBid={currentUserBid}
+            bidContext={auction.bid}
+          />
         </>
       )}
     </div>

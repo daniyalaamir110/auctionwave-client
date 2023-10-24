@@ -1,10 +1,18 @@
 import { constructURL } from "@/utils";
 import axios from "axios";
 
+/**
+ * Create an API instance pointing at the server's
+ * base URL.
+ */
 const apiInstance = axios.create({
   baseURL: "http://localhost:8000",
 });
 
+/**
+ * Add an request interceptor to attach the access token
+ * in the authorization header of each request.
+ */
 apiInstance.interceptors.request.use((request) => {
   const access = localStorage.getItem("access");
 
@@ -17,19 +25,30 @@ apiInstance.interceptors.request.use((request) => {
 
 const auth = {
   login: ({ username = "", password = "" }) => {
-    return apiInstance.post("/auth/login/", { username, password });
+    const url = "/auth/login/";
+    const data = { username, password };
+    return apiInstance.post(url, data);
   },
 
   verify: ({ token = "" }) => {
-    return apiInstance.post("/auth/verify/", { token });
+    const url = "/auth/verify/";
+    const data = { token };
+    return apiInstance.post(url, data);
   },
 
   refresh: ({ refresh = "" }) => {
-    return apiInstance.post("/auth/refresh/", { refresh });
+    const url = "/auth/refresh/";
+    const data = { refresh };
+    return apiInstance.post(url, data);
   },
 };
 
 const users = {
+  me: () => {
+    const url = "/users/me/";
+    return apiInstance.get(url);
+  },
+
   register: ({
     firstName = "",
     lastName = "",
@@ -37,28 +56,36 @@ const users = {
     username = "",
     password = "",
   }) => {
-    return apiInstance.post("/users/", {
+    const url = "/users/";
+    const data = {
       first_name: firstName,
       last_name: lastName,
       email,
       username,
       password,
-    });
+    };
+    return apiInstance.post(url, data);
   },
 
   getUsernameSuggestions: ({ firstName = "", lastName = "" }) => {
-    return apiInstance.post("/users/username-suggestions/", {
+    const url = "/users/username-suggestions/";
+    const data = {
       first_name: firstName,
       last_name: lastName,
-    });
+    };
+    return apiInstance.post(url, data);
   },
 
   getUsernameAvailability: ({ username = "" }) => {
-    return apiInstance.post("/users/username-availability/", { username });
+    const url = "/users/username-availability/";
+    const data = { username };
+    return apiInstance.post(url, data);
   },
 
   getEmailAvailability: ({ email = "" }) => {
-    return apiInstance.post("/users/email-availability/", { email });
+    const url = "/users/email-availability/";
+    const data = { email };
+    return apiInstance.post(url, data);
   },
 };
 
@@ -72,7 +99,7 @@ const auctions = {
     pageSize = 10,
     page = 1,
   }) => {
-    const url = constructURL("/products/", {
+    const query = {
       search,
       category,
       min_price: minPrice,
@@ -80,7 +107,8 @@ const auctions = {
       ordering,
       page_size: pageSize,
       page,
-    });
+    };
+    const url = constructURL("/products/", query);
     return apiInstance.get(url);
   },
 
@@ -92,30 +120,42 @@ const auctions = {
     basePrice = 0,
     validTill = "",
   }) => {
-    const formData = new FormData();
+    const data = new FormData();
 
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("base_price", basePrice);
-    formData.append("category", category);
-    formData.append("image", image, image.name);
-    formData.append("valid_till", validTill);
+    data.append("title", title);
+    data.append("description", description);
+    data.append("base_price", basePrice);
+    data.append("category", category);
+    data.append("image", image, image.name);
+    data.append("valid_till", validTill);
 
-    return apiInstance.post("/products/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+
+    return apiInstance.post("/products/", data, { headers });
   },
 
   getById: (id = 0) => {
-    const url = constructURL(`/products/${id}`);
+    const url = `/products/${id}`;
     return apiInstance.get(url);
   },
 
   getTopBidsById: (id = 0) => {
-    const url = constructURL(`/products/${id}/bids`);
+    const url = `/products/${id}/bids`;
     return apiInstance.get(url);
+  },
+
+  placeBidById: (id = 0, bidAmount = 0) => {
+    const url = "/bids/";
+    const data = { product_id: id, bid_amount: bidAmount };
+    return apiInstance.post(url, data);
+  },
+
+  rebidById: (bidId = 0, bidAmount = 0) => {
+    const url = `/bids/${bidId}/`;
+    const data = { bid_amount: bidAmount };
+    return apiInstance.patch(url, data);
   },
 };
 
