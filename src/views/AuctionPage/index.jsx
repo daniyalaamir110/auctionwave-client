@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import useModal from "@/components/Modal/useModal";
+import Note from "@/components/Note";
 import Paragraph from "@/components/Paragraph";
 import UserItem from "@/components/UserItem";
 import { formatNumber } from "@/utils";
@@ -9,6 +10,7 @@ import {
   ArrowTopRightOnSquareIcon,
   BoltIcon,
   ClockIcon,
+  EyeIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import moment from "moment";
@@ -25,7 +27,7 @@ const AuctionPage = () => {
     <div className="flex flex-col gap-[2rem]">
       {auction.status.loading ? null : (
         <>
-          <h1 className="text-4xl">{auction.status.data?.title}</h1>
+          <h1 className="sm:text-4xl text-3xl">{auction.status.data?.title}</h1>
           <div className="flex flex-col gap-[2rem] 2xl:flex-row">
             <div className="flex flex-col gap-[1rem] max-w-[36rem] w-full">
               <div className="p-[0rem]">
@@ -106,6 +108,7 @@ const AuctionPage = () => {
                       text="Bid"
                       leftIcon={<ArrowDownOnSquareIcon className="w-[1rem]" />}
                       onClick={bidModal.show}
+                      disabled={!auction.bid.canBid}
                     />
                   ) : (
                     <Button
@@ -116,12 +119,18 @@ const AuctionPage = () => {
                   )}
                 </div>
               </div>
-              <h2 className="text-2xl text-blue-900 mt-[1rem]">Top Bids</h2>
+              {!auction.bid.canBid && (
+                <Note text="To place your bid, please log in or create an account. We're excited to have you participate!" />
+              )}
+              <div className="flex flex-row justify-between items-center mt-[1rem]">
+                <h2 className="text-2xl text-blue-900">Top Bids</h2>
+                <Button text="View all" leftIcon={<EyeIcon width={16} />} />
+              </div>
               <div className="flex flex-col gap-[1rem]">
                 {auction.topBids.status.loading ? (
-                  <></>
-                ) : !auction.topBids.status.data?.length ? (
-                  <></>
+                  <Note text="Loading top bids" loading />
+                ) : !auction.topBids.status.data?.length || true ? (
+                  <Note text="Be the first to place a bid! Start the excitement now – there are no bids to show yet." />
                 ) : (
                   auction.topBids.status.data.map((item, idx) => {
                     const isFirst = idx === 0;

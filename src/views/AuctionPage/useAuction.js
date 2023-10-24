@@ -1,4 +1,5 @@
 import useRequestStatus from "@/hooks/useRequestStatus";
+import useAuth from "@/redux/auth/useAuth";
 import api from "@/services/api";
 import { useFormik } from "formik";
 import { useEffect } from "react";
@@ -11,6 +12,7 @@ const useAuction = () => {
   const status = useRequestStatus();
   const bidStatus = useRequestStatus();
   const topBidsStatus = useRequestStatus();
+  const auth = useAuth();
 
   const auctionId = params.id;
 
@@ -109,7 +111,7 @@ const useAuction = () => {
 
   return {
     status,
-    bid: { status: bidStatus, form: placeBidForm },
+    bid: { status: bidStatus, form: placeBidForm, canBid: auth.state.success },
     topBids: { status: topBidsStatus },
   };
 };

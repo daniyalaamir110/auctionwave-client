@@ -5,6 +5,7 @@ import TextInput from "@/components/TextInput";
 import { ArrowRightIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import useSignup from "./useSignup";
+import LoadingItems from "@/components/LoadingItems";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -73,10 +74,7 @@ const Signup = () => {
             required
           />
           {signup.loadUsernames.requestStatus.loading ? (
-            <div className="flex flex-row gap-[0.5rem] items-center text-blue-800">
-              <p className="text-xs">Loading Suggestions</p>
-              <LoadingSpinner />
-            </div>
+            <LoadingItems text="Loading suggestions" />
           ) : signup.loadUsernames.requestStatus.error ? (
             <p className="text-xs">
               {signup.loadUsernames.requestStatus.error}

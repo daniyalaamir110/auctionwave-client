@@ -24,7 +24,7 @@ const Auctions = () => {
   return (
     <div className="flex flex-col gap-[2rem] min-h-full">
       <div className="flex flex-col gap-[2rem] flex-1">
-        <h1 className="text-4xl">Auctions</h1>
+        <h1 className="sm:text-4xl text-3xl">Auctions</h1>
         <div className="max-w-[48rem] flex flex-col-reverse md:flex-row gap-[0.5rem]">
           <Button
             variant="secondary"

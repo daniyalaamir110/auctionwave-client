@@ -6,6 +6,7 @@ import useFilters from "./useFilters";
 import useSearchCategories from "@/hooks/useSearchCategories";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchInput from "@/components/SearchInput";
+import LoadingItems from "@/components/LoadingItems";
 
 const FiltersModal = ({ shown = false, hide = () => {} }) => {
   const filters = useFilters();
@@ -43,10 +44,7 @@ const FiltersModal = ({ shown = false, hide = () => {} }) => {
             onSubmit={searchCategories.handleSubmit}
           />
           {searchCategories.categories.requestStatus.loading ? (
-            <div className="flex flex-row gap-[0.5rem] items-center text-blue-800">
-              <p className="text-xs">Loading Categories</p>
-              <LoadingSpinner />
-            </div>
+            <LoadingItems text="Loading categories" />
           ) : searchCategories.categories.requestStatus.error ? (
             <p className="text-xs">
               {searchCategories.categories.requestStatus.error}

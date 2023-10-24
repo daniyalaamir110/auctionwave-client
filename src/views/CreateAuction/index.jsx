@@ -6,6 +6,7 @@ import TextInput from "@/components/TextInput";
 import useSearchCategories from "@/hooks/useSearchCategories";
 import { CheckIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import useCreateAuction from "./useCreateAuction";
+import LoadingItems from "@/components/LoadingItems";
 
 const CreateAuction = () => {
   const createAuction = useCreateAuction();
@@ -14,7 +15,7 @@ const CreateAuction = () => {
 
   return (
     <div className="flex flex-col gap-[2rem]">
-      <h1 className="text-4xl">Create Auction</h1>
+      <h1 className="sm:text-4xl text-3xl">Create Auction</h1>
       <div className="flex flex-col gap-[1rem] max-w-[36rem] w-full">
         <div className="flex flex-row gap-[1rem] items-center">
           <TextInput
@@ -52,10 +53,7 @@ const CreateAuction = () => {
             onSubmit={searchCategories.handleSubmit}
           />
           {searchCategories.categories.requestStatus.loading ? (
-            <div className="flex flex-row gap-[0.5rem] items-center text-blue-800">
-              <p className="text-xs">Loading Categories</p>
-              <LoadingSpinner />
-            </div>
+            <LoadingItems text="Loading Categories" />
           ) : searchCategories.categories.requestStatus.error ? (
             <p className="text-xs">
               {searchCategories.categories.requestStatus.error}
