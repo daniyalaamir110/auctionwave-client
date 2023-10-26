@@ -111,7 +111,11 @@ const useAuction = () => {
 
   return {
     status,
-    bid: { status: bidStatus, form: placeBidForm, canBid: auth.state.success },
+    bid: {
+      status: bidStatus,
+      form: placeBidForm,
+      canBid: auth.state.success,
+    },
     topBids: { status: topBidsStatus },
   };
 };

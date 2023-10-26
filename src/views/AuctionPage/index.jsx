@@ -2,8 +2,9 @@ import Button from "@/components/Button";
 import useModal from "@/components/Modal/useModal";
 import Note from "@/components/Note";
 import Paragraph from "@/components/Paragraph";
+import TimeLeft from "@/components/TimeLeft";
 import UserItem from "@/components/UserItem";
-import { formatNumber } from "@/utils";
+import { formatNumber, getPercentageTimeLeft } from "@/utils";
 import {
   ArrowDownOnSquareIcon,
   ArrowPathIcon,
@@ -16,13 +17,14 @@ import {
 import moment from "moment";
 import BidModal from "./BidModal";
 import useAuction from "./useAuction";
-import TimeLeft from "@/components/TimeLeft";
+import { useNavigate } from "react-router-dom";
 
 const AuctionPage = () => {
   const auction = useAuction();
   const bidModal = useModal();
 
   const currentUserBid = auction.status.data?.current_user_bid;
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-[2rem]">
@@ -76,7 +78,12 @@ const AuctionPage = () => {
                         {moment(auction.status.data?.valid_till).fromNow(true)}
                       </p>
                     </div>
-                    <TimeLeft value={45} />
+                    <TimeLeft
+                      value={getPercentageTimeLeft(
+                        auction.status.data?.created_at,
+                        auction.status.data?.valid_till
+                      )}
+                    />
                   </div>
                 </div>
                 <div className="flex flex-col gap-[0.5rem]">
@@ -104,25 +111,47 @@ const AuctionPage = () => {
                     </div>
                   )}
                   <div className="flex flex-col gap-[0.25rem]">
-                    <h3 className="uppercase text-sm text-blue-900">
-                      Your Bid
-                    </h3>
-                    {!currentUserBid || !auction.bid.canBid ? (
-                      <p className="text-xl">None</p>
+                    {!auction.status.data?.is_creator ? (
+                      <>
+                        <h3 className="uppercase text-sm text-blue-900">
+                          Your Bid
+                        </h3>
+                        {!currentUserBid || !auction.bid.canBid ? (
+                          <p className="text-xl">None</p>
+                        ) : (
+                          <div>
+                            <p className="text-xl">
+                              {formatNumber(currentUserBid.bid_amount)}
+                            </p>
+                            <p className="text-xs text-neutral-600">
+                              {moment(currentUserBid.updated_at).fromNow()}
+                            </p>
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <div>
-                        <p className="text-xl">
-                          {formatNumber(currentUserBid.bid_amount)}
-                        </p>
+                        <p className="text-xl">The auctioneer here is you!</p>
                         <p className="text-xs text-neutral-600">
-                          {moment(currentUserBid.updated_at).fromNow()}
+                          You cannot bid on this auction
                         </p>
                       </div>
                     )}
                   </div>
                 </div>
                 <div className="flex flex-col gap-[0.5rem]">
-                  {!currentUserBid || !auction.bid.canBid ? (
+                  {auction.status.data?.is_creator ? (
+                    <Button
+                      text="Go to auction"
+                      variant="secondary"
+                      rightIcon={
+                        <ArrowTopRightOnSquareIcon className="w-[1rem]" />
+                      }
+                      onClick={() => {
+                        navigate(`/app/auctions/my/${auction.status.data?.id}`);
+                      }}
+                    />
+                  ) : !currentUserBid || !auction.bid.canBid ? (
                     <Button
                       text="Bid"
                       leftIcon={<ArrowDownOnSquareIcon className="w-[1rem]" />}

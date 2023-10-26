@@ -42,12 +42,12 @@ const SideMenu = () => {
           />
           <SideLink
             text="Your Auctions"
-            to="/app/my-auctions"
+            to="/app/auctions/my"
             icon={<MegaphoneIcon width={16} />}
           />
           <SideLink
             text="Your Bids"
-            to="/app/my-bids"
+            to="/app/bids/my"
             icon={<ChatBubbleBottomCenterIcon width={16} />}
           />
           <SideLink
