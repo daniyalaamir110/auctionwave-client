@@ -30,7 +30,7 @@ const Categories = () => {
           />
         </div>
         <div className="flex flex-row gap-[2rem] w-full flex-wrap">
-          {categories.categories.requestStatus?.loading || true
+          {categories.categories.requestStatus?.loading
             ? [...new Array(12)].map((_, idx) => {
                 return (
                   <div
