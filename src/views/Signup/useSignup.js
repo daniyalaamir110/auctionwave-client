@@ -4,11 +4,13 @@ import useRequestStatus from "@/hooks/useRequestStatus";
 import api from "@/services/api";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 const useSignup = () => {
   // Initializing the hooks
+  const navigate = useNavigate();
   const requestStatus = useRequestStatus();
   const loadUsernames = useLoadUsernames();
   const [checkingEmail, setCheckingEmail] = useState(false);
@@ -119,6 +121,7 @@ const useSignup = () => {
         .then((res) => {
           toast.success("Signed up successfully");
           helpers.resetForm();
+          navigate("/auth/login");
         })
         .catch((err) => {
           toast.error("Couldn't sign you up");

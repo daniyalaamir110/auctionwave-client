@@ -1,4 +1,4 @@
-import { constructURL } from "@/utils";
+import { constructURL, sleep } from "@/utils";
 import axios from "axios";
 
 /**
@@ -13,7 +13,11 @@ const apiInstance = axios.create({
  * Add an request interceptor to attach the access token
  * in the authorization header of each request.
  */
-apiInstance.interceptors.request.use((request) => {
+apiInstance.interceptors.request.use(async (request) => {
+  if (process.env.NODE_ENV === "development") {
+    await sleep();
+  }
+
   const access = localStorage.getItem("access");
 
   if (access) {

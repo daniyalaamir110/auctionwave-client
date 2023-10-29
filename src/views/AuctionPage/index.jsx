@@ -1,3 +1,4 @@
+import AppLoader from "@/components/AppLoader";
 import Button from "@/components/Button";
 import useModal from "@/components/Modal/useModal";
 import Note from "@/components/Note";
@@ -15,9 +16,10 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 import BidModal from "./BidModal";
 import useAuction from "./useAuction";
-import { useNavigate } from "react-router-dom";
+import AppLogoWithoutTitleSrc from "@/assets/images/app-logo-without-title.png";
 
 const AuctionPage = () => {
   const auction = useAuction();
@@ -28,7 +30,16 @@ const AuctionPage = () => {
 
   return (
     <div className="flex flex-col gap-[2rem]">
-      {auction.status.loading ? null : (
+      {auction.status.loading ? (
+        <div className="pt-[4rem] w-full flex flex-col gap-[4rem] items-center justify-center">
+          <img
+            src={AppLogoWithoutTitleSrc}
+            alt="Loading"
+            className="w-[6rem] animate-ping"
+          />
+          <p className="text-2xl animate-pulse">Please Wait</p>
+        </div>
+      ) : (
         <>
           <h1 className="sm:text-4xl text-3xl">{auction.status.data?.title}</h1>
           <div className="flex flex-col gap-[2rem] 2xl:flex-row">

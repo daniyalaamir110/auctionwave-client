@@ -9,6 +9,7 @@ import Login from "@/views/Login";
 import MyAuctions from "@/views/MyAuctions";
 import Page403 from "@/views/Page403";
 import Page404 from "@/views/Page404";
+import SettingsPage from "@/views/SettingsPage";
 import Signup from "@/views/Signup";
 import {
   BrowserRouter,
@@ -55,11 +56,12 @@ const Router = () => {
               <Route element={<ProtectedRoute />}>
                 <Route path="create" element={<CreateAuction />} />
               </Route>
-              <Route path="my">
+              <Route path="my" element={<ProtectedRoute />}>
                 <Route index element={<MyAuctions />} />
               </Route>
               <Route path=":id" element={<AuctionPage />} />
             </Route>
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
           <Route path="*" element={<Page404 />} />
         </Route>

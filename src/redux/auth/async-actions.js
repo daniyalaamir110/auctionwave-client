@@ -4,13 +4,15 @@ import { toast } from "react-toastify";
 
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ username, password }, { rejectWithValue, fulfillWithValue }) => {
     try {
       const res = await api.auth.login({ username, password });
       const { access, refresh } = res.data;
       localStorage.setItem("access", access);
       localStorage.setItem("refresh", refresh);
+      const meRes = await api.users.me();
       toast.success("Logged in successfully");
+      return fulfillWithValue(meRes.data);
     } catch (error) {
       const message = error.response?.data?.detail || "Something went wrong";
       toast.error(message);
@@ -47,7 +49,9 @@ export const verify = createAsyncThunk(
     if (token) {
       try {
         await api.auth.verify({ token });
+        const res = await api.users.me();
         toast.success("Welcome back");
+        return fulfillWithValue(res.data);
       } catch (error) {
         localStorage.clear();
         const message = error.response?.data?.detail || "Something went wrong";

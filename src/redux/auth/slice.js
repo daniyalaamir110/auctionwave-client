@@ -33,9 +33,10 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(login.fulfilled, (state) => {
+      .addCase(login.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.success = true;
+        state.user = payload;
       })
       .addCase(login.rejected, (state, { payload }) => {
         state.loading = false;
@@ -48,9 +49,10 @@ const authSlice = createSlice({
         state.verifying = true;
         state.error = null;
       })
-      .addCase(verify.fulfilled, (state) => {
+      .addCase(verify.fulfilled, (state, { payload }) => {
         state.verifying = false;
         state.success = true;
+        state.user = payload;
       })
       .addCase(verify.rejected, (state, { payload }) => {
         state.verifying = false;

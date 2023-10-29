@@ -13,8 +13,15 @@ import AccountPopover from "./AccountPopover";
 import useAccountPopover from "./AccountPopover/useAccountPopover";
 import useAuth from "@/redux/auth/useAuth";
 import Button from "@/components/Button";
-import { Link, NavLink, useMatch, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  useMatch,
+  useNavigate,
+} from "react-router-dom";
 import useNavbarCollapse from "./useNavbarCollapse";
+import { useEffect } from "react";
 
 const NavItem = ({ text, to = "/", icon = null }) => {
   const match = useMatch(to);
@@ -58,6 +65,9 @@ const Navbar = ({ onClickMenu = () => {} }) => {
   const navigate = useNavigate();
   const navbarCollapse = useNavbarCollapse();
   const isHome = useMatch("/");
+  const location = useLocation();
+
+  useEffect(navbarCollapse.hide, [location.pathname]);
 
   return (
     <>

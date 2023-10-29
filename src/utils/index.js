@@ -74,3 +74,7 @@ export const getPercentageTimeLeft = (startDateString, endDateString) => {
 export const formatNumber = (value = 0) => {
   return Intl.NumberFormat("en-US").format(value);
 };
+
+export const sleep = (ms = 2000) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

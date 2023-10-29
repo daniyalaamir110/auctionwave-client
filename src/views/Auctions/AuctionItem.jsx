@@ -16,14 +16,9 @@ const AuctionItem = ({ auction }) => {
     <div className="xl:w-[calc((100%/3)-2rem*((3-1)/3))] lg:w-[calc((100%/2)-2rem*((2-1)/2))] shadow-md rounded-md flex flex-col overflow-hidden">
       <div className="flex flex-col items-center justify-center">
         <div className="w-full h-[16rem] flex flex-col items-center justify-center overflow-hidden">
-          {/* <img
-            src={ImageNotFoundSrc}
-            alt="Not found"
-            className="max-w-[8rem] max-h-[8rem] object-cover"
-          /> */}
           <img
             src={auction.image}
-            alt="Honda Accord 2005"
+            alt={auction.title}
             className="min-w-full min-h-full object-cover"
           />
         </div>
