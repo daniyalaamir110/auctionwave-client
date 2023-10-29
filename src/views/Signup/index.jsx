@@ -1,11 +1,10 @@
 import AuthContainer from "@/components/AuthContainer";
 import Button from "@/components/Button";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingItems from "@/components/LoadingItems";
 import TextInput from "@/components/TextInput";
 import { ArrowRightIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import useSignup from "./useSignup";
-import LoadingItems from "@/components/LoadingItems";
 
 const Signup = () => {
   const navigate = useNavigate();

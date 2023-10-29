@@ -1,12 +1,11 @@
 import Button from "@/components/Button";
 import FileInput from "@/components/FileInput";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingItems from "@/components/LoadingItems";
 import SearchInput from "@/components/SearchInput";
 import TextInput from "@/components/TextInput";
 import useSearchCategories from "@/hooks/useSearchCategories";
 import { CheckIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import useCreateAuction from "./useCreateAuction";
-import LoadingItems from "@/components/LoadingItems";
 
 const CreateAuction = () => {
   const createAuction = useCreateAuction();

@@ -157,6 +157,30 @@ const auctions = {
     const data = { bid_amount: bidAmount };
     return apiInstance.patch(url, data);
   },
+
+  getMy: ({
+    search = "",
+    category = 0,
+    minPrice = "",
+    maxPrice = "",
+    ordering = "",
+    pageSize = 10,
+    page = 1,
+    status = "ongoing",
+  }) => {
+    const query = {
+      search,
+      category,
+      min_price: minPrice,
+      max_price: maxPrice,
+      ordering,
+      page_size: pageSize,
+      page,
+      status,
+    };
+    const url = constructURL("/products/my/", query);
+    return apiInstance.get(url);
+  },
 };
 
 const categories = {
