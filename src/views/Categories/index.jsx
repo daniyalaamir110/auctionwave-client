@@ -13,7 +13,7 @@ const Categories = () => {
   const pagination = usePagination({ count: categories.count });
 
   return (
-    <div className="flex flex-col gap-[2rem] min-h-full w-full">
+    <div className="flex flex-col gap-[2rem] min-h-full w-full max-w-[72rem]">
       <div className="flex flex-col flex-1 gap-[2rem]">
         <h1 className="sm:text-4xl text-3xl">Categories</h1>
         <div className="max-w-[48rem] flex flex-col-reverse md:flex-row gap-[0.5rem]">

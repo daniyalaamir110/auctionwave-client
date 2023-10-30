@@ -1,17 +1,11 @@
 import Button from "@/components/Button";
 import useAuth from "@/redux/auth/useAuth";
-import {
-  ArrowRightIcon,
-  ChatBubbleBottomCenterIcon,
-  Cog8ToothIcon,
-  MegaphoneIcon,
-  RectangleGroupIcon,
-} from "@heroicons/react/24/outline";
-import { Link, useMatch, useNavigate } from "react-router-dom";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { useCallback } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import sideMenuConifg from "./sideMenuConfig";
 
-const SideLink = ({ text = "", to = "/", icon = null }) => {
-  const match = useMatch(to);
-
+const SideLink = ({ text = "", to = "/", icon = null, match = false }) => {
   return (
     <Link
       to={to}
@@ -30,32 +24,21 @@ const SideLink = ({ text = "", to = "/", icon = null }) => {
 const SideMenu = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isMatch = useCallback(
+    (pathname) => {
+      return pathname === location.pathname;
+    },
+    [location.pathname]
+  );
 
   return (
     <div className="flex flex-col gap-[1rem]">
       {auth.state.success ? (
-        <>
-          <SideLink
-            text="Dashboard"
-            to="/app/dashboard"
-            icon={<RectangleGroupIcon width={16} />}
-          />
-          <SideLink
-            text="Your Auctions"
-            to="/app/auctions/my"
-            icon={<MegaphoneIcon width={16} />}
-          />
-          <SideLink
-            text="Your Bids"
-            to="/app/bids/my"
-            icon={<ChatBubbleBottomCenterIcon width={16} />}
-          />
-          <SideLink
-            text="Settings"
-            to="/app/settings"
-            icon={<Cog8ToothIcon width={16} />}
-          />
-        </>
+        sideMenuConifg.items.map((item, idx) => (
+          <SideLink {...item} match={isMatch(item.to)} key={idx} />
+        ))
       ) : (
         <>
           <div className="p-[2rem] m-[-2rem] mb-[1rem] bg-blue-100">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 const ControlButton = ({ text = "", onClick = () => {} }) => {
   return (
@@ -11,7 +11,7 @@ const ControlButton = ({ text = "", onClick = () => {} }) => {
   );
 };
 
-const Paragraph = ({ className = "", text = "" }) => {
+const Paragraph = memo(({ className = "", text = "" }) => {
   const [collapsed, setCollapsed] = useState(true);
 
   let newClassName = className;
@@ -34,6 +34,6 @@ const Paragraph = ({ className = "", text = "" }) => {
       )}
     </>
   );
-};
+});
 
 export default Paragraph;

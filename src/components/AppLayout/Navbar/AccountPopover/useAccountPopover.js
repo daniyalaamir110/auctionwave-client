@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 const useAccountPopover = () => {
   const [shown, setShown] = useState(false);
 
-  const toggle = () => setShown((shown) => !shown);
+  const toggle = useCallback(() => setShown((shown) => !shown), []);
 
-  const show = () => setShown(true);
+  const show = useCallback(() => setShown(true), []);
 
-  const hide = () => setShown(false);
+  const hide = useCallback(() => setShown(false), []);
 
-  return { shown, toggle, show, hide };
+  return useMemo(
+    () => ({ shown, toggle, show, hide }),
+    [shown, toggle, show, hide]
+  );
 };
 
 export default useAccountPopover;

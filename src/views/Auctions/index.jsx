@@ -22,7 +22,7 @@ const Auctions = () => {
   const pagination = usePagination({ count, pageSize: 10 });
 
   return (
-    <div className="flex flex-col gap-[2rem] min-h-full">
+    <div className="flex flex-col gap-[2rem] min-h-full max-w-[72rem]">
       <div className="flex flex-col gap-[2rem] flex-1">
         <h1 className="sm:text-4xl text-3xl">Auctions</h1>
         <div className="max-w-[48rem] flex flex-col-reverse md:flex-row gap-[0.5rem]">

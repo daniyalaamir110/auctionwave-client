@@ -1,18 +1,14 @@
 import AppLogoWithoutTitleSrc from "@/assets/images/app-logo-without-title.png";
 import Avatar from "@/components/Avatar";
+import Button from "@/components/Button";
+import useAuth from "@/redux/auth/useAuth";
 import {
   ArrowLeftOnRectangleIcon,
   Bars3Icon,
   BellIcon,
   ChevronDownIcon,
-  HomeIcon,
-  ListBulletIcon,
-  MegaphoneIcon,
 } from "@heroicons/react/24/outline";
-import AccountPopover from "./AccountPopover";
-import useAccountPopover from "./AccountPopover/useAccountPopover";
-import useAuth from "@/redux/auth/useAuth";
-import Button from "@/components/Button";
+import { memo, useCallback, useEffect } from "react";
 import {
   Link,
   NavLink,
@@ -20,11 +16,13 @@ import {
   useMatch,
   useNavigate,
 } from "react-router-dom";
+import AccountPopover from "./AccountPopover";
+import useAccountPopover from "./AccountPopover/useAccountPopover";
+import navbarConfig from "./navbarConfig";
 import useNavbarCollapse from "./useNavbarCollapse";
-import { useEffect } from "react";
 
-const NavItem = ({ text, to = "/", icon = null }) => {
-  const match = useMatch(to);
+const NavItem = memo(({ text, to = "/", icon = null, match = false }) => {
+  console.log("rerender " + text);
 
   return (
     <NavLink
@@ -39,27 +37,24 @@ const NavItem = ({ text, to = "/", icon = null }) => {
       <span>{text}</span>
     </NavLink>
   );
-};
+});
 
-const NavItemList = () => {
-  return (
-    <>
-      <NavItem text="Home" to="/" icon={<HomeIcon width={16} />} />
-      <NavItem
-        text="Categories"
-        to="/app/categories"
-        icon={<ListBulletIcon width={16} />}
-      />
-      <NavItem
-        text="Auctions"
-        to="/app/auctions"
-        icon={<MegaphoneIcon width={16} />}
-      />
-    </>
+const NavItemList = memo(() => {
+  const location = useLocation();
+
+  const isMatch = useCallback(
+    (pathname) => {
+      return pathname === location.pathname;
+    },
+    [location.pathname]
   );
-};
 
-const Navbar = ({ onClickMenu = () => {} }) => {
+  return navbarConfig.items.map((item, idx) => (
+    <NavItem {...item} match={isMatch(item.to)} key={idx} />
+  ));
+});
+
+const Navbar = memo(({ onClickMenu = () => {} }) => {
   const accountPopover = useAccountPopover();
   const auth = useAuth();
   const navigate = useNavigate();
@@ -68,6 +63,8 @@ const Navbar = ({ onClickMenu = () => {} }) => {
   const location = useLocation();
 
   useEffect(navbarCollapse.hide, [location.pathname]);
+
+  const navigateToLogin = useCallback(() => navigate("/auth/login"), []);
 
   return (
     <>
@@ -128,7 +125,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
             <Button
               text="Log in"
               leftIcon={<ArrowLeftOnRectangleIcon width={16} />}
-              onClick={() => navigate("/auth/login")}
+              onClick={navigateToLogin}
             />
           )}
         </div>
@@ -145,6 +142,6 @@ const Navbar = ({ onClickMenu = () => {} }) => {
       <div className="shadow border-b border-transparent" />
     </>
   );
-};
+});
 
 export default Navbar;

@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 const useDrawer = () => {
   const [shown, setShown] = useState(false);
 
-  const show = () => setShown(true);
+  const show = useCallback(() => setShown(true), []);
 
-  const hide = () => setShown(false);
+  const hide = useCallback(() => setShown(false), []);
 
-  return { shown, show, hide };
+  return useMemo(() => ({ shown, show, hide }), [shown, show, hide]);
 };
 
 export default useDrawer;

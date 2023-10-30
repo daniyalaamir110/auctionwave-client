@@ -1,4 +1,6 @@
-const LoadingSpinner = () => (
+import { memo } from "react";
+
+const LoadingSpinner = memo(() => (
   <svg
     aria-hidden
     role="status"
@@ -17,6 +19,6 @@ const LoadingSpinner = () => (
       fill="currentColor"
     />
   </svg>
-);
+));
 
 export default LoadingSpinner;

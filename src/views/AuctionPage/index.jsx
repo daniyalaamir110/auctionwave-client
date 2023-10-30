@@ -1,4 +1,4 @@
-import AppLoader from "@/components/AppLoader";
+import AppLogoWithoutTitleSrc from "@/assets/images/app-logo-without-title.png";
 import Button from "@/components/Button";
 import useModal from "@/components/Modal/useModal";
 import Note from "@/components/Note";
@@ -19,7 +19,6 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import BidModal from "./BidModal";
 import useAuction from "./useAuction";
-import AppLogoWithoutTitleSrc from "@/assets/images/app-logo-without-title.png";
 
 const AuctionPage = () => {
   const auction = useAuction();

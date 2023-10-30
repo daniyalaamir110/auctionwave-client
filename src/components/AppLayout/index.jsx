@@ -3,8 +3,9 @@ import Drawer from "./Drawer";
 import useDrawer from "./Drawer/useDrawer";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
+import { memo } from "react";
 
-const AppLayout = () => {
+const AppLayout = memo(() => {
   const { shown, show, hide } = useDrawer();
 
   const isHome = useMatch("/");
@@ -27,6 +28,6 @@ const AppLayout = () => {
       </div>
     </div>
   );
-};
+});
 
 export default AppLayout;

@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 const useNavbarCollapse = () => {
   const [collapsed, setCollapsed] = useState(true);
 
-  const toggle = () => setCollapsed((collapsed) => !collapsed);
-  const hide = () => setCollapsed(true);
+  const toggle = useCallback(() => setCollapsed((collapsed) => !collapsed), []);
+  const hide = useCallback(() => setCollapsed(true), []);
 
-  return { collapsed, toggle, hide };
+  return useMemo(
+    () => ({ collapsed, toggle, hide }),
+    [collapsed, toggle, hide]
+  );
 };
 
 export default useNavbarCollapse;

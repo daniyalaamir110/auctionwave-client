@@ -1,10 +1,10 @@
 import Button from "@/components/Button";
 import { getTimeLeft } from "@/utils";
 import { ArrowRightIcon, ClockIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
-const MyAuctionItem = ({ auction }) => {
+const MyAuctionItem = memo(({ auction }) => {
   const navigate = useNavigate();
 
   return (
@@ -32,6 +32,6 @@ const MyAuctionItem = ({ auction }) => {
       </div>
     </div>
   );
-};
+});
 
 export default MyAuctionItem;

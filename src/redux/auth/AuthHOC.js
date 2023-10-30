@@ -1,19 +1,21 @@
 import AppLoader from "@/components/AppLoader";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import useAuth from "./useAuth";
 
 const AuthHOC = ({ children }) => {
   const auth = useAuth();
 
+  const refreshCallback = useCallback(() => {
+    auth.refresh();
+  }, [auth.refresh]);
+
   useEffect(() => {
     let refreshInterval;
 
     if (auth.state.success) {
-      auth.refresh();
+      refreshCallback();
 
-      refreshInterval = setInterval(() => {
-        auth.refresh();
-      }, 15 * 60 * 1000);
+      refreshInterval = setInterval(refreshCallback, 15 * 60 * 1000);
     } else {
       clearInterval(refreshInterval);
     }
@@ -21,7 +23,7 @@ const AuthHOC = ({ children }) => {
     return () => {
       clearInterval(refreshInterval);
     };
-  }, [auth.state.success]);
+  }, [auth.state.success, refreshCallback]);
 
   if (auth.state.verifying) {
     return <AppLoader />;

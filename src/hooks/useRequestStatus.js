@@ -1,5 +1,5 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
-import { useReducer } from "react";
+import { useReducer, useCallback, useMemo } from "react";
 
 const initialState = {
   loading: false,
@@ -17,59 +17,70 @@ const actions = {
 
 const reducer = createReducer(initialState, (builder) => {
   builder.addCase(actions.setState, (state, { payload }) => {
-    state = { ...state, ...payload };
+    return { ...state, ...payload };
   });
   builder.addCase(actions.setLoading, (state, { payload }) => {
-    state.loading = payload;
+    return { ...state, loading: payload };
   });
   builder.addCase(actions.setError, (state, { payload }) => {
-    state.error = payload;
+    return { ...state, error: payload };
   });
   builder.addCase(actions.setData, (state, { payload }) => {
-    state.data = payload;
+    return { ...state, data: payload };
   });
-  builder.addCase(actions.reset, (state) => {
-    state.data = initialState.data;
-    state.error = initialState.error;
-    state.loading = initialState.loading;
-  });
+  builder.addCase(actions.reset, () => initialState);
 });
 
 const useRequestStatus = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const setState = (updates = {}) => {
-    dispatch(actions.setState(updates));
-  };
+  const setState = useCallback(
+    (updates = {}) => {
+      dispatch(actions.setState(updates));
+    },
+    [dispatch]
+  );
 
-  const setLoading = (loading = initialState.loading) => {
-    dispatch(actions.setLoading(loading));
-  };
+  const setLoading = useCallback(
+    (loading = initialState.loading) => {
+      dispatch(actions.setLoading(loading));
+    },
+    [dispatch]
+  );
 
-  const setError = (error = initialState.error) => {
-    dispatch(actions.setError(error));
-  };
+  const setError = useCallback(
+    (error = initialState.error) => {
+      dispatch(actions.setError(error));
+    },
+    [dispatch]
+  );
 
-  const setData = (data = initialState.data) => {
-    dispatch(actions.setData(data));
-  };
+  const setData = useCallback(
+    (data = initialState.data) => {
+      dispatch(actions.setData(data));
+    },
+    [dispatch]
+  );
 
-  const reset = () => {
+  const reset = useCallback(() => {
     dispatch(actions.reset());
-  };
+  }, [dispatch]);
 
   const { loading, error, data } = state;
 
-  return {
-    loading,
-    error,
-    data,
-    setState,
-    setLoading,
-    setError,
-    setData,
-    reset,
-  };
+  return useMemo(
+    () => ({
+      loading,
+      error,
+      data,
+      setState,
+      setLoading,
+      setError,
+      setData,
+      reset,
+    }),
+    [loading, error, data, setState, setLoading, setError, setData, reset]
+  );
 };
 
 export default useRequestStatus;
