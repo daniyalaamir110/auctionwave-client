@@ -18,9 +18,12 @@ const useAuth = () => {
     dispatch(asyncActions.verify());
   }, [dispatch]);
 
-  const refresh = useCallback(() => {
-    dispatch(asyncActions.refresh());
-  }, [dispatch]);
+  const refresh = useCallback(
+    (signal) => {
+      dispatch(asyncActions.refresh(signal));
+    },
+    [dispatch]
+  );
 
   const logout = useCallback(() => {
     dispatch(actions.logout());

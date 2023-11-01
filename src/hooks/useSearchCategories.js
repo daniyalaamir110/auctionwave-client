@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useCategories from "./useCategories";
+import useSignalEffect from "./useSignalEffect";
 
 const useSearchCategories = ({ fetchFirst = false } = {}) => {
   const categories = useCategories();
@@ -10,15 +11,18 @@ const useSearchCategories = ({ fetchFirst = false } = {}) => {
     setValue(e.target.value);
   };
 
-  const handleSubmit = () => {
-    categories.get({ search: value, pageSize: 20 });
+  const handleSubmit = (signal) => {
+    categories.get({ search: value, pageSize: 20 }, signal);
   };
 
-  useEffect(() => {
-    if (fetchFirst) {
-      handleSubmit();
-    }
-  }, [fetchFirst]);
+  useSignalEffect(
+    (signal) => {
+      if (fetchFirst) {
+        handleSubmit(signal);
+      }
+    },
+    [fetchFirst]
+  );
 
   return {
     value,

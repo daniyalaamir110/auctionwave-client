@@ -4,11 +4,11 @@ import useRequestStatus from "./useRequestStatus";
 const useCategories = () => {
   const requestStatus = useRequestStatus();
 
-  const get = ({ search = "", pageSize = 10, page = 1 }) => {
+  const get = ({ search = "", pageSize = 10, page = 1 }, signal) => {
     requestStatus.reset();
     requestStatus.setLoading(true);
     api.categories
-      .get({ search, pageSize, page })
+      .get({ search, pageSize, page }, signal)
       .then((res) => {
         const data = res.data;
         requestStatus.setData(data);

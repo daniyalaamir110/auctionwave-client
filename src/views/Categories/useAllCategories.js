@@ -1,6 +1,6 @@
 import useCategories from "@/hooks/useCategories";
 import useQuery from "@/hooks/useQuery";
-import { useEffect } from "react";
+import useSignalEffect from "@/hooks/useSignalEffect";
 
 const useAllCategories = () => {
   const categories = useCategories();
@@ -9,9 +9,12 @@ const useAllCategories = () => {
   const page = +(query.get("page") || 1);
   const search = query.get("search") || "";
 
-  useEffect(() => {
-    categories.get({ page, pageSize: 12, search });
-  }, [page, search]);
+  useSignalEffect(
+    (signal) => {
+      categories.get({ page, pageSize: 12, search }, signal);
+    },
+    [page, search]
+  );
 
   const count = categories.requestStatus.data?.count || 0;
 

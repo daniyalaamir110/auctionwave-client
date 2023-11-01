@@ -27,7 +27,10 @@ export const refresh = createAsyncThunk(
     const refreshToken = localStorage.getItem("refresh");
     if (refreshToken) {
       try {
-        const res = await api.auth.refresh({ refresh: refreshToken });
+        const res = await api.auth.refresh(
+          { refresh: refreshToken },
+          data.signal
+        );
         const { access } = res.data;
         localStorage.setItem("access", access);
       } catch (error) {

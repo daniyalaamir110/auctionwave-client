@@ -1,5 +1,6 @@
 import useAuctions from "@/hooks/useAuctions";
 import useQuery from "@/hooks/useQuery";
+import useSignalEffect from "@/hooks/useSignalEffect";
 import { useEffect } from "react";
 
 const useMyAuctions = () => {
@@ -13,9 +14,15 @@ const useMyAuctions = () => {
   const page = query.get("page") || 1;
   const status = query.get("status") || "ongoing";
 
-  useEffect(() => {
-    auctions.getMy({ search, category, minPrice, maxPrice, page, status });
-  }, [category, minPrice, maxPrice, search, page, status]);
+  useSignalEffect(
+    (signal) => {
+      auctions.getMy(
+        { search, category, minPrice, maxPrice, page, status },
+        signal
+      );
+    },
+    [category, minPrice, maxPrice, search, page, status]
+  );
 
   return {
     auctions,

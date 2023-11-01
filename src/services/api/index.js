@@ -1,18 +1,10 @@
 import { constructURL, sleep } from "@/utils";
 import axios from "axios";
 
-/**
- * Create an API instance pointing at the server's
- * base URL.
- */
 const apiInstance = axios.create({
   baseURL: "http://localhost:8000",
 });
 
-/**
- * Add an request interceptor to attach the access token
- * in the authorization header of each request.
- */
 apiInstance.interceptors.request.use(async (request) => {
   if (process.env.NODE_ENV === "development") {
     await sleep();
@@ -40,10 +32,10 @@ const auth = {
     return apiInstance.post(url, data);
   },
 
-  refresh: ({ refresh = "" }) => {
+  refresh: ({ refresh = "" }, signal) => {
     const url = "/auth/refresh/";
     const data = { refresh };
-    return apiInstance.post(url, data);
+    return apiInstance.post(url, data, { signal });
   },
 };
 
@@ -94,15 +86,18 @@ const users = {
 };
 
 const auctions = {
-  getAvailable: ({
-    search = "",
-    category = 0,
-    minPrice = "",
-    maxPrice = "",
-    ordering = "",
-    pageSize = 10,
-    page = 1,
-  }) => {
+  getAvailable: (
+    {
+      search = "",
+      category = 0,
+      minPrice = "",
+      maxPrice = "",
+      ordering = "",
+      pageSize = 10,
+      page = 1,
+    },
+    signal
+  ) => {
     const query = {
       search,
       category,
@@ -113,7 +108,7 @@ const auctions = {
       page,
     };
     const url = constructURL("/products/", query);
-    return apiInstance.get(url);
+    return apiInstance.get(url, { signal });
   },
 
   create: ({
@@ -140,14 +135,14 @@ const auctions = {
     return apiInstance.post("/products/", data, { headers });
   },
 
-  getById: (id = 0) => {
+  getById: (id = 0, signal) => {
     const url = `/products/${id}`;
-    return apiInstance.get(url);
+    return apiInstance.get(url, { signal });
   },
 
-  getTopBidsById: (id = 0) => {
+  getTopBidsById: (id = 0, signal) => {
     const url = `/products/${id}/bids`;
-    return apiInstance.get(url);
+    return apiInstance.get(url, { signal });
   },
 
   placeBidById: (id = 0, bidAmount = 0) => {
@@ -162,16 +157,19 @@ const auctions = {
     return apiInstance.patch(url, data);
   },
 
-  getMy: ({
-    search = "",
-    category = 0,
-    minPrice = "",
-    maxPrice = "",
-    ordering = "",
-    pageSize = 10,
-    page = 1,
-    status = "ongoing",
-  }) => {
+  getMy: (
+    {
+      search = "",
+      category = 0,
+      minPrice = "",
+      maxPrice = "",
+      ordering = "",
+      pageSize = 10,
+      page = 1,
+      status = "ongoing",
+    },
+    signal
+  ) => {
     const query = {
       search,
       category,
@@ -183,22 +181,33 @@ const auctions = {
       status,
     };
     const url = constructURL("/products/my/", query);
-    return apiInstance.get(url);
+    return apiInstance.get(url, { signal });
   },
 };
 
 const categories = {
-  get: ({ search = "", pageSize = 10, page = 1 }) => {
+  get: ({ search = "", pageSize = 10, page = 1 }, signal) => {
     const url = constructURL("/categories/", {
       search,
       page_size: pageSize,
       page,
     });
-    return apiInstance.get(url);
+    return apiInstance.get(url, { signal });
   },
 
-  getById: (id = 0) => {
+  getById: (id = 0, signal) => {
     const url = `/categories/${id}`;
+    return apiInstance.get(url, { signal });
+  },
+};
+
+const bids = {
+  get: ({ page = 1, pageSize = 10, status = "ongoing" }, signal) => {
+    const url = constructURL(
+      "/bids/",
+      { page, page_size: pageSize, status },
+      { signal }
+    );
     return apiInstance.get(url);
   },
 };
@@ -208,6 +217,7 @@ const api = {
   auth,
   categories,
   users,
+  bids,
 };
 
 export default api;

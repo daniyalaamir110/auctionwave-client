@@ -1,4 +1,5 @@
 import useQuery from "@/hooks/useQuery";
+import useSignalEffect from "@/hooks/useSignalEffect";
 import api from "@/services/api";
 import { clean, constructURL } from "@/utils";
 import { useFormik } from "formik";
@@ -60,17 +61,20 @@ const useFilters = () => {
     },
   });
 
-  useEffect(() => {
-    if (!!category) {
-      api.categories
-        .getById(category)
-        .then((res) => {
-          const category = res.data;
-          form.setFieldValue("category", category);
-        })
-        .catch((err) => {});
-    }
-  }, [category]);
+  useSignalEffect(
+    (signal) => {
+      if (!!category) {
+        api.categories
+          .getById(category, signal)
+          .then((res) => {
+            const category = res.data;
+            form.setFieldValue("category", category);
+          })
+          .catch((err) => {});
+      }
+    },
+    [category]
+  );
 
   return { form };
 };

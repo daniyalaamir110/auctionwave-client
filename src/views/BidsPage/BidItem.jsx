@@ -1,11 +1,37 @@
-import React from "react";
+import UserItem from "@/components/UserItem";
+import { formatNumber } from "@/utils";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
-const BidItem = () => {
+const BidItem = ({ bid, serialNo = 1 }) => {
   return (
-    <div className="p-[1rem] bg-blue-50 shadow rounded-lg flex flex-row gap-[1rem] items-center">
-      <Link to="/app/auctions/1">Honda Accord 2005</Link>
-    </div>
+    <tr className="bg-white border-b border-b-neutral-200 hover:bg-neutral-50">
+      <td className="px-6 py-4 min-w-max whitespace-nowrap">{serialNo}</td>
+      <td className="px-6 py-4 min-w-max whitespace-nowrap">
+        <Link
+          to={`/app/auctions/${bid.product.id}`}
+          className="underline text-blue-700 hover:text-blue-800 active:text-blue-900 flex flex-row items-center gap-[0.25rem]"
+        >
+          {bid.product.title}
+          <ArrowTopRightOnSquareIcon width={16} className="inline" />
+        </Link>
+      </td>
+      <td className="px-6 py-4 min-w-max whitespace-nowrap">
+        <UserItem user={bid.product.creator} />
+      </td>
+      <td className="px-6 py-4 min-w-max whitespace-nowrap">
+        {formatNumber(bid.bid_amount)}
+      </td>
+      <td className="px-6 py-4 min-w-max whitespace-nowrap">
+        <div className="flex items-center">
+          <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>{" "}
+          {bid.product.status}
+        </div>
+      </td>
+      <td className="px-6 py-4 min-w-max whitespace-nowrap">
+        {bid.rank ? `#${bid.rank}` : "–"}
+      </td>
+    </tr>
   );
 };
 

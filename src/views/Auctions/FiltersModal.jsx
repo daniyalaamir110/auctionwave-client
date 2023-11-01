@@ -5,10 +5,8 @@ import SearchInput from "@/components/SearchInput";
 import TextInput from "@/components/TextInput";
 import useSearchCategories from "@/hooks/useSearchCategories";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import useFilters from "./useFilters";
 
-const FiltersModal = ({ shown = false, hide = () => {} }) => {
-  const filters = useFilters();
+const FiltersModal = ({ shown = false, hide = () => {}, filters }) => {
   const searchCategories = useSearchCategories({ fetchFirst: true });
 
   return (

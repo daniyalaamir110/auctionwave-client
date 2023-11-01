@@ -1,4 +1,5 @@
 import useRequestStatus from "@/hooks/useRequestStatus";
+import useSignalEffect from "@/hooks/useSignalEffect";
 import useAuth from "@/redux/auth/useAuth";
 import api from "@/services/api";
 import { useFormik } from "formik";
@@ -16,11 +17,11 @@ const useAuction = () => {
 
   const auctionId = params.id;
 
-  const get = (id = 0) => {
+  const get = (id = 0, signal) => {
     status.reset();
     status.setLoading(true);
     api.auctions
-      .getById(id)
+      .getById(id, signal)
       .then((res) => {
         const { data } = res;
         status.setData(data);
@@ -51,10 +52,13 @@ const useAuction = () => {
       });
   };
 
-  useEffect(() => {
-    get(auctionId);
-    // eslint-disable-next-line
-  }, [auctionId]);
+  useSignalEffect(
+    (signal) => {
+      get(auctionId, signal);
+      // eslint-disable-next-line
+    },
+    [auctionId]
+  );
 
   const placeBid = (bidAmount = 0) => {
     bidStatus.reset();
