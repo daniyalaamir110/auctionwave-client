@@ -108,6 +108,7 @@ const auctions = {
       maxPrice = "",
       ordering = "",
       pageSize = 10,
+      exclude = 0,
       page = 1,
     },
     signal
@@ -118,6 +119,7 @@ const auctions = {
       min_price: minPrice,
       max_price: maxPrice,
       ordering,
+      exclude,
       page_size: pageSize,
       page,
     };

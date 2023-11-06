@@ -12,6 +12,7 @@ const useAuction = () => {
   const status = useRequestStatus();
   const bidStatus = useRequestStatus();
   const topBidsStatus = useRequestStatus();
+  const moreAuctionsStatus = useRequestStatus();
   const auth = useAuth();
 
   const auctionId = params.id;
@@ -25,6 +26,7 @@ const useAuction = () => {
         const { data } = res;
         status.setData(data);
         getTopBids(id);
+        getMoreAuctions(data.creator.id);
       })
       .catch(() => {
         status.setError("Error");
@@ -48,6 +50,23 @@ const useAuction = () => {
       })
       .finally(() => {
         topBidsStatus.setLoading(false);
+      });
+  };
+
+  const getMoreAuctions = (creatorId = 0) => {
+    moreAuctionsStatus.reset();
+    moreAuctionsStatus.setLoading(true);
+    api.auctions
+      .getAvailable({ creatorId, pageSize: 5, exclude: auctionId })
+      .then((res) => {
+        const { data } = res;
+        moreAuctionsStatus.setData(data);
+      })
+      .catch(() => {
+        moreAuctionsStatus.setError("Error");
+      })
+      .finally(() => {
+        moreAuctionsStatus.setLoading(false);
       });
   };
 
@@ -120,6 +139,7 @@ const useAuction = () => {
       canBid: auth.state.success,
     },
     topBids: { status: topBidsStatus },
+    moreAuctions: { status: moreAuctionsStatus },
   };
 };
 

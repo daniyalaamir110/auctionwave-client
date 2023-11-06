@@ -11,14 +11,17 @@ import {
   ArrowPathIcon,
   ArrowTopRightOnSquareIcon,
   BoltIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ClockIcon,
   EyeIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BidModal from "./BidModal";
 import useAuction from "./useAuction";
+import { useRef } from "react";
 
 const AuctionPage = () => {
   const auction = useAuction();
@@ -26,6 +29,12 @@ const AuctionPage = () => {
 
   const currentUserBid = auction.status.data?.current_user_bid;
   const navigate = useNavigate();
+
+  const moreAuctionsRef = useRef();
+
+  const onMoreAuctionsScroll = (x) => {
+    moreAuctionsRef.current?.scrollBy({ left: x, behavior: "smooth" });
+  };
 
   return (
     <div className="flex flex-col gap-[2rem]">
@@ -188,7 +197,10 @@ const AuctionPage = () => {
                 {auction.topBids.status.loading ? (
                   [...new Array(5)].map((_, idx) => {
                     return (
-                      <div className="h-[5rem] bg-neutral-100 rounded-lg animate-pulse p-[1rem] flex flex-row justify-between items-center">
+                      <div
+                        key={idx}
+                        className="h-[5rem] bg-neutral-100 rounded-lg animate-pulse p-[1rem] flex flex-row justify-between items-center"
+                      >
                         <UserItemLoading />
                         <div className="flex flex-col gap-[0.5rem] items-end">
                           <div className="h-[1.25rem] w-[4rem] bg-neutral-200 rounded-md" />
@@ -222,6 +234,57 @@ const AuctionPage = () => {
                 )}
               </div>
             </div>
+          </div>
+          <div className="relative max-w-[74rem] w-full">
+            <h2 className="text-2xl py-[1rem]">
+              More From {auction.status.data?.creator?.username}
+            </h2>
+            {!auction.moreAuctions.status.loading &&
+              !auction.moreAuctions.status.data?.results?.length && (
+                <Note text="No more auctions from this user" />
+              )}
+            <div
+              className="overflow-x-scroll flex flex-row gap-[1rem] items-center justify-start"
+              ref={moreAuctionsRef}
+            >
+              {auction.moreAuctions.status.loading
+                ? [...new Array(5)].map((_, idx) => (
+                    <div
+                      className="w-[16rem] h-[16rem] rounded-lg shadow-md bg-neutral-100 shrink-0 animate-pulse"
+                      key={idx}
+                    />
+                  ))
+                : auction.moreAuctions.status.data?.results?.map((item) => (
+                    <Link
+                      key={item.id}
+                      to={`/app/auctions/${item.id}`}
+                      className="w-[16rem] h-[16rem] rounded-lg shadow-md shrink-0 flex flex-row items-center justify-center overflow-x-hidden relative hover:shadow-lg transition-all"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="min-w-full min-h-full object-cover"
+                      />
+                      <div className="bg-neutral-900 bg-opacity-50 absolute bottom-0 left-0 p-[1rem]">
+                        <h3 className="w-full text-white text-xl line-clamp-2 overflow-hidden select-none font-bold">
+                          {item.title}
+                        </h3>
+                      </div>
+                    </Link>
+                  ))}
+            </div>
+            <button
+              className="absolute top-[50%] left-[1rem] -translate-y-[50%] h-[3rem] w-[3rem] shadow-lg bg-white rounded-full flex flex-col items-center justify-center hover:scale-110 transition-all"
+              onClick={() => onMoreAuctionsScroll(-16 * 16)}
+            >
+              <ChevronLeftIcon width={20} />
+            </button>
+            <button
+              className="absolute top-[50%] right-[1rem] -translate-y-[50%] h-[3rem] w-[3rem] shadow-lg bg-white rounded-full flex flex-col items-center justify-center hover:scale-110 transition-all"
+              onClick={() => onMoreAuctionsScroll(16 * 16)}
+            >
+              <ChevronRightIcon width={20} />
+            </button>
           </div>
           <BidModal
             hide={bidModal.hide}
