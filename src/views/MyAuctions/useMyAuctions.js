@@ -1,7 +1,6 @@
 import useAuctions from "@/hooks/useAuctions";
 import useQuery from "@/hooks/useQuery";
 import useSignalEffect from "@/hooks/useSignalEffect";
-import { useEffect } from "react";
 
 const useMyAuctions = () => {
   const auctions = useAuctions();

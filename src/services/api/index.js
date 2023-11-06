@@ -1,11 +1,12 @@
 import { constructURL, sleep } from "@/utils";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const apiInstance = axios.create({
   baseURL: "http://localhost:8000",
 });
 
-apiInstance.interceptors.request.use(async (request) => {
+apiInstance.interceptors.request.use(async (req) => {
   if (process.env.NODE_ENV === "development") {
     await sleep();
   }
@@ -13,11 +14,24 @@ apiInstance.interceptors.request.use(async (request) => {
   const access = localStorage.getItem("access");
 
   if (access) {
-    request.headers.Authorization = `Bearer ${access}`;
+    req.headers.Authorization = `Bearer ${access}`;
   }
 
-  return request;
+  return req;
 });
+
+apiInstance.interceptors.response.use(
+  (res) => {
+    return res;
+  },
+  (err) => {
+    if (err?.response?.data?.code === "token_not_valid") {
+      toast.error("Session expired. Please log in again.");
+    }
+
+    return err;
+  }
+);
 
 const auth = {
   login: ({ username = "", password = "" }) => {
@@ -192,6 +206,9 @@ const categories = {
       page_size: pageSize,
       page,
     });
+    if (signal) {
+      return apiInstance.get(url, { signal });
+    }
     return apiInstance.get(url, { signal });
   },
 
@@ -203,12 +220,8 @@ const categories = {
 
 const bids = {
   get: ({ page = 1, pageSize = 10, status = "ongoing" }, signal) => {
-    const url = constructURL(
-      "/bids/",
-      { page, page_size: pageSize, status },
-      { signal }
-    );
-    return apiInstance.get(url);
+    const url = constructURL("/bids/", { page, page_size: pageSize, status });
+    return apiInstance.get(url, { signal });
   },
 };
 

@@ -4,6 +4,7 @@ import {
   Cog8ToothIcon,
 } from "@heroicons/react/24/outline";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Item = ({
   text = "",
@@ -27,7 +28,7 @@ const Item = ({
 
 const AccountPopover = ({ shown = false, hide = () => {} }) => {
   const auth = useAuth();
-
+  const navigate = useNavigate();
   const ref = useRef();
 
   if (shown) {
@@ -44,6 +45,7 @@ const AccountPopover = ({ shown = false, hide = () => {} }) => {
           hide={hide}
           text="Settings"
           leftIcon={<Cog8ToothIcon width={16} />}
+          onClick={() => navigate("/app/settings")}
         />
         <Item
           hide={hide}

@@ -4,6 +4,7 @@ import useTab from "@/components/Tab/useTab";
 import {
   AdjustmentsHorizontalIcon,
   PlusIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import MyAuctionItem from "./MyAuctionItem";
@@ -17,10 +18,12 @@ import SearchInput from "@/components/SearchInput";
 import FiltersModal from "./FiltersModal";
 import MyAuctionItemLoading from "./MyAuctionItemLoading";
 import NoResultsIllustraionSrc from "@/assets/images/no-results-illustration.svg";
+import useFilters from "./useFilters";
 
 const MyAuctions = () => {
   const tabConfig = useTabConfig();
   const tab = useTab(tabConfig);
+  const filters = useFilters();
   const filtersModal = useModal();
   const search = useSearch();
   const navigate = useNavigate();
@@ -47,12 +50,20 @@ const MyAuctions = () => {
         selectedTabIdx={tab.selectedTabIdx}
       />
       <div className="max-w-[48rem] flex flex-col-reverse md:flex-row gap-[0.5rem]">
-        <Button
-          variant="secondary"
-          text="Apply Filters"
-          leftIcon={<AdjustmentsHorizontalIcon width={16} />}
-          onClick={filtersModal.show}
-        />
+        <div className="flex flex-row gap-[0.25rem] shrink-0">
+          <Button
+            variant="secondary"
+            text="Apply Filters"
+            leftIcon={<AdjustmentsHorizontalIcon width={16} />}
+            onClick={filtersModal.show}
+            badgeCount={filters.filterCount}
+          />
+          {filters.filterCount > 0 && (
+            <Button
+              leftIcon={<XMarkIcon width={16} onClick={filters.clearFilters} />}
+            />
+          )}
+        </div>
         <SearchInput
           id="search"
           name="search"
@@ -83,7 +94,11 @@ const MyAuctions = () => {
         </div>
       )}
       {!noResults && <Pagination {...pagination} />}
-      <FiltersModal shown={filtersModal.shown} hide={filtersModal.hide} />
+      <FiltersModal
+        shown={filtersModal.shown}
+        hide={filtersModal.hide}
+        filters={filters}
+      />
     </div>
   );
 };

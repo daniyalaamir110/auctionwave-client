@@ -2,14 +2,13 @@ import useQuery from "@/hooks/useQuery";
 import useRequestStatus from "@/hooks/useRequestStatus";
 import useSignalEffect from "@/hooks/useSignalEffect";
 import api from "@/services/api";
-import { useEffect } from "react";
 
 const useBids = () => {
   const status = useRequestStatus();
   const query = useQuery();
 
   const page = query.get("page") || 1;
-  const _status = query.get("status") || "ongoing";
+  const _status = query.get("status") || "pending";
 
   useSignalEffect(
     (signal) => {

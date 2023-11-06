@@ -3,7 +3,6 @@ import useSignalEffect from "@/hooks/useSignalEffect";
 import useAuth from "@/redux/auth/useAuth";
 import api from "@/services/api";
 import { useFormik } from "formik";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";

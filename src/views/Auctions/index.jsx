@@ -24,7 +24,7 @@ const Auctions = () => {
     !auctions.requestStatus.loading &&
     !auctions.requestStatus.data?.results?.length;
   const count = auctions.requestStatus.data?.count || 0;
-  const pagination = usePagination({ count, pageSize: 10 });
+  const pagination = usePagination({ count, pageSize: 12 });
 
   return (
     <div className="flex flex-col gap-[2rem] min-h-full max-w-[72rem]">

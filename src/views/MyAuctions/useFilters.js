@@ -3,7 +3,6 @@ import useSignalEffect from "@/hooks/useSignalEffect";
 import api from "@/services/api";
 import { clean, constructURL } from "@/utils";
 import { useFormik } from "formik";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useFilters = () => {
@@ -16,6 +15,8 @@ const useFilters = () => {
   const maxPrice = query.get("maxPrice") || "";
   const search = query.get("search") || "";
   const status = query.get("status") || "";
+
+  const filterCount = !!category + !!minPrice + !!maxPrice;
 
   const form = useFormik({
     initialValues: {
@@ -61,6 +62,11 @@ const useFilters = () => {
     },
   });
 
+  const clearFilters = () => {
+    const url = constructURL("/app/auctions/my", { search });
+    navigate(url);
+  };
+
   useSignalEffect(
     (signal) => {
       if (!!category) {
@@ -70,13 +76,15 @@ const useFilters = () => {
             const category = res.data;
             form.setFieldValue("category", category);
           })
-          .catch((err) => {});
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     [category]
   );
 
-  return { form };
+  return { form, clearFilters, filterCount };
 };
 
 export default useFilters;

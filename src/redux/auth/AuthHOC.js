@@ -1,7 +1,6 @@
 import AppLoader from "@/components/AppLoader";
-import { useCallback, useEffect } from "react";
-import useAuth from "./useAuth";
 import useSignalEffect from "@/hooks/useSignalEffect";
+import useAuth from "./useAuth";
 
 const AuthHOC = ({ children }) => {
   const auth = useAuth();

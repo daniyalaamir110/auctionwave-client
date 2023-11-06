@@ -15,7 +15,7 @@ const useAvailableAuctions = () => {
   useSignalEffect(
     (signal) => {
       auctions.getAvailable(
-        { search, category, minPrice, maxPrice, page },
+        { search, category, minPrice, maxPrice, page, pageSize: 12 },
         signal
       );
     },

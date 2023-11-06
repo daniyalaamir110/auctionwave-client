@@ -197,7 +197,7 @@ const CreateAuction = () => {
           text="Done"
           leftIcon={<CheckIcon width={16} />}
           onClick={createAuction.form.handleSubmit}
-          disabled={createAuction.requestStatus.loading}
+          loading={createAuction.requestStatus.loading}
         />
       </div>
     </div>

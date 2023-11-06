@@ -14,6 +14,7 @@ const useCategories = () => {
         requestStatus.setData(data);
       })
       .catch((err) => {
+        console.log(err);
         requestStatus.setError("Couldn't fetch categories.");
       })
       .finally(() => {

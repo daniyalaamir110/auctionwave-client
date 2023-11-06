@@ -3,7 +3,6 @@ import useSignalEffect from "@/hooks/useSignalEffect";
 import api from "@/services/api";
 import { clean, constructURL } from "@/utils";
 import { useFormik } from "formik";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useFilters = () => {
@@ -73,7 +72,9 @@ const useFilters = () => {
             const category = res.data;
             form.setFieldValue("category", category);
           })
-          .catch((err) => {});
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     [category]

@@ -28,7 +28,7 @@ const AuctionItem = ({ auction }) => {
           {auction.category.title}
         </p>
         <div>
-          <h2 className="text-xl">{auction.title}</h2>
+          <h2 className="text-xl line-clamp-1">{auction.title}</h2>
           <p className="text-xs text-neutral-400 uppercase">
             {getTimeAgo(auction.created_at)}
           </p>

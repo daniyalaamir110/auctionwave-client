@@ -1,26 +1,22 @@
 import useQuery from "@/hooks/useQuery";
 import {
-  ClipboardDocumentCheckIcon,
   ClockIcon,
-  LockClosedIcon,
+  HandThumbDownIcon,
+  TrophyIcon,
 } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const items = [
-  { name: "Ongoing", id: "ongoing", icon: <ClockIcon width={16} /> },
-  { name: "Finished", id: "finished", icon: <LockClosedIcon width={16} /> },
-  {
-    name: "Sold",
-    id: "sold",
-    icon: <ClipboardDocumentCheckIcon width={16} />,
-  },
+  { name: "Pending", id: "pending", icon: <ClockIcon width={16} /> },
+  { name: "Won", id: "won", icon: <TrophyIcon width={16} /> },
+  { name: "Lost", id: "lost", icon: <HandThumbDownIcon width={16} /> },
 ];
 
 const useTabConfig = () => {
   const navigate = useNavigate();
   const query = useQuery();
-  const status = query.get("status") || "ongoing";
+  const status = query.get("status") || "pending";
 
   return useMemo(
     () => ({

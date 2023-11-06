@@ -4,7 +4,7 @@ import useModal from "@/components/Modal/useModal";
 import Note from "@/components/Note";
 import Paragraph from "@/components/Paragraph";
 import TimeLeft from "@/components/TimeLeft";
-import UserItem from "@/components/UserItem";
+import UserItem, { UserItemLoading } from "@/components/UserItem";
 import { formatNumber, getPercentageTimeLeft } from "@/utils";
 import {
   ArrowDownOnSquareIcon,
@@ -186,7 +186,17 @@ const AuctionPage = () => {
               </div>
               <div className="flex flex-col gap-[1rem]">
                 {auction.topBids.status.loading ? (
-                  <Note text="Loading top bids" loading />
+                  [...new Array(5)].map((_, idx) => {
+                    return (
+                      <div className="h-[5rem] bg-neutral-100 rounded-lg animate-pulse p-[1rem] flex flex-row justify-between items-center">
+                        <UserItemLoading />
+                        <div className="flex flex-col gap-[0.5rem] items-end">
+                          <div className="h-[1.25rem] w-[4rem] bg-neutral-200 rounded-md" />
+                          <div className="h-[1rem] w-[3rem] bg-neutral-200 rounded-md" />
+                        </div>
+                      </div>
+                    );
+                  })
                 ) : !auction.topBids.status.data?.length ? (
                   <Note text="Be the first to place a bid! Start the excitement now – there are no bids to show yet." />
                 ) : (
