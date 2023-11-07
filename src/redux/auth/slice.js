@@ -20,7 +20,8 @@ const authSlice = createSlice({
       state.user = initialState.user;
       state.verifying = initialState.verifying;
       state.loading = initialState.loading;
-      localStorage.clear();
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
       toast.info("Logged out");
     },
   },

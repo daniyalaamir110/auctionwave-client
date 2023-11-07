@@ -34,7 +34,8 @@ export const refresh = createAsyncThunk(
         const { access } = res.data;
         localStorage.setItem("access", access);
       } catch (error) {
-        localStorage.clear();
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
         const message = error.response?.data?.detail || "Something went wrong";
         toast.error(message);
         return rejectWithValue(message);
@@ -56,7 +57,8 @@ export const verify = createAsyncThunk(
         toast.success("Welcome back");
         return fulfillWithValue(res.data);
       } catch (error) {
-        localStorage.clear();
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
         const message = error.response?.data?.detail || "Something went wrong";
         toast.error(message);
         return rejectWithValue(message);

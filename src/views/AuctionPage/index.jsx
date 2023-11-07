@@ -1,4 +1,5 @@
 import AppLogoWithoutTitleSrc from "@/assets/images/app-logo-without-title.png";
+import NoBidsIllustrationSrc from "@/assets/images/no-bids-illustration.svg";
 import Button from "@/components/Button";
 import useModal from "@/components/Modal/useModal";
 import Note from "@/components/Note";
@@ -210,7 +211,14 @@ const AuctionPage = () => {
                     );
                   })
                 ) : !auction.topBids.status.data?.length ? (
-                  <Note text="Be the first to place a bid! Start the excitement now – there are no bids to show yet." />
+                  <>
+                    <Note text="No bids to show" />
+                    <img
+                      src={NoBidsIllustrationSrc}
+                      alt="no bids"
+                      className="max-h-[24rem] my-[2rem]"
+                    />
+                  </>
                 ) : (
                   auction.topBids.status.data.map((item, idx) => {
                     const isFirst = idx === 0;
