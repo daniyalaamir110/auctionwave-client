@@ -4,11 +4,11 @@ import useRequestStatus from "./useRequestStatus";
 const useLoadUsernames = () => {
   const requestStatus = useRequestStatus();
 
-  const load = (firstName = "", lastName = "") => {
+  const load = (firstName = "", lastName = "", signal) => {
     requestStatus.reset();
     requestStatus.setLoading(true);
     api.users
-      .getUsernameSuggestions({ firstName, lastName })
+      .getUsernameSuggestions({ firstName, lastName }, signal)
       .then((res) => {
         requestStatus.setData(res.data);
       })

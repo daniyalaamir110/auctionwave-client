@@ -2,7 +2,7 @@ import DefaultAvatarSrc from "@/assets/images/default-avatar.jpg";
 import LoadingSpinner from "../LoadingSpinner";
 import { memo } from "react";
 
-const Avatar = memo(({ loading = false, large = false }) => {
+const Avatar = memo(({ loading = false, large = false, src = null }) => {
   const length = `${large ? 15.125 : 3}rem`;
   return (
     <div
@@ -15,7 +15,11 @@ const Avatar = memo(({ loading = false, large = false }) => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <img src={DefaultAvatarSrc} alt="avatar" className="w-full" />
+        <img
+          src={!src ? DefaultAvatarSrc : src}
+          alt="avatar"
+          className="w-full"
+        />
       )}
     </div>
   );

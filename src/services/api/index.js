@@ -77,13 +77,13 @@ const users = {
     return apiInstance.post(url, data);
   },
 
-  getUsernameSuggestions: ({ firstName = "", lastName = "" }) => {
+  getUsernameSuggestions: ({ firstName = "", lastName = "" }, signal) => {
     const url = "/users/username-suggestions/";
     const data = {
       first_name: firstName,
       last_name: lastName,
     };
-    return apiInstance.post(url, data);
+    return apiInstance.post(url, data, { signal });
   },
 
   getUsernameAvailability: ({ username = "" }) => {
@@ -96,6 +96,30 @@ const users = {
     const url = "/users/email-availability/";
     const data = { email };
     return apiInstance.post(url, data);
+  },
+
+  changeName: ({ firstName = "", lastName = "" }) => {
+    const url = "/users/me/";
+    const data = { first_name: firstName, last_name: lastName };
+    return apiInstance.patch(url, data);
+  },
+
+  changeEmail: ({ email = "" }) => {
+    const url = "/users/me/";
+    const data = { email };
+    return apiInstance.patch(url, data);
+  },
+
+  changeUsername: ({ username = "" }) => {
+    const url = "/users/me/";
+    const data = { username };
+    return apiInstance.patch(url, data);
+  },
+
+  changePassword: ({ password }) => {
+    const url = "/users/me/password/";
+    const data = { password };
+    return apiInstance.put(url, data);
   },
 };
 

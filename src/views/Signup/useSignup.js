@@ -134,9 +134,9 @@ const useSignup = () => {
 
   // Fetch username suggestions if firstname and lastname are valid
   useDebounce(
-    () => {
+    (signal) => {
       if (form.values.firstName && form.values.lastName) {
-        loadUsernames.load(form.values.firstName, form.values.lastName);
+        loadUsernames.load(form.values.firstName, form.values.lastName, signal);
       } else {
         loadUsernames.clear();
       }

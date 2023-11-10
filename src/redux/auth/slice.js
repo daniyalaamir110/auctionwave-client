@@ -24,6 +24,9 @@ const authSlice = createSlice({
       localStorage.removeItem("refresh");
       toast.info("Logged out");
     },
+    updateUser: (state, { payload }) => {
+      state.user = payload;
+    },
   },
   extraReducers: (builder) => {
     /**

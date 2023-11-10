@@ -29,9 +29,16 @@ const useAuth = () => {
     dispatch(actions.logout());
   }, [dispatch]);
 
+  const updateUser = useCallback(
+    (user) => {
+      dispatch(actions.updateUser(user));
+    },
+    [dispatch]
+  );
+
   return useMemo(
-    () => ({ state, login, verify, refresh, logout }),
-    [state, login, verify, refresh, logout]
+    () => ({ state, login, verify, refresh, logout, updateUser }),
+    [state, login, verify, refresh, logout, updateUser]
   );
 };
 

@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import useSignalEffect from "./useSignalEffect";
 
 const useDebounce = (callback = () => {}, timer = 0, dependencyArray = []) => {
-  useEffect(() => {
-    const timeout = setTimeout(callback, timer);
+  useSignalEffect((signal) => {
+    const timeout = setTimeout(() => callback(signal), timer);
     return () => {
       clearTimeout(timeout);
     };

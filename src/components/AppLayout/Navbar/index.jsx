@@ -113,7 +113,7 @@ const Navbar = memo(({ onClickMenu = () => {} }) => {
                     accountPopover.shown && "scale-110"
                   }`}
                 >
-                  <Avatar />
+                  <Avatar src={auth.state.user?.profile_image} />
                 </button>
                 <AccountPopover
                   shown={accountPopover.shown}

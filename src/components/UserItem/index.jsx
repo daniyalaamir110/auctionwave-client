@@ -23,7 +23,7 @@ const UserItem = ({ user }) => {
   return (
     <div className="flex flex-row gap-[1rem] items-center">
       <div className="shrink-0">
-        <Avatar />
+        <Avatar src={user?.profile_image} />
       </div>
       <Link
         to={`/app/users/${user.id}`}
