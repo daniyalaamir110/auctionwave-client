@@ -27,6 +27,9 @@ const authSlice = createSlice({
     updateUser: (state, { payload }) => {
       state.user = payload;
     },
+    updateProfileImage: (state, { payload }) => {
+      state.user.profile_image = payload;
+    },
   },
   extraReducers: (builder) => {
     /**

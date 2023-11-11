@@ -10,6 +10,9 @@ import useSettings from "./useSettings";
 import Avatar from "@/components/Avatar";
 import LoadingItems from "@/components/LoadingItems";
 import useAuth from "@/redux/auth/useAuth";
+import useModal from "@/components/Modal/useModal";
+import Modal from "@/components/Modal";
+import ImageInput from "@/components/ImageInput";
 
 const EditContainer = ({
   children,
@@ -60,6 +63,7 @@ const EditContainer = ({
 const SettingsPage = () => {
   const settings = useSettings();
   const auth = useAuth();
+  const profileImageModal = useModal();
 
   return (
     <div className="flex flex-col gap-[2rem]">
@@ -236,7 +240,52 @@ const SettingsPage = () => {
             Profile Photo
           </h2>
           <Avatar src={auth.state.user?.profile_image} large />
-          <Button text="Edit" leftIcon={<PencilIcon width={16} />} />
+          <Button
+            text="Edit"
+            leftIcon={<PencilIcon width={16} />}
+            onClick={profileImageModal.show}
+          />
+          <Modal
+            shown={profileImageModal.shown}
+            hide={profileImageModal.hide}
+            title="Change profile image"
+          >
+            <div className="flex flex-col gap-[1rem] w-full">
+              <ImageInput
+                label="Profile image"
+                helperText="Provide a clear and good image for your profile to display"
+                required
+                name="profileImage"
+                id="profileImage"
+                disabled={settings.forms.changeProfileImage.status.loading}
+                value={
+                  settings.forms.changeProfileImage.form.values.profileImage
+                }
+                touched={
+                  settings.forms.changeProfileImage.form.touched.profileImage
+                }
+                error={
+                  settings.forms.changeProfileImage.form.errors.profileImage
+                }
+                onChange={(event) => {
+                  settings.forms.changeProfileImage.form.setFieldTouched(
+                    "profileImage",
+                    true
+                  );
+                  settings.forms.changeProfileImage.form.setFieldValue(
+                    "profileImage",
+                    event.currentTarget.files[0]
+                  );
+                }}
+              />
+              <Button
+                text="Done"
+                leftIcon={<CheckIcon width={16} />}
+                onClick={settings.forms.changeProfileImage.form.handleSubmit}
+                loading={settings.forms.changeProfileImage.status.loading}
+              />
+            </div>
+          </Modal>
         </div>
       </div>
     </div>

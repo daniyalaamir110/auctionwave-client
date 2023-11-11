@@ -1,8 +1,10 @@
+import { MAX_IMAGE_FILE_SIZE } from "@/constants";
 import useLoadUsernames from "@/hooks/useLoadUsernames";
 import useRequestStatus from "@/hooks/useRequestStatus";
 import useSignalEffect from "@/hooks/useSignalEffect";
 import useAuth from "@/redux/auth/useAuth";
 import api from "@/services/api";
+import { isValidFileType } from "@/utils";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -19,6 +21,7 @@ const useSettings = () => {
   const emailStatus = useRequestStatus();
   const [editingPassword, setEditingPassword] = useState(false);
   const passwordStatus = useRequestStatus();
+  const profileImageStatus = useRequestStatus();
 
   const loadUsernames = useLoadUsernames();
 
@@ -133,6 +136,40 @@ const useSettings = () => {
     },
   });
 
+  const changeProfileImageForm = useFormik({
+    initialValues: {
+      profileImage: null,
+    },
+    validationSchema: Yup.object().shape({
+      profileImage: Yup.mixed()
+        .required("Required")
+        .test("is-valid-type", "Not a valid image type", (value) =>
+          isValidFileType(value && value.name.toLowerCase(), "image")
+        )
+        .test(
+          "is-valid-size",
+          "Max allowed size is 5MB",
+          (value) => value && value.size <= MAX_IMAGE_FILE_SIZE
+        ),
+    }),
+    onSubmit: (values, handlers) => {
+      profileImageStatus.setLoading(true);
+      api.users
+        .changeProfileImage(values)
+        .then((res) => {
+          toast.success("Profile image updated successfully");
+          handlers.resetForm();
+          auth.updateProfileImage(res.data.profile_image);
+        })
+        .catch((err) => {
+          toast.error("Error updating profile image");
+        })
+        .finally(() => {
+          profileImageStatus.setLoading(false);
+        });
+    },
+  });
+
   useSignalEffect(
     (signal) => {
       loadUsernames.load(
@@ -193,6 +230,10 @@ const useSettings = () => {
           select: selectUsername,
           isSelected: isUsername,
         },
+      },
+      changeProfileImage: {
+        form: changeProfileImageForm,
+        status: profileImageStatus,
       },
     },
   };

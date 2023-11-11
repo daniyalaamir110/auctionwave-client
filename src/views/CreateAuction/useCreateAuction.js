@@ -1,4 +1,4 @@
-import { MAX_FILE_SIZE } from "@/constants";
+import { MAX_IMAGE_FILE_SIZE } from "@/constants";
 import useRequestStatus from "@/hooks/useRequestStatus";
 import api from "@/services/api";
 import { isValidFileType } from "@/utils";
@@ -34,7 +34,7 @@ const useCreateAuction = () => {
         .test(
           "is-valid-size",
           "Max allowed size is 5MB",
-          (value) => value && value.size <= MAX_FILE_SIZE
+          (value) => value && value.size <= MAX_IMAGE_FILE_SIZE
         ),
       basePrice: Yup.number()
         .required("Base price is required")
@@ -67,7 +67,6 @@ const useCreateAuction = () => {
     }),
     validateOnMount: true,
     validateOnBlur: true,
-    validateOnChange: false,
     onSubmit: (values, helpers) => {
       const { validTillDate, validTillTime } = values;
       const combinedDateTime = moment(

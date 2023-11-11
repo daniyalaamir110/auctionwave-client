@@ -1,11 +1,12 @@
 import Button from "@/components/Button";
-import FileInput from "@/components/FileInput";
+import ImageInput from "@/components/ImageInput";
 import LoadingItems from "@/components/LoadingItems";
 import SearchInput from "@/components/SearchInput";
 import TextInput from "@/components/TextInput";
 import useSearchCategories from "@/hooks/useSearchCategories";
 import { CheckIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import useCreateAuction from "./useCreateAuction";
+import RichTextEditor from "@/components/RichTextEditor";
 
 const CreateAuction = () => {
   const createAuction = useCreateAuction();
@@ -172,10 +173,10 @@ const CreateAuction = () => {
           value={createAuction.form.values.details}
           touched={createAuction.form.touched.details}
           error={createAuction.form.errors.details}
-                    onChange={createAuction.form.handleChange("details")}
+          onChange={createAuction.form.handleChange("details")}
           onBlur={createAuction.form.handleBlur("details")}
         /> */}
-        <FileInput
+        <ImageInput
           label="Display image"
           helperText="Provide a suitable image for your auction item to display"
           required

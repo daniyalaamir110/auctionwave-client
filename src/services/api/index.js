@@ -121,6 +121,20 @@ const users = {
     const data = { password };
     return apiInstance.put(url, data);
   },
+
+  changeProfileImage: ({ profileImage }) => {
+    const data = new FormData();
+
+    data.append("profile_image", profileImage);
+
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+
+    const url = "/users/me/profile_image/";
+
+    return apiInstance.put(url, data, { headers });
+  },
 };
 
 const auctions = {
@@ -147,7 +161,9 @@ const auctions = {
       page_size: pageSize,
       page,
     };
+
     const url = constructURL("/products/", query);
+
     return apiInstance.get(url, { signal });
   },
 
@@ -172,7 +188,9 @@ const auctions = {
       "Content-Type": "multipart/form-data",
     };
 
-    return apiInstance.post("/products/", data, { headers });
+    const url = "/products/";
+
+    return apiInstance.post(url, data, { headers });
   },
 
   getById: (id = 0, signal) => {

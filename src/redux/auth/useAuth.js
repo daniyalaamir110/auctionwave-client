@@ -36,9 +36,24 @@ const useAuth = () => {
     [dispatch]
   );
 
+  const updateProfileImage = useCallback(
+    (profileImage) => {
+      dispatch(actions.updateProfileImage(profileImage));
+    },
+    [dispatch]
+  );
+
   return useMemo(
-    () => ({ state, login, verify, refresh, logout, updateUser }),
-    [state, login, verify, refresh, logout, updateUser]
+    () => ({
+      state,
+      login,
+      verify,
+      refresh,
+      logout,
+      updateUser,
+      updateProfileImage,
+    }),
+    [state, login, verify, refresh, logout, updateUser, updateProfileImage]
   );
 };
 
