@@ -26,7 +26,7 @@ const Tab = ({
     <div className="flex flex-row items-center relative w-full overflow-scroll">
       {items.map((item, idx) => (
         <TabItem
-          key={idx}
+          key={item.id}
           text={item.name}
           icon={item.icon}
           selected={idx === selectedTabIdx}

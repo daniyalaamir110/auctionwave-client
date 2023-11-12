@@ -37,7 +37,7 @@ const SideMenu = () => {
     <div className="flex flex-col gap-[1rem]">
       {auth.state.success ? (
         sideMenuConifg.items.map((item, idx) => (
-          <SideLink {...item} match={isMatch(item.to)} key={idx} />
+          <SideLink {...item} match={isMatch(item.to)} key={item.to} />
         ))
       ) : (
         <>

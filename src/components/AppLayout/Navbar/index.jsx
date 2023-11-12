@@ -22,8 +22,6 @@ import navbarConfig from "./navbarConfig";
 import useNavbarCollapse from "./useNavbarCollapse";
 
 const NavItem = memo(({ text, to = "/", icon = null, match = false }) => {
-  console.log("rerender " + text);
-
   return (
     <NavLink
       to={to}
@@ -50,7 +48,7 @@ const NavItemList = memo(() => {
   );
 
   return navbarConfig.items.map((item, idx) => (
-    <NavItem {...item} match={isMatch(item.to)} key={idx} />
+    <NavItem {...item} match={isMatch(item.to)} key={item.to} />
   ));
 });
 

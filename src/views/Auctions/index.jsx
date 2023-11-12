@@ -71,8 +71,8 @@ const Auctions = () => {
           <div className="flex flex-row gap-[2rem] w-full flex-wrap">
             {auctions.requestStatus.loading
               ? [...Array(3)].map((_, idx) => <AuctionItemLoading key={idx} />)
-              : auctions.requestStatus.data?.results?.map?.((auction, idx) => (
-                  <AuctionItem key={idx} auction={auction} />
+              : auctions.requestStatus.data?.results?.map?.((auction) => (
+                  <AuctionItem key={auction.id} auction={auction} />
                 ))}
           </div>
         )}

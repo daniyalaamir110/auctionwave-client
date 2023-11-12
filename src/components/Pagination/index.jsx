@@ -53,7 +53,7 @@ const Pagination = ({
         return (
           <PaginationButton
             onClick={() => setPage(pageNumber)}
-            key={idx}
+            key={pageNumber}
             active={pageNumber === currentPage}
           >
             {pageNumber}

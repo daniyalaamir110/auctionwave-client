@@ -88,8 +88,8 @@ const MyAuctions = () => {
         <div className="flex flex-col gap-[1rem] flex-1">
           {auctions.requestStatus.loading
             ? [...Array(3)].map((_, idx) => <MyAuctionItemLoading key={idx} />)
-            : auctions.requestStatus.data?.results?.map?.((auction, idx) => (
-                <MyAuctionItem key={idx} auction={auction} />
+            : auctions.requestStatus.data?.results?.map?.((auction) => (
+                <MyAuctionItem key={auction.id} auction={auction} />
               ))}
         </div>
       )}
