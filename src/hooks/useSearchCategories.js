@@ -2,7 +2,13 @@ import { useState } from "react";
 import useCategories from "./useCategories";
 import useSignalEffect from "./useSignalEffect";
 
-const useSearchCategories = ({ fetchFirst = false } = {}) => {
+/**
+ * This hook handles the categories from server
+ * @param {boolean} fetchFirst
+ * Should automatically fetch the categories initially?
+ * @returns
+ */
+const useSearchCategories = (fetchFirst = false) => {
   const categories = useCategories();
 
   const [value, setValue] = useState("");

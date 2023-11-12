@@ -7,7 +7,7 @@ import useSearchCategories from "@/hooks/useSearchCategories";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const FiltersModal = ({ shown = false, hide = () => {}, filters }) => {
-  const searchCategories = useSearchCategories({ fetchFirst: true });
+  const searchCategories = useSearchCategories(true);
 
   return (
     <Modal shown={shown} hide={hide} title="Apply Filters">

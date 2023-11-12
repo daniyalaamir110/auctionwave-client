@@ -31,6 +31,11 @@ const reducer = createReducer(initialState, (builder) => {
   builder.addCase(actions.reset, () => ({ ...initialState }));
 });
 
+/**
+ * This hook manages the state of API request. It provides
+ * functions to alter the state, and state variables to leverge
+ * the app UI logic.
+ */
 const useRequestStatus = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
