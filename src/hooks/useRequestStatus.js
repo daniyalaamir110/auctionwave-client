@@ -69,14 +69,6 @@ const useRequestStatus = () => {
       setData,
       reset,
     },
-    loading,
-    error,
-    data,
-    setState,
-    setLoading,
-    setError,
-    setData,
-    reset,
   };
 };
 
