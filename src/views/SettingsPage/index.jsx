@@ -1,18 +1,18 @@
+import Avatar from "@/components/Avatar";
 import Button from "@/components/Button";
+import ImageInput from "@/components/ImageInput";
+import LoadingItems from "@/components/LoadingItems";
+import Modal from "@/components/Modal";
+import useModal from "@/components/Modal/useModal";
 import TextInput from "@/components/TextInput";
+import useAuth from "@/redux/auth/useAuth";
 import {
   CheckIcon,
-  PencilIcon,
   PencilSquareIcon,
+  TrashIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import useSettings from "./useSettings";
-import Avatar from "@/components/Avatar";
-import LoadingItems from "@/components/LoadingItems";
-import useAuth from "@/redux/auth/useAuth";
-import useModal from "@/components/Modal/useModal";
-import Modal from "@/components/Modal";
-import ImageInput from "@/components/ImageInput";
 
 const EditContainer = ({
   children,
@@ -22,6 +22,7 @@ const EditContainer = ({
   label = "",
   defaultValue = "",
   onSubmit = () => {},
+  onCancel = () => {},
 }) => (
   <div className="flex flex-col gap-[0.5rem]">
     <label className="text-lg">{label}</label>
@@ -51,7 +52,10 @@ const EditContainer = ({
             text="Cancel"
             variant="secondary"
             leftIcon={<XMarkIcon width={16} />}
-            onClick={() => setEditing(false)}
+            onClick={() => {
+              setEditing(false);
+              onCancel();
+            }}
             disabled={status.loading}
           />
         </div>
@@ -77,6 +81,7 @@ const SettingsPage = () => {
             setEditing={settings.forms.changeName.setEditing}
             defaultValue={settings.forms.changeName.defaultValue}
             onSubmit={settings.forms.changeName.form.handleSubmit}
+            onCancel={settings.forms.changeName.form.resetForm}
           >
             <div className="flex flex-row gap-[1rem] items-center">
               <TextInput
@@ -118,6 +123,7 @@ const SettingsPage = () => {
             setEditing={settings.forms.changeUsername.setEditing}
             defaultValue={settings.forms.changeUsername.defaultValue}
             onSubmit={settings.forms.changeUsername.form.handleSubmit}
+            onCancel={settings.forms.changeUsername.form.resetForm}
           >
             <TextInput
               label="Username"
@@ -173,6 +179,7 @@ const SettingsPage = () => {
             setEditing={settings.forms.changeEmail.setEditing}
             defaultValue={settings.forms.changeEmail.defaultValue}
             onSubmit={settings.forms.changeEmail.form.handleSubmit}
+            onCancel={settings.forms.changeEmail.form.resetForm}
           >
             <TextInput
               label="Email"
@@ -196,6 +203,7 @@ const SettingsPage = () => {
             setEditing={settings.forms.changePassword.setEditing}
             defaultValue={settings.forms.changePassword.defaultValue}
             onSubmit={settings.forms.changePassword.form.handleSubmit}
+            onCancel={settings.forms.changePassword.form.resetForm}
           >
             <TextInput
               label="New password"
@@ -240,14 +248,28 @@ const SettingsPage = () => {
             Profile Photo
           </h2>
           <Avatar src={auth.state.user?.profile_image} large />
-          <Button
-            text="Edit"
-            leftIcon={<PencilIcon width={16} />}
-            onClick={profileImageModal.show}
-          />
+          <div className="flex flex-row items-center gap-[1rem]">
+            <Button
+              text="Edit"
+              leftIcon={<PencilSquareIcon width={16} />}
+              onClick={profileImageModal.show}
+            />
+            {!!auth.state.user?.profile_image && (
+              <Button
+                text="Remove"
+                leftIcon={<TrashIcon width={16} />}
+                onClick={settings.forms.removeProfileImage.handler}
+                loading={settings.forms.removeProfileImage.status.loading}
+                variant="danger"
+              />
+            )}
+          </div>
           <Modal
             shown={profileImageModal.shown}
-            hide={profileImageModal.hide}
+            hide={() => {
+              profileImageModal.hide();
+              settings.forms.changeProfileImage.form.resetForm();
+            }}
             title="Change profile image"
           >
             <div className="flex flex-col gap-[1rem] w-full">

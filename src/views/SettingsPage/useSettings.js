@@ -22,6 +22,7 @@ const useSettings = () => {
   const [editingPassword, setEditingPassword] = useState(false);
   const passwordStatus = useRequestStatus();
   const profileImageStatus = useRequestStatus();
+  const profileImageRemoveStatus = useRequestStatus();
 
   const loadUsernames = useLoadUsernames();
 
@@ -170,6 +171,22 @@ const useSettings = () => {
     },
   });
 
+  const removeProfileImage = () => {
+    profileImageRemoveStatus.setLoading(true);
+    api.users
+      .removeProfileImage()
+      .then(() => {
+        toast.success("Profile image removed successfully");
+        auth.updateProfileImage(null);
+      })
+      .catch((err) => {
+        toast.error("Error removing profile image");
+      })
+      .finally(() => {
+        profileImageRemoveStatus.setLoading(false);
+      });
+  };
+
   useSignalEffect(
     (signal) => {
       loadUsernames.load(
@@ -234,6 +251,10 @@ const useSettings = () => {
       changeProfileImage: {
         form: changeProfileImageForm,
         status: profileImageStatus,
+      },
+      removeProfileImage: {
+        handler: removeProfileImage,
+        status: profileImageRemoveStatus,
       },
     },
   };

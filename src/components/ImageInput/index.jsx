@@ -49,7 +49,7 @@ const ImageInput = ({
         <div className="flex items-center justify-center w-full">
           <label
             htmlFor={id}
-            className={`flex flex-col items-center justify-center w-full h-64 border-2 relative overflow-hidden ${
+            className={`flex flex-col items-center justify-center w-full h-[24rem] border-2 relative overflow-hidden ${
               valid
                 ? "border-green-500"
                 : !!errorToShow
@@ -61,10 +61,10 @@ const ImageInput = ({
               <img
                 src={url}
                 alt="preview"
-                className="min-w-full min-h-full absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+                className="max-w-full max-h-full object-contain absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
               />
             )}
-            <div className="flex flex-col items-center justify-center pt-5 pb-6 z-10 w-full h-full">
+            <div className="flex flex-col items-center justify-center p-[1rem] rounded-lg z-10 bg-white bg-opacity-50">
               <svg
                 className="w-8 h-8 mb-4"
                 aria-hidden="true"

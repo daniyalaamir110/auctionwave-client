@@ -135,6 +135,12 @@ const users = {
 
     return apiInstance.put(url, data, { headers });
   },
+
+  removeProfileImage: () => {
+    const url = "/users/me/profile_image/";
+
+    return apiInstance.delete(url);
+  },
 };
 
 const auctions = {

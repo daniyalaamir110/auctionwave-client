@@ -19,6 +19,8 @@ const Button = memo(
         className={`flex min-w-fit items-center justify-center gap-[0.25rem] px-3.5 py-2.5 font-medium text-center rounded-md disabled:cursor-not-allowed transition-all select-none ${
           variant === "secondary"
             ? "text-blue-900 bg-white rounded-lg border border-blue-200 hover:bg-blue-100 hover:text-blue-700 disabled:text-blue-400"
+            : variant === "danger"
+            ? "text-white bg-cerise-600 hover:bg-cerise-700 active:bg-cerise-800 disabled:bg-cerise-400"
             : "text-white bg-blue-700 hover:bg-blue-800 active:bg-blue-900 disabled:bg-blue-400"
         } ${large ? "text-lg" : "text-sm"}`}
         onClick={onClick}

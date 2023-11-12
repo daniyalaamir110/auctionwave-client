@@ -13,8 +13,8 @@ export const login = createAsyncThunk(
       const meRes = await api.users.me();
       toast.success("Logged in successfully");
       return fulfillWithValue(meRes.data);
-    } catch (error) {
-      const message = error.response?.data?.detail || "Something went wrong";
+    } catch (err) {
+      const message = err.response?.data?.detail || "Something went wrong";
       toast.error(message);
       return rejectWithValue(message);
     }
@@ -33,10 +33,10 @@ export const refresh = createAsyncThunk(
         );
         const { access } = res.data;
         localStorage.setItem("access", access);
-      } catch (error) {
+      } catch (err) {
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
-        const message = error.response?.data?.detail || "Something went wrong";
+        const message = err.response?.data?.detail || "Something went wrong";
         toast.error(message);
         return rejectWithValue(message);
       }
@@ -48,7 +48,7 @@ export const refresh = createAsyncThunk(
 
 export const verify = createAsyncThunk(
   "auth/verify",
-  async (data, { rejectWithValue, fulfillWithValue }) => {
+  async (_, { rejectWithValue, fulfillWithValue }) => {
     const token = localStorage.getItem("access");
     if (token) {
       try {
@@ -56,10 +56,10 @@ export const verify = createAsyncThunk(
         const res = await api.users.me();
         toast.success("Welcome back");
         return fulfillWithValue(res.data);
-      } catch (error) {
+      } catch (err) {
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
-        const message = error.response?.data?.detail || "Something went wrong";
+        const message = err.response?.data?.detail || "Something went wrong";
         toast.error(message);
         return rejectWithValue(message);
       }

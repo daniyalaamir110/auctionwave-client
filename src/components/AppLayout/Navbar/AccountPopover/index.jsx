@@ -31,6 +31,9 @@ const AccountPopover = ({ shown = false, hide = () => {} }) => {
   const navigate = useNavigate();
   const ref = useRef();
 
+  const fullName =
+    `${auth.state.user?.first_name} ${auth.state.user?.last_name}`.trim();
+
   if (shown) {
     return (
       <div
@@ -38,8 +41,10 @@ const AccountPopover = ({ shown = false, hide = () => {} }) => {
         className="absolute z-10 right-0 shadow-md rounded-md w-[14rem] bg-white flex flex-col overflow-hidden border border-blue-100"
       >
         <div className="p-[1rem] flex flex-col">
-          <h3 className="text-blue-700">Daniyal Aamir</h3>
-          <p className="text-xs text-neutral-600">daniyalaamir110</p>
+          <h3 className="text-blue-700">{fullName}</h3>
+          <p className="text-xs text-neutral-600">
+            @{auth.state.user?.username}
+          </p>
         </div>
         <Item
           hide={hide}
