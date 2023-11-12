@@ -1,6 +1,4 @@
-import React, { memo } from "react";
-
-const AppLoader = memo(() => {
+const AppLoader = () => {
   return (
     <div className="w-[100svw] h-[100svh] flex flex-col items-center justify-center">
       <svg
@@ -23,6 +21,6 @@ const AppLoader = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
 export default AppLoader;

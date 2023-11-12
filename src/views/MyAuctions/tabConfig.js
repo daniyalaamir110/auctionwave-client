@@ -4,7 +4,6 @@ import {
   ClockIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
-import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const items = [
@@ -22,19 +21,16 @@ const useTabConfig = () => {
   const query = useQuery();
   const status = query.get("status") || "ongoing";
 
-  return useMemo(
-    () => ({
-      items,
-      getInitialTabIdx: () => {
-        const idx = items.findIndex((item) => item.id === status);
-        return idx === -1 ? 0 : idx;
-      },
-      onTabChange: (tab) => {
-        navigate(`?status=${tab.id}`);
-      },
-    }),
-    [status]
-  );
+  return {
+    items,
+    getInitialTabIdx: () => {
+      const idx = items.findIndex((item) => item.id === status);
+      return idx === -1 ? 0 : idx;
+    },
+    onTabChange: (tab) => {
+      navigate(`?status=${tab.id}`);
+    },
+  };
 };
 
 export default useTabConfig;

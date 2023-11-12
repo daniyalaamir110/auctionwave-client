@@ -26,12 +26,9 @@ const SideMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isMatch = useCallback(
-    (pathname) => {
-      return pathname === location.pathname;
-    },
-    [location.pathname]
-  );
+  const isMatch = (pathname) => {
+    return pathname === location.pathname;
+  };
 
   return (
     <div className="flex flex-col gap-[1rem]">

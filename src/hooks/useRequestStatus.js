@@ -1,5 +1,5 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
-import { useReducer, useCallback, useMemo } from "react";
+import { useReducer } from "react";
 
 const initialState = {
   loading: false,
@@ -34,53 +34,38 @@ const reducer = createReducer(initialState, (builder) => {
 const useRequestStatus = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const setState = useCallback(
-    (updates = {}) => {
-      dispatch(actions.setState(updates));
-    },
-    [dispatch]
-  );
+  const setState = (updates = {}) => {
+    dispatch(actions.setState(updates));
+  };
 
-  const setLoading = useCallback(
-    (loading = initialState.loading) => {
-      dispatch(actions.setLoading(loading));
-    },
-    [dispatch]
-  );
+  const setLoading = (loading = initialState.loading) => {
+    dispatch(actions.setLoading(loading));
+  };
 
-  const setError = useCallback(
-    (error = initialState.error) => {
-      dispatch(actions.setError(error));
-    },
-    [dispatch]
-  );
+  const setError = (error = initialState.error) => {
+    dispatch(actions.setError(error));
+  };
 
-  const setData = useCallback(
-    (data = initialState.data) => {
-      dispatch(actions.setData(data));
-    },
-    [dispatch]
-  );
+  const setData = (data = initialState.data) => {
+    dispatch(actions.setData(data));
+  };
 
-  const reset = useCallback(() => {
+  const reset = () => {
     dispatch(actions.reset());
-  }, [dispatch]);
+  };
 
   const { loading, error, data } = state;
 
-  return useMemo(
-    () => ({
-      loading,
-      error,
-      data,
-      setState,
-      setLoading,
-      setError,
-      setData,
-      reset,
-    }),
-    [loading, error, data, setState, setLoading, setError, setData, reset]
-  );
+  return {
+    loading,
+    error,
+    data,
+    setState,
+    setLoading,
+    setError,
+    setData,
+    reset,
+  };
 };
 
 export default useRequestStatus;

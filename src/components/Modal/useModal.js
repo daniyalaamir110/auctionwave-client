@@ -1,12 +1,12 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState } from "react";
 
 const useModal = () => {
   const [shown, setShown] = useState(false);
 
-  const show = useCallback(() => setShown(true), []);
-  const hide = useCallback(() => setShown(false), []);
+  const show = () => setShown(true);
+  const hide = () => setShown(false);
 
-  return useMemo(() => ({ shown, show, hide }), [shown, show, hide]);
+  return { shown, show, hide };
 };
 
 export default useModal;

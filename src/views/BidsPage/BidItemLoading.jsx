@@ -1,7 +1,6 @@
 import { UserItemLoading } from "@/components/UserItem";
-import React, { memo } from "react";
 
-const BidItemLoading = memo(() => {
+const BidItemLoading = () => {
   return (
     <tr className="bg-neutral-50 border-b border-b-neutral-200 hover:bg-neutral-50 animate-pulse">
       <td className="px-6 py-4 min-w-max whitespace-nowrap">
@@ -24,6 +23,6 @@ const BidItemLoading = memo(() => {
       </td>
     </tr>
   );
-});
+};
 
 export default BidItemLoading;

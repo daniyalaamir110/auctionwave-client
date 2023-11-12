@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useTab = ({
   items = [],
@@ -18,12 +18,7 @@ const useTab = ({
     onTabChange(selectedTab);
   }, [selectedTabIdx]);
 
-  console.log(selectedTabIdx);
-
-  return useMemo(
-    () => ({ getTabClickHandler, selectedTabIdx, selectedTab, items }),
-    [items, selectedTabIdx]
-  );
+  return { getTabClickHandler, selectedTabIdx, selectedTab, items };
 };
 
 export default useTab;

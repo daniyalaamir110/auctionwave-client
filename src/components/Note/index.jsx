@@ -1,8 +1,7 @@
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import LoadingItems from "../LoadingItems";
-import { memo } from "react";
 
-const Note = memo(({ text, loading = false }) => {
+const Note = ({ text, loading = false }) => {
   return (
     <div className="flex flex-row gap-[0.5rem] p-[1rem] bg-blue-100 rounded-lg text-blue-800 text-md items-start shadow-md">
       {loading ? (
@@ -17,6 +16,6 @@ const Note = memo(({ text, loading = false }) => {
       )}
     </div>
   );
-});
+};
 
 export default Note;

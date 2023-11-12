@@ -1,8 +1,7 @@
 import DefaultAvatarSrc from "@/assets/images/default-avatar.jpg";
 import LoadingSpinner from "../LoadingSpinner";
-import { memo } from "react";
 
-const Avatar = memo(({ loading = false, large = false, src = null }) => {
+const Avatar = ({ loading = false, large = false, src = null }) => {
   const length = `${large ? 15.125 : 3}rem`;
   return (
     <div
@@ -23,6 +22,6 @@ const Avatar = memo(({ loading = false, large = false, src = null }) => {
       )}
     </div>
   );
-});
+};
 
 export default Avatar;

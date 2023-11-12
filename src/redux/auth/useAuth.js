@@ -1,60 +1,44 @@
 import { useDispatch, useSelector } from "react-redux";
 import * as asyncActions from "./async-actions";
 import { actions } from "./slice";
-import { useMemo, useCallback } from "react";
 
 const useAuth = () => {
   const state = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const login = useCallback(
-    (data) => {
-      dispatch(asyncActions.login(data));
-    },
-    [dispatch]
-  );
+  const login = (data) => {
+    dispatch(asyncActions.login(data));
+  };
 
-  const verify = useCallback(() => {
+  const verify = () => {
     dispatch(asyncActions.verify());
-  }, [dispatch]);
+  };
 
-  const refresh = useCallback(
-    (signal) => {
-      dispatch(asyncActions.refresh(signal));
-    },
-    [dispatch]
-  );
+  const refresh = (signal) => {
+    dispatch(asyncActions.refresh(signal));
+  };
 
-  const logout = useCallback(() => {
+  const logout = () => {
     dispatch(actions.logout());
-  }, [dispatch]);
+  };
 
-  const updateUser = useCallback(
-    (user) => {
-      dispatch(actions.updateUser(user));
-    },
-    [dispatch]
-  );
+  const updateUser = (user) => {
+    dispatch(actions.updateUser(user));
+  };
 
-  const updateProfileImage = useCallback(
-    (profileImage) => {
-      dispatch(actions.updateProfileImage(profileImage));
-    },
-    [dispatch]
-  );
+  const updateProfileImage = (profileImage) => {
+    dispatch(actions.updateProfileImage(profileImage));
+  };
 
-  return useMemo(
-    () => ({
-      state,
-      login,
-      verify,
-      refresh,
-      logout,
-      updateUser,
-      updateProfileImage,
-    }),
-    [state, login, verify, refresh, logout, updateUser, updateProfileImage]
-  );
+  return {
+    state,
+    login,
+    verify,
+    refresh,
+    logout,
+    updateUser,
+    updateProfileImage,
+  };
 };
 
 export default useAuth;

@@ -8,7 +8,7 @@ import {
   BellIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import { memo, useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import {
   Link,
   NavLink,
@@ -21,7 +21,7 @@ import useAccountPopover from "./AccountPopover/useAccountPopover";
 import navbarConfig from "./navbarConfig";
 import useNavbarCollapse from "./useNavbarCollapse";
 
-const NavItem = memo(({ text, to = "/", icon = null, match = false }) => {
+const NavItem = ({ text, to = "/", icon = null, match = false }) => {
   return (
     <NavLink
       to={to}
@@ -35,24 +35,21 @@ const NavItem = memo(({ text, to = "/", icon = null, match = false }) => {
       <span>{text}</span>
     </NavLink>
   );
-});
+};
 
-const NavItemList = memo(() => {
+const NavItemList = () => {
   const location = useLocation();
 
-  const isMatch = useCallback(
-    (pathname) => {
-      return pathname === location.pathname;
-    },
-    [location.pathname]
-  );
+  const isMatch = (pathname) => {
+    return pathname === location.pathname;
+  };
 
   return navbarConfig.items.map((item, idx) => (
     <NavItem {...item} match={isMatch(item.to)} key={item.to} />
   ));
-});
+};
 
-const Navbar = memo(({ onClickMenu = () => {} }) => {
+const Navbar = ({ onClickMenu = () => {} }) => {
   const accountPopover = useAccountPopover();
   const auth = useAuth();
   const navigate = useNavigate();
@@ -62,7 +59,7 @@ const Navbar = memo(({ onClickMenu = () => {} }) => {
 
   useEffect(navbarCollapse.hide, [location.pathname]);
 
-  const navigateToLogin = useCallback(() => navigate("/auth/login"), []);
+  const navigateToLogin = () => navigate("/auth/login");
 
   return (
     <>
@@ -140,6 +137,6 @@ const Navbar = memo(({ onClickMenu = () => {} }) => {
       <div className="shadow border-b border-transparent" />
     </>
   );
-});
+};
 
 export default Navbar;

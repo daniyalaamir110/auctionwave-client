@@ -1,8 +1,7 @@
-import React, { memo } from "react";
-import Avatar from "../Avatar";
 import { Link } from "react-router-dom";
+import Avatar from "../Avatar";
 
-export const UserItemLoading = memo(() => {
+export const UserItemLoading = () => {
   return (
     <div className="flex flex-row gap-[1rem] items-center">
       <div className="shrink-0 w-[3rem] h-[3rem] rounded-full bg-neutral-200" />
@@ -12,7 +11,7 @@ export const UserItemLoading = memo(() => {
       </div>
     </div>
   );
-});
+};
 
 const UserItem = ({ user }) => {
   if (!user) return null;
