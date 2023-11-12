@@ -18,8 +18,8 @@ const useAuction = () => {
   const auctionId = params.id;
 
   const get = (id = 0, signal) => {
-    status.reset();
-    status.setLoading(true);
+    status.handlers.reset();
+    status.handlers.setLoading(true);
     api.auctions
       .getById(id, signal)
       .then((res) => {
@@ -29,16 +29,16 @@ const useAuction = () => {
         getMoreAuctions(data.creator.id);
       })
       .catch(() => {
-        status.setError("Error");
+        status.handlers.setError("Error");
       })
       .finally(() => {
-        status.setLoading(false);
+        status.handlers.setLoading(false);
       });
   };
 
   const getTopBids = (id = 0) => {
-    topBidsStatus.reset();
-    topBidsStatus.setLoading(true);
+    topBidsStatus.handlers.reset();
+    topBidsStatus.handlers.setLoading(true);
     api.auctions
       .getTopBidsById(id)
       .then((res) => {
@@ -46,16 +46,16 @@ const useAuction = () => {
         topBidsStatus.setData(data);
       })
       .catch(() => {
-        topBidsStatus.setError("Error");
+        topBidsStatus.handlers.setError("Error");
       })
       .finally(() => {
-        topBidsStatus.setLoading(false);
+        topBidsStatus.handlers.setLoading(false);
       });
   };
 
   const getMoreAuctions = (creatorId = 0) => {
-    moreAuctionsStatus.reset();
-    moreAuctionsStatus.setLoading(true);
+    moreAuctionsStatus.handlers.reset();
+    moreAuctionsStatus.handlers.setLoading(true);
     api.auctions
       .getAvailable({ creatorId, pageSize: 5, exclude: auctionId })
       .then((res) => {
@@ -63,10 +63,10 @@ const useAuction = () => {
         moreAuctionsStatus.setData(data);
       })
       .catch(() => {
-        moreAuctionsStatus.setError("Error");
+        moreAuctionsStatus.handlers.setError("Error");
       })
       .finally(() => {
-        moreAuctionsStatus.setLoading(false);
+        moreAuctionsStatus.handlers.setLoading(false);
       });
   };
 
@@ -79,8 +79,8 @@ const useAuction = () => {
   );
 
   const placeBid = (bidAmount = 0) => {
-    bidStatus.reset();
-    bidStatus.setLoading(true);
+    bidStatus.handlers.reset();
+    bidStatus.handlers.setLoading(true);
     api.auctions
       .placeBidById(auctionId, bidAmount)
       .then(() => {
@@ -90,14 +90,14 @@ const useAuction = () => {
         toast.error("Error placing bid");
       })
       .finally(() => {
-        bidStatus.setLoading(false);
+        bidStatus.handlers.setLoading(false);
         get(auctionId);
       });
   };
 
   const rebid = (bidAmount = 0) => {
-    bidStatus.reset();
-    bidStatus.setLoading(true);
+    bidStatus.handlers.reset();
+    bidStatus.handlers.setLoading(true);
     api.auctions
       .rebidById(status.data?.current_user_bid?.id, bidAmount)
       .then(() => {
@@ -107,7 +107,7 @@ const useAuction = () => {
         toast.error("Error rebidding");
       })
       .finally(() => {
-        bidStatus.setLoading(false);
+        bidStatus.handlers.setLoading(false);
         get(auctionId);
       });
   };
@@ -121,7 +121,7 @@ const useAuction = () => {
     }),
     validateOnBlur: true,
     validateOnChange: false,
-    onSubmit: (values, helpers) => {
+    onSubmit: (values) => {
       const { bidAmount } = values;
       if (status.data?.current_user_bid) {
         rebid(bidAmount);
@@ -134,12 +134,12 @@ const useAuction = () => {
   return {
     status,
     bid: {
-      status: bidStatus,
+      status: bidStatus.state,
       form: placeBidForm,
       canBid: auth.state.success,
     },
-    topBids: { status: topBidsStatus },
-    moreAuctions: { status: moreAuctionsStatus },
+    topBids: { status: topBidsStatus.state },
+    moreAuctions: { status: moreAuctionsStatus.state },
   };
 };
 

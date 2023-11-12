@@ -28,7 +28,7 @@ const reducer = createReducer(initialState, (builder) => {
   builder.addCase(actions.setData, (state, { payload }) => {
     return { ...state, data: payload };
   });
-  builder.addCase(actions.reset, () => initialState);
+  builder.addCase(actions.reset, () => ({ ...initialState }));
 });
 
 const useRequestStatus = () => {
@@ -57,6 +57,18 @@ const useRequestStatus = () => {
   const { loading, error, data } = state;
 
   return {
+    state: {
+      loading,
+      error,
+      data,
+    },
+    handlers: {
+      setState,
+      setLoading,
+      setError,
+      setData,
+      reset,
+    },
     loading,
     error,
     data,

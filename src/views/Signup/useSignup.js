@@ -11,7 +11,7 @@ import * as Yup from "yup";
 const useSignup = () => {
   // Initializing the hooks
   const navigate = useNavigate();
-  const requestStatus = useRequestStatus();
+  const signupStatus = useRequestStatus();
   const loadUsernames = useLoadUsernames();
   const [checkingEmail, setCheckingEmail] = useState(false);
   const [checkedEmail, setCheckedEmail] = useState(false);
@@ -115,7 +115,7 @@ const useSignup = () => {
     validateOnChange: false,
     onSubmit: (values, helpers) => {
       loadUsernames.clear();
-      requestStatus.setLoading(true);
+      signupStatus.handlers.setLoading(true);
       api.users
         .register(values)
         .then((res) => {
@@ -127,7 +127,7 @@ const useSignup = () => {
           toast.error("Couldn't sign you up");
         })
         .finally(() => {
-          requestStatus.setLoading(false);
+          signupStatus.handlers.setLoading(false);
         });
     },
   });
@@ -168,8 +168,8 @@ const useSignup = () => {
 
   return {
     form,
-    requestStatus,
-    loadUsernames,
+    status: signupStatus.state,
+    usernameSuggestions: loadUsernames.status,
     selectUsername,
     isUsername,
     checkedEmail,

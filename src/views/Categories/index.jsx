@@ -11,10 +11,6 @@ const Categories = () => {
   const categories = useAllCategories();
   const search = useCategoriesSearch();
 
-  const noResults =
-    !categories.categories.requestStatus.loading &&
-    !categories.categories.requestStatus.data?.results?.length;
-
   const pagination = usePagination({ count: categories.count });
 
   return (
@@ -27,14 +23,14 @@ const Categories = () => {
             name="search"
             placeholder="Search by title"
             label="Search"
-            loading={categories.categories.requestStatus.loading}
+            loading={categories.status.loading}
             value={search.form.values.search}
             onChange={search.form.handleChange("search")}
             onBlur={search.form.handleBlur("search")}
             onSubmit={search.form.handleSubmit}
           />
         </div>
-        {noResults ? (
+        {categories.noResults ? (
           <div className="flex-1 flex flex-row items-center justify-center">
             <img
               src={NoResultsIllustraionSrc}
@@ -44,7 +40,7 @@ const Categories = () => {
           </div>
         ) : (
           <div className="flex flex-row gap-[2rem] w-full flex-wrap">
-            {categories.categories.requestStatus?.loading
+            {categories.status?.loading
               ? [...new Array(12)].map((_, idx) => {
                   return (
                     <div
@@ -55,18 +51,16 @@ const Categories = () => {
                     </div>
                   );
                 })
-              : categories.categories.requestStatus?.data?.results.map(
-                  (item) => {
-                    return (
-                      <CategoryItem
-                        title={item.title}
-                        image={item.image}
-                        categoryId={item.id}
-                        key={item.id}
-                      />
-                    );
-                  }
-                )}
+              : categories.status?.data?.results.map((item) => {
+                  return (
+                    <CategoryItem
+                      title={item.title}
+                      image={item.image}
+                      categoryId={item.id}
+                      key={item.id}
+                    />
+                  );
+                })}
           </div>
         )}
       </div>

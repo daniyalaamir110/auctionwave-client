@@ -8,7 +8,6 @@ import useSignup from "./useSignup";
 
 const Signup = () => {
   const navigate = useNavigate();
-
   const signup = useSignup();
 
   return (
@@ -72,15 +71,13 @@ const Signup = () => {
             label="Username"
             required
           />
-          {signup.loadUsernames.requestStatus.loading ? (
+          {signup.usernameSuggestions.loading ? (
             <LoadingItems text="Loading suggestions" />
-          ) : signup.loadUsernames.requestStatus.error ? (
-            <p className="text-xs">
-              {signup.loadUsernames.requestStatus.error}
-            </p>
+          ) : signup.usernameSuggestions.error ? (
+            <p className="text-xs">{signup.usernameSuggestions.error}</p>
           ) : (
             <div className="flex flex-row gap-[0.5rem] items-center flex-wrap">
-              {signup.loadUsernames.requestStatus.data?.map((username, idx) => (
+              {signup.usernameSuggestions.data?.map((username, idx) => (
                 <div
                   key={idx}
                   className={`text-xs bg-blue-50 p-[0.5rem] rounded-lg text-blue-700 cursor-pointer hover:bg-blue-200 transition-all border-[1px] ${
@@ -127,7 +124,7 @@ const Signup = () => {
       <Button
         text="Sign up"
         leftIcon={<UserPlusIcon height={16} />}
-        loading={signup.requestStatus.loading}
+        loading={signup.status.loading}
         onClick={signup.form.handleSubmit}
       />
       <div className="flex flex-col gap-[1rem]">

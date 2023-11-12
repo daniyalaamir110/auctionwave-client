@@ -36,7 +36,7 @@ const useSettings = () => {
       lastName: Yup.string().optional(),
     }),
     onSubmit: (values, handlers) => {
-      nameStatus.setLoading(true);
+      nameStatus.handlers.setLoading(true);
       api.users
         .changeName(values)
         .then((res) => {
@@ -48,7 +48,7 @@ const useSettings = () => {
           toast.error("Error updating name");
         })
         .finally(() => {
-          nameStatus.setLoading(false);
+          nameStatus.handlers.setLoading(false);
         });
     },
   });
@@ -60,8 +60,8 @@ const useSettings = () => {
     validationSchema: Yup.object().shape({
       username: Yup.string().optional(),
     }),
-    onSubmit: (values, handlers) => {
-      usernameStatus.setLoading(true);
+    onSubmit: (values) => {
+      usernameStatus.handlers.setLoading(true);
       api.users
         .changeUsername(values)
         .then((res) => {
@@ -73,7 +73,7 @@ const useSettings = () => {
           toast.error("Error updating username");
         })
         .finally(() => {
-          usernameStatus.setLoading(false);
+          usernameStatus.handlers.setLoading(false);
         });
     },
   });
@@ -86,7 +86,7 @@ const useSettings = () => {
       email: Yup.string().optional().email(),
     }),
     onSubmit: (values, handlers) => {
-      emailStatus.setLoading(true);
+      emailStatus.handlers.setLoading(true);
       api.users
         .changeEmail(values)
         .then((res) => {
@@ -98,7 +98,7 @@ const useSettings = () => {
           toast.error("Error updating email");
         })
         .finally(() => {
-          emailStatus.setLoading(false);
+          emailStatus.handlers.setLoading(false);
         });
     },
   });
@@ -120,7 +120,7 @@ const useSettings = () => {
         .oneOf([Yup.ref("password")], "Passwords must match"),
     }),
     onSubmit: (values, handlers) => {
-      passwordStatus.setLoading(true);
+      passwordStatus.handlers.setLoading(true);
       api.users
         .changePassword({ password: values.password })
         .then((res) => {
@@ -132,7 +132,7 @@ const useSettings = () => {
           toast.error("Error updating password");
         })
         .finally(() => {
-          passwordStatus.setLoading(false);
+          passwordStatus.handlers.setLoading(false);
         });
     },
   });
@@ -154,7 +154,7 @@ const useSettings = () => {
         ),
     }),
     onSubmit: (values, handlers) => {
-      profileImageStatus.setLoading(true);
+      profileImageStatus.handlers.setLoading(true);
       api.users
         .changeProfileImage(values)
         .then((res) => {
@@ -166,13 +166,13 @@ const useSettings = () => {
           toast.error("Error updating profile image");
         })
         .finally(() => {
-          profileImageStatus.setLoading(false);
+          profileImageStatus.handlers.setLoading(false);
         });
     },
   });
 
   const removeProfileImage = () => {
-    profileImageRemoveStatus.setLoading(true);
+    profileImageRemoveStatus.handlers.setLoading(true);
     api.users
       .removeProfileImage()
       .then(() => {
@@ -183,7 +183,7 @@ const useSettings = () => {
         toast.error("Error removing profile image");
       })
       .finally(() => {
-        profileImageRemoveStatus.setLoading(false);
+        profileImageRemoveStatus.handlers.setLoading(false);
       });
   };
 
@@ -200,8 +200,8 @@ const useSettings = () => {
 
   // Select username from suggestions
   const selectUsername = (username) => {
-    changeUsernameForm.setFieldValue("username", username);
-    changeUsernameForm.setFieldError("username", null);
+    changeUsernameForm.handlers.setFieldValue("username", username);
+    changeUsernameForm.handlers.setFieldError("username", null);
   };
 
   // If username is one out of the suggestions
@@ -215,21 +215,21 @@ const useSettings = () => {
         form: changePasswordForm,
         editing: editingPassword,
         setEditing: setEditingPassword,
-        status: passwordStatus,
+        status: passwordStatus.state,
         defaultValue: "••••••••",
       },
       changeEmail: {
         form: changeEmailForm,
         editing: editingEmail,
         setEditing: setEditingEmail,
-        status: emailStatus,
+        status: emailStatus.state,
         defaultValue: auth.state.user?.email || "(Unset)",
       },
       changeName: {
         form: changeNameForm,
         editing: editingName,
         setEditing: setEditingName,
-        status: nameStatus,
+        status: nameStatus.state,
         defaultValue:
           `${auth.state.user?.first_name} ${auth.state.user?.last_name}`.trim() ||
           "(Unset)",
@@ -238,23 +238,21 @@ const useSettings = () => {
         form: changeUsernameForm,
         editing: editingUsername,
         setEditing: setEditingUsername,
-        status: usernameStatus,
+        status: usernameStatus.state,
         defaultValue: auth.state.user?.username || "(Unset)",
         suggestions: {
-          loading: loadUsernames.requestStatus.loading,
-          error: loadUsernames.requestStatus.error,
-          data: loadUsernames.requestStatus.data,
+          status: loadUsernames.status,
           select: selectUsername,
           isSelected: isUsername,
         },
       },
       changeProfileImage: {
         form: changeProfileImageForm,
-        status: profileImageStatus,
+        status: profileImageStatus.state,
       },
       removeProfileImage: {
         handler: removeProfileImage,
-        status: profileImageRemoveStatus,
+        status: profileImageRemoveStatus.state,
       },
     },
   };

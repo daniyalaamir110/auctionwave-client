@@ -4,33 +4,33 @@ import useSignalEffect from "@/hooks/useSignalEffect";
 import api from "@/services/api";
 
 const useBids = () => {
-  const status = useRequestStatus();
+  const bidsStatus = useRequestStatus();
   const query = useQuery();
 
   const page = query.get("page") || 1;
-  const _status = query.get("status") || "pending";
+  const status = query.get("status") || "pending";
 
   useSignalEffect(
     (signal) => {
-      status.reset();
-      status.setLoading(true);
+      bidsStatus.handlers.reset();
+      bidsStatus.handlers.setLoading(true);
       api.bids
-        .get({ status: _status, page, pageSize: 10 }, signal)
+        .get({ bidsStatus: status, page, pageSize: 10 }, signal)
         .then((res) => {
           const { data } = res;
-          status.setData(data);
+          bidsStatus.handlers.setData(data);
         })
         .catch((err) => {
-          status.setError("Something went wrong");
+          bidsStatus.handlers.setError("Something went wrong");
         })
         .finally(() => {
-          status.setLoading(false);
+          bidsStatus.handlers.setLoading(false);
         });
     },
-    [page, _status]
+    [page, status]
   );
 
-  return { status };
+  return { status: bidsStatus.state };
 };
 
 export default useBids;

@@ -140,15 +140,15 @@ const SettingsPage = () => {
               )}
               onBlur={settings.forms.changeUsername.form.handleBlur("username")}
             />
-            {settings.forms.changeUsername.suggestions.loading ? (
+            {settings.forms.changeUsername.suggestions.status.loading ? (
               <LoadingItems text="Loading suggestions" />
-            ) : settings.forms.changeUsername.suggestions.error ? (
+            ) : settings.forms.changeUsername.suggestions.status.error ? (
               <p className="text-xs">
-                {settings.forms.changeUsername.suggestions.error}
+                {settings.forms.changeUsername.suggestions.status.error}
               </p>
             ) : (
               <div className="flex flex-row gap-[0.5rem] items-center flex-wrap">
-                {settings.forms.changeUsername.suggestions.data?.map(
+                {settings.forms.changeUsername.suggestions.status.data?.map(
                   (username, idx) => (
                     <div
                       key={idx}

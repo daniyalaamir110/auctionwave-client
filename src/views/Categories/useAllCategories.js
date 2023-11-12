@@ -16,9 +16,12 @@ const useAllCategories = () => {
     [page, search]
   );
 
-  const count = categories.requestStatus.data?.count || 0;
+  const count = categories.status.data?.count || 0;
 
-  return { categories, count };
+  const noResults =
+    !categories.status.loading && !categories.status.data?.results?.length;
+
+  return { status: categories.status, count, noResults };
 };
 
 export default useAllCategories;

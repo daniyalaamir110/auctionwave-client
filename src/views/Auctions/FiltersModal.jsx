@@ -36,40 +36,36 @@ const FiltersModal = ({ shown = false, hide = () => {}, filters }) => {
             value={searchCategories.value}
             id="searchCategories"
             name="searchCategories"
-            loading={searchCategories.categories.requestStatus.loading}
+            loading={searchCategories.status.loading}
             onChange={searchCategories.handleChange}
             onSubmit={searchCategories.handleSubmit}
           />
-          {searchCategories.categories.requestStatus.loading ? (
+          {searchCategories.status.loading ? (
             <LoadingItems text="Loading categories" />
-          ) : searchCategories.categories.requestStatus.error ? (
-            <p className="text-xs">
-              {searchCategories.categories.requestStatus.error}
-            </p>
+          ) : searchCategories.status.error ? (
+            <p className="text-xs">{searchCategories.status.error}</p>
           ) : (
             <div className="flex flex-row gap-[0.5rem] items-center flex-wrap">
-              {searchCategories.categories.requestStatus.data?.results?.map?.(
-                (categoryObj) => {
-                  const selected =
-                    categoryObj.id === filters.form.values.category?.id;
-                  return (
-                    <button
-                      key={categoryObj.id}
-                      disabled={selected}
-                      className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
-                        selected
-                          ? "bg-blue-700 text-white"
-                          : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
-                      }`}
-                      onClick={() =>
-                        filters.form.setFieldValue("category", categoryObj)
-                      }
-                    >
-                      {categoryObj.title}
-                    </button>
-                  );
-                }
-              )}
+              {searchCategories.status.data?.results?.map?.((categoryObj) => {
+                const selected =
+                  categoryObj.id === filters.form.values.category?.id;
+                return (
+                  <button
+                    key={categoryObj.id}
+                    disabled={selected}
+                    className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
+                      selected
+                        ? "bg-blue-700 text-white"
+                        : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
+                    }`}
+                    onClick={() =>
+                      filters.form.setFieldValue("category", categoryObj)
+                    }
+                  >
+                    {categoryObj.title}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

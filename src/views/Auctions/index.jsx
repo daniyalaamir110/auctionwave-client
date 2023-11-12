@@ -19,11 +19,8 @@ const Auctions = () => {
   const filters = useFilters();
   const filtersModal = useModal();
   const search = useSearch();
-  const { auctions } = useAvailableAuctions();
-  const noResults =
-    !auctions.requestStatus.loading &&
-    !auctions.requestStatus.data?.results?.length;
-  const count = auctions.requestStatus.data?.count || 0;
+  const auctions = useAvailableAuctions();
+  const count = auctions.status.data?.count || 0;
   const pagination = usePagination({ count, pageSize: 12 });
 
   return (
@@ -52,14 +49,14 @@ const Auctions = () => {
             name="search"
             placeholder="Search by title"
             label="Search"
-            loading={auctions.requestStatus.loading}
+            loading={auctions.status.loading}
             value={search.form.values.search}
             onChange={search.form.handleChange("search")}
             onBlur={search.form.handleBlur("search")}
             onSubmit={search.form.handleSubmit}
           />
         </div>
-        {noResults ? (
+        {auctions.noResults ? (
           <div className="flex-1 flex flex-row items-center justify-center">
             <img
               src={NoResultsIllustraionSrc}
@@ -69,15 +66,15 @@ const Auctions = () => {
           </div>
         ) : (
           <div className="flex flex-row gap-[2rem] w-full flex-wrap">
-            {auctions.requestStatus.loading
+            {auctions.status.loading
               ? [...Array(3)].map((_, idx) => <AuctionItemLoading key={idx} />)
-              : auctions.requestStatus.data?.results?.map?.((auction) => (
+              : auctions.status.data?.results?.map?.((auction) => (
                   <AuctionItem key={auction.id} auction={auction} />
                 ))}
           </div>
         )}
       </div>
-      {!noResults && <Pagination {...pagination} />}
+      {!auctions.noResults && <Pagination {...pagination} />}
       <FiltersModal
         shown={filtersModal.shown}
         hide={filtersModal.hide}

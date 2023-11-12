@@ -26,7 +26,7 @@ const useSearchCategories = ({ fetchFirst = false } = {}) => {
 
   return {
     value,
-    categories,
+    status: categories.status,
     handleChange,
     handleSubmit: () => handleSubmit(),
   };

@@ -23,9 +23,10 @@ const useMyAuctions = () => {
     [category, minPrice, maxPrice, search, page, status]
   );
 
-  return {
-    auctions,
-  };
+  const noResults =
+    !auctions.status.loading && !auctions.status.data?.results?.length;
+
+  return { status: auctions.status, noResults };
 };
 
 export default useMyAuctions;

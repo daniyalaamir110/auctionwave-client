@@ -1,4 +1,9 @@
+import NoResultsIllustraionSrc from "@/assets/images/no-results-illustration.svg";
 import Button from "@/components/Button";
+import useModal from "@/components/Modal/useModal";
+import Pagination from "@/components/Pagination";
+import usePagination from "@/components/Pagination/usePagination";
+import SearchInput from "@/components/SearchInput";
 import Tab from "@/components/Tab";
 import useTab from "@/components/Tab/useTab";
 import {
@@ -7,18 +12,13 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import MyAuctionItem from "./MyAuctionItem";
-import useTabConfig from "./tabConfig";
-import useMyAuctions from "./useMyAuctions";
-import usePagination from "@/components/Pagination/usePagination";
-import Pagination from "@/components/Pagination";
-import useModal from "@/components/Modal/useModal";
-import useSearch from "./useSearch";
-import SearchInput from "@/components/SearchInput";
 import FiltersModal from "./FiltersModal";
+import MyAuctionItem from "./MyAuctionItem";
 import MyAuctionItemLoading from "./MyAuctionItemLoading";
-import NoResultsIllustraionSrc from "@/assets/images/no-results-illustration.svg";
+import useTabConfig from "./tabConfig";
 import useFilters from "./useFilters";
+import useMyAuctions from "./useMyAuctions";
+import useSearch from "./useSearch";
 
 const MyAuctions = () => {
   const tabConfig = useTabConfig();
@@ -27,11 +27,8 @@ const MyAuctions = () => {
   const filtersModal = useModal();
   const search = useSearch();
   const navigate = useNavigate();
-  const { auctions } = useMyAuctions();
-  const noResults =
-    !auctions.requestStatus.loading &&
-    !auctions.requestStatus.data?.results?.length;
-  const count = auctions.requestStatus.data?.count || 0;
+  const auctions = useMyAuctions();
+  const count = auctions.status.data?.count || 0;
   const pagination = usePagination({ count, pageSize: 10 });
 
   return (
@@ -69,14 +66,14 @@ const MyAuctions = () => {
           name="search"
           placeholder="Search by title"
           label="Search"
-          loading={auctions.requestStatus.loading}
+          loading={auctions.status.loading}
           value={search.form.values.search}
           onChange={search.form.handleChange("search")}
           onBlur={search.form.handleBlur("search")}
           onSubmit={search.form.handleSubmit}
         />
       </div>
-      {noResults ? (
+      {auctions.noResults ? (
         <div className="flex-1 flex flex-row items-center justify-center">
           <img
             src={NoResultsIllustraionSrc}
@@ -86,14 +83,14 @@ const MyAuctions = () => {
         </div>
       ) : (
         <div className="flex flex-col gap-[1rem] flex-1">
-          {auctions.requestStatus.loading
+          {auctions.status.loading
             ? [...Array(3)].map((_, idx) => <MyAuctionItemLoading key={idx} />)
-            : auctions.requestStatus.data?.results?.map?.((auction) => (
+            : auctions.status.data?.results?.map?.((auction) => (
                 <MyAuctionItem key={auction.id} auction={auction} />
               ))}
         </div>
       )}
-      {!noResults && <Pagination {...pagination} />}
+      {!auctions.noResults && <Pagination {...pagination} />}
       <FiltersModal
         shown={filtersModal.shown}
         hide={filtersModal.hide}

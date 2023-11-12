@@ -9,7 +9,7 @@ import * as Yup from "yup";
 
 const useCreateAuction = () => {
   // Initializing the hooks
-  const requestStatus = useRequestStatus();
+  const createAuctionStatus = useRequestStatus();
 
   // Initializing the form
   const form = useFormik({
@@ -75,25 +75,26 @@ const useCreateAuction = () => {
       );
       const validTill = combinedDateTime.toISOString().slice(0, -1);
       values.validTill = validTill;
-      requestStatus.reset();
-      requestStatus.setLoading(true);
+      createAuctionStatus.handlers.reset();
+      createAuctionStatus.handlers.setLoading(true);
       api.auctions
         .create({ ...values, category: values.category.id })
         .then(() => {
           toast.success("Auction created");
+          helpers.resetForm();
         })
         .catch(() => {
           toast.error("Auction couldn't be created");
         })
         .finally(() => {
-          requestStatus.setLoading(false);
+          createAuctionStatus.handlers.setLoading(false);
         });
     },
   });
 
   return {
     form,
-    requestStatus,
+    status: createAuctionStatus.state,
   };
 };
 

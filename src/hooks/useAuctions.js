@@ -2,7 +2,7 @@ import api from "@/services/api";
 import useRequestStatus from "./useRequestStatus";
 
 const useAuctions = () => {
-  const requestStatus = useRequestStatus();
+  const auctionsStatus = useRequestStatus();
 
   const getAvailable = (
     {
@@ -16,8 +16,8 @@ const useAuctions = () => {
     },
     signal
   ) => {
-    requestStatus.reset();
-    requestStatus.setLoading(true);
+    auctionsStatus.handlers.reset();
+    auctionsStatus.handlers.setLoading(true);
     api.auctions
       .getAvailable(
         {
@@ -33,13 +33,13 @@ const useAuctions = () => {
       )
       .then((res) => {
         const data = res.data;
-        requestStatus.setData(data);
+        auctionsStatus.handlers.setData(data);
       })
       .catch((err) => {
-        requestStatus.setError("Couldn't fetch auctions");
+        auctionsStatus.handlers.setError("Couldn't fetch auctions");
       })
       .finally(() => {
-        requestStatus.setLoading(false);
+        auctionsStatus.handlers.setLoading(false);
       });
   };
 
@@ -56,8 +56,8 @@ const useAuctions = () => {
     },
     signal
   ) => {
-    requestStatus.reset();
-    requestStatus.setLoading(true);
+    auctionsStatus.handlers.reset();
+    auctionsStatus.handlers.setLoading(true);
     api.auctions
       .getMy(
         {
@@ -74,20 +74,20 @@ const useAuctions = () => {
       )
       .then((res) => {
         const data = res.data;
-        requestStatus.setData(data);
+        auctionsStatus.handlers.setData(data);
       })
       .catch((err) => {
-        requestStatus.setError("Couldn't fetch auctions");
+        auctionsStatus.handlers.setError("Couldn't fetch auctions");
       })
       .finally(() => {
-        requestStatus.setLoading(false);
+        auctionsStatus.handlers.setLoading(false);
       });
   };
 
   return {
     getAvailable,
     getMy,
-    requestStatus,
+    status: auctionsStatus.state,
   };
 };
 
