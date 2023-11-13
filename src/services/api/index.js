@@ -1,9 +1,12 @@
-import { constructURL, sleep } from "@/utils";
+import { constructURL, sleep, snakeCaseToSentenceCase } from "@/utils";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const apiInstance = axios.create({
   baseURL: "http://localhost:8000",
+  validateStatus: (status) => {
+    return status >= 200 && status < 300;
+  },
 });
 
 apiInstance.interceptors.request.use(async (req) => {
@@ -29,6 +32,9 @@ apiInstance.interceptors.response.use(
       toast.error("Session expired. Please log in again.");
     }
 
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+
     return err;
   }
 );
@@ -46,7 +52,7 @@ const auth = {
     return apiInstance.post(url, data);
   },
 
-  refresh: ({ refresh = "" }, signal) => {
+  refresh: (refresh = "", signal) => {
     const url = "/auth/refresh/";
     const data = { refresh };
     return apiInstance.post(url, data, { signal });
@@ -127,9 +133,7 @@ const users = {
 
     data.append("profile_image", profileImage);
 
-    const headers = {
-      "Content-Type": "multipart/form-data",
-    };
+    const headers = { "Content-Type": "multipart/form-data" };
 
     const url = "/users/me/profile_image/";
 
@@ -190,9 +194,7 @@ const auctions = {
     data.append("image", image, image.name);
     data.append("valid_till", validTill);
 
-    const headers = {
-      "Content-Type": "multipart/form-data",
-    };
+    const headers = { "Content-Type": "multipart/form-data" };
 
     const url = "/products/";
 
@@ -275,12 +277,38 @@ const bids = {
   },
 };
 
+const handleError = (res) => {
+  const isError = !apiInstance.defaults.validateStatus(res.status);
+  if (isError) throw res;
+};
+
+const getErrorMessage = (err) => {
+  let message = "Something went wrong";
+  const data = err?.response?.data;
+  if (data) {
+    const detail = data?.detail;
+    if (detail) {
+      message = detail;
+    }
+    if (typeof data === "object") {
+      const first = Object.entries(data)?.[0];
+      if (first) {
+        const [key, detail] = first;
+        message = `[${snakeCaseToSentenceCase(key)}]: ${detail}`;
+      }
+    }
+    return message;
+  }
+};
+
 const api = {
   auctions,
   auth,
   categories,
   users,
   bids,
+  handleError,
+  getErrorMessage,
 };
 
 export default api;

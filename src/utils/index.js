@@ -29,6 +29,14 @@ export const constructURL = (baseURL, query) => {
   }
 };
 
+export const snakeCaseToSentenceCase = (snakeCaseString = "") => {
+  const words = snakeCaseString.split("_");
+  const sentenceCaseWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  );
+  return sentenceCaseWords.join(" ");
+};
+
 export const isValidFileType = (fileName, fileType) => {
   return (
     fileName &&

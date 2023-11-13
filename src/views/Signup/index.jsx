@@ -49,7 +49,7 @@ const Signup = () => {
           onBlur={signup.form.handleBlur("email")}
           error={signup.form.errors.email}
           touched={signup.form.touched.email}
-          loading={signup.checkingEmail}
+          loading={signup.emailAvailability.loading}
           name="email"
           placeholder="Enter email"
           label="Email"
@@ -65,7 +65,7 @@ const Signup = () => {
             onBlur={signup.form.handleBlur("username")}
             error={signup.form.errors.username}
             touched={signup.form.touched.username}
-            loading={signup.checkingUsername}
+            loading={signup.usernameAvailability.loading}
             name="username"
             placeholder="Enter username"
             label="Username"
