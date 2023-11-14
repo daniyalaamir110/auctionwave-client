@@ -30,10 +30,9 @@ apiInstance.interceptors.response.use(
   (err) => {
     if (err?.response?.data?.code === "token_not_valid") {
       toast.error("Session expired. Please log in again.");
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
     }
-
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
 
     return err;
   }
@@ -56,6 +55,13 @@ const auth = {
     const url = "/auth/refresh/";
     const data = { refresh };
     return apiInstance.post(url, data, { signal });
+  },
+};
+
+const dashboard = {
+  get: (signal) => {
+    const url = "/dashboard";
+    return apiInstance.get(url, { signal });
   },
 };
 
@@ -289,12 +295,11 @@ const getErrorMessage = (err) => {
     const detail = data?.detail;
     if (detail) {
       message = detail;
-    }
-    if (typeof data === "object") {
+    } else if (typeof data === "object") {
       const first = Object.entries(data)?.[0];
       if (first) {
         const [key, detail] = first;
-        message = `[${snakeCaseToSentenceCase(key)}]: ${detail}`;
+        message = `${snakeCaseToSentenceCase(key)}: ${detail}`;
       }
     }
     return message;
@@ -306,6 +311,7 @@ const api = {
   auth,
   categories,
   users,
+  dashboard,
   bids,
   handleError,
   getErrorMessage,

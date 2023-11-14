@@ -41,7 +41,7 @@ const Categories = () => {
         ) : (
           <div className="flex flex-row gap-[2rem] w-full flex-wrap">
             {categories.status?.loading
-              ? [...new Array(12)].map((_, idx) => {
+              ? [...new Array(6)].map((_, idx) => {
                   return (
                     <div
                       className="h-[12rem] xl:w-[calc((100%/3)-2rem*((3-1)/3))] lg:w-[calc((100%/2)-2rem*((2-1)/2))] w-[calc((100%/1)-2rem*((1-1)/3))] shadow-md rounded-md animate-pulse bg-neutral-200 flex flex-row items-end justify-end p-[1rem]"

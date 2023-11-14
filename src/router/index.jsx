@@ -5,6 +5,7 @@ import Auctions from "@/views/Auctions";
 import BidsPage from "@/views/BidsPage";
 import Categories from "@/views/Categories";
 import CreateAuction from "@/views/CreateAuction";
+import Dashbaord from "@/views/Dashboard";
 import HomePage from "@/views/HomePage";
 import Login from "@/views/Login";
 import MyAuctions from "@/views/MyAuctions";
@@ -51,6 +52,7 @@ const Router = () => {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="app">
+            <Route path="dashboard" element={<Dashbaord />} />
             <Route path="categories" element={<Categories />} />
             <Route path="auctions">
               <Route index element={<Auctions />} />

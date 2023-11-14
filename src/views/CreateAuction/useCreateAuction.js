@@ -79,12 +79,14 @@ const useCreateAuction = () => {
       createAuctionStatus.handlers.setLoading(true);
       api.auctions
         .create({ ...values, category: values.category.id })
-        .then(() => {
+        .then((res) => {
+          api.handleError(res);
           toast.success("Auction created");
           helpers.resetForm();
         })
-        .catch(() => {
-          toast.error("Auction couldn't be created");
+        .catch((err) => {
+          const message = api.getErrorMessage(err);
+          toast.error(message);
         })
         .finally(() => {
           createAuctionStatus.handlers.setLoading(false);
