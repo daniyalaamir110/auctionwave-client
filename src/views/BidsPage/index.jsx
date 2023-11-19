@@ -50,7 +50,7 @@ const BidsPage = () => {
             </thead>
             <tbody>
               {bids.status.loading
-                ? [...new Array(10)].map((_, idx) => (
+                ? [...new Array(6)].map((_, idx) => (
                     <BidItemLoading key={idx} />
                   ))
                 : bids.status.data?.results?.map((bid, idx) => (

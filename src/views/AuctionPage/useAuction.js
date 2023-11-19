@@ -24,7 +24,7 @@ const useAuction = () => {
       .getById(id, signal)
       .then((res) => {
         const { data } = res;
-        status.setData(data);
+        status.handlers.setData(data);
         getTopBids(id);
         getMoreAuctions(data.creator.id);
       })
@@ -132,7 +132,7 @@ const useAuction = () => {
   });
 
   return {
-    status,
+    status: status.state,
     bid: {
       status: bidStatus.state,
       form: placeBidForm,

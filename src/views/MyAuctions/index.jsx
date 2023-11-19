@@ -86,7 +86,11 @@ const MyAuctions = () => {
           {auctions.status.loading
             ? [...Array(3)].map((_, idx) => <MyAuctionItemLoading key={idx} />)
             : auctions.status.data?.results?.map?.((auction) => (
-                <MyAuctionItem key={auction.id} auction={auction} />
+                <MyAuctionItem
+                  type={auction.status}
+                  key={auction.id}
+                  auction={auction}
+                />
               ))}
         </div>
       )}

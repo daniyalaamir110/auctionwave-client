@@ -1,9 +1,14 @@
 import Button from "@/components/Button";
 import { getTimeLeft } from "@/utils";
-import { ArrowRightIcon, ClockIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowRightIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
-const MyAuctionItem = ({ auction }) => {
+const MyAuctionItem = ({ auction, type }) => {
   const navigate = useNavigate();
 
   return (
@@ -15,9 +20,16 @@ const MyAuctionItem = ({ auction }) => {
         <h3 className="text-lg sm:text-xl text-blue-800">{auction.title}</h3>
         <p className="line-clamp-2 sm:text-lg text-sm">{auction.description}</p>
         <div className="flex flex-row gap-[0.25rem] items-center text-blue-700">
-          <ClockIcon width={16} />
+          {type === "ongoing" ? (
+            <ClockIcon width={16} />
+          ) : type === "finished" ? (
+            <ExclamationCircleIcon width={16} />
+          ) : (
+            <CheckCircleIcon width={16} />
+          )}
           <p className="text-sm text-blue-700">
-            Expires {getTimeLeft(auction.valid_till)}
+            {type === "ongoing" ? "Ending" : "Ended"}{" "}
+            {getTimeLeft(auction.valid_till)}
           </p>
         </div>
         <Button

@@ -281,18 +281,22 @@ const AuctionPage = () => {
                     </Link>
                   ))}
             </div>
-            <button
-              className="absolute top-[50%] left-[1rem] -translate-y-[50%] h-[3rem] w-[3rem] shadow-lg bg-white rounded-full flex flex-col items-center justify-center hover:scale-110 transition-all"
-              onClick={() => onMoreAuctionsScroll(-16 * 16)}
-            >
-              <ChevronLeftIcon width={20} />
-            </button>
-            <button
-              className="absolute top-[50%] right-[1rem] -translate-y-[50%] h-[3rem] w-[3rem] shadow-lg bg-white rounded-full flex flex-col items-center justify-center hover:scale-110 transition-all"
-              onClick={() => onMoreAuctionsScroll(16 * 16)}
-            >
-              <ChevronRightIcon width={20} />
-            </button>
+            {!!auction.moreAuctions.status.data?.results?.length && (
+              <>
+                <button
+                  className="absolute top-[50%] left-[1rem] -translate-y-[50%] h-[3rem] w-[3rem] shadow-lg bg-white rounded-full flex flex-col items-center justify-center hover:scale-110 transition-all"
+                  onClick={() => onMoreAuctionsScroll(-16 * 16)}
+                >
+                  <ChevronLeftIcon width={20} />
+                </button>
+                <button
+                  className="absolute top-[50%] right-[1rem] -translate-y-[50%] h-[3rem] w-[3rem] shadow-lg bg-white rounded-full flex flex-col items-center justify-center hover:scale-110 transition-all"
+                  onClick={() => onMoreAuctionsScroll(16 * 16)}
+                >
+                  <ChevronRightIcon width={20} />
+                </button>
+              </>
+            )}
           </div>
           <BidModal
             hide={bidModal.hide}

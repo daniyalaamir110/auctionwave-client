@@ -52,7 +52,9 @@ const Router = () => {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="app">
-            <Route path="dashboard" element={<Dashbaord />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="dashboard" element={<Dashbaord />} />
+            </Route>
             <Route path="categories" element={<Categories />} />
             <Route path="auctions">
               <Route index element={<Auctions />} />

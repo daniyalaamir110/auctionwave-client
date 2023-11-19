@@ -1,3 +1,4 @@
+import { actions } from "@/redux/auth/slice";
 import { constructURL, sleep, snakeCaseToSentenceCase } from "@/utils";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -24,14 +25,13 @@ apiInstance.interceptors.request.use(async (req) => {
 });
 
 apiInstance.interceptors.response.use(
-  (res) => {
-    return res;
-  },
-  (err) => {
+  (res) => res,
+  async (err) => {
+    console.log(err);
     if (err?.response?.data?.code === "token_not_valid") {
       toast.error("Session expired. Please log in again.");
-      localStorage.removeItem("access");
-      localStorage.removeItem("refresh");
+      const store = await import("@/redux/store");
+      store.dispatch(actions.logout());
     }
 
     return err;
@@ -306,6 +306,10 @@ const getErrorMessage = (err) => {
   }
 };
 
+const isAborted = (err) => {
+  return err?.code === "ERR_CANCELED";
+};
+
 const api = {
   auctions,
   auth,
@@ -314,6 +318,7 @@ const api = {
   dashboard,
   bids,
   handleError,
+  isAborted,
   getErrorMessage,
 };
 
