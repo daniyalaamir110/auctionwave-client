@@ -4,6 +4,7 @@ import api from "@/services/api";
 import { clean, constructURL } from "@/utils";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const useFilters = () => {
   const navigate = useNavigate();
@@ -73,11 +74,15 @@ const useFilters = () => {
         api.categories
           .getById(category, signal)
           .then((res) => {
+            api.handleError(res);
             const category = res.data;
             form.setFieldValue("category", category);
           })
           .catch((err) => {
-            console.log(err);
+            if (!api.isAborted(err)) {
+              const message = api.getErrorMessage(err);
+              toast.error(message);
+            }
           });
       }
     },

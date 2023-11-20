@@ -27,7 +27,6 @@ apiInstance.interceptors.request.use(async (req) => {
 apiInstance.interceptors.response.use(
   (res) => res,
   async (err) => {
-    console.log(err);
     if (err?.response?.data?.code === "token_not_valid") {
       toast.error("Session expired. Please log in again.");
       const store = await import("@/redux/store");

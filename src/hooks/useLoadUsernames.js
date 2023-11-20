@@ -14,7 +14,7 @@ const useLoadUsernames = () => {
         loadUsernamesStatus.handlers.setLoading(false);
       })
       .catch((err) => {
-        if (api.isAborted(err)) {
+        if (!api.isAborted(err)) {
           const message = api.getErrorMessage(err);
           loadUsernamesStatus.handlers.setError(message);
           loadUsernamesStatus.handlers.setLoading(false);

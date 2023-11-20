@@ -14,14 +14,15 @@ const useDashboard = () => {
       .then((res) => {
         api.handleError(res);
         dashboardStatus.handlers.setData(res.data);
+        dashboardStatus.handlers.setLoading(false);
       })
       .catch((err) => {
-        const message = api.getErrorMessage(err);
-        toast.error(message);
-        dashboardStatus.handlers.setError(message);
-      })
-      .finally(() => {
-        dashboardStatus.handlers.setLoading(false);
+        if (!api.isAborted(err)) {
+          const message = api.getErrorMessage(err);
+          toast.error(message);
+          dashboardStatus.handlers.setError(message);
+          dashboardStatus.handlers.setLoading(false);
+        }
       });
   };
 
