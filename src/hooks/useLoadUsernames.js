@@ -11,12 +11,14 @@ const useLoadUsernames = () => {
       .getUsernameSuggestions({ firstName, lastName }, signal)
       .then((res) => {
         loadUsernamesStatus.handlers.setData(res.data);
+        loadUsernamesStatus.handlers.setLoading(false);
       })
       .catch((err) => {
-        loadUsernamesStatus.handlers.setError("Couldn't fetch suggestions");
-      })
-      .finally(() => {
-        loadUsernamesStatus.handlers.setLoading(false);
+        if (api.isAborted(err)) {
+          const message = api.getErrorMessage(err);
+          loadUsernamesStatus.handlers.setError(message);
+          loadUsernamesStatus.handlers.setLoading(false);
+        }
       });
   };
 

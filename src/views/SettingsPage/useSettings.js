@@ -1,7 +1,9 @@
 import { MAX_IMAGE_FILE_SIZE } from "@/constants";
+import useEmailAvailability from "@/hooks/useEmailAvailability";
 import useLoadUsernames from "@/hooks/useLoadUsernames";
 import useRequestStatus from "@/hooks/useRequestStatus";
 import useSignalEffect from "@/hooks/useSignalEffect";
+import useUsernameAvailability from "@/hooks/useUsernameAvailability";
 import useAuth from "@/redux/auth/useAuth";
 import api from "@/services/api";
 import { isValidFileType } from "@/utils";
@@ -17,8 +19,10 @@ const useSettings = () => {
   const nameStatus = useRequestStatus();
   const [editingUsername, setEditingUsername] = useState(false);
   const usernameStatus = useRequestStatus();
+  const usernameAvailability = useUsernameAvailability();
   const [editingEmail, setEditingEmail] = useState(false);
   const emailStatus = useRequestStatus();
+  const emailAvailability = useEmailAvailability();
   const [editingPassword, setEditingPassword] = useState(false);
   const passwordStatus = useRequestStatus();
   const profileImageStatus = useRequestStatus();
@@ -32,20 +36,24 @@ const useSettings = () => {
       lastName: auth.state.user?.last_name,
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().optional(),
-      lastName: Yup.string().optional(),
+      firstName: Yup.string().trim().required("Required"),
+      lastName: Yup.string().trim().required("Required"),
     }),
-    onSubmit: (values, handlers) => {
+    validateOnChange: false,
+    validateOnBlur: true,
+    onSubmit: (values) => {
       nameStatus.handlers.setLoading(true);
       api.users
         .changeName(values)
         .then((res) => {
+          api.handleError(res);
           toast.success("Name updated successfully");
           setEditingName(false);
           auth.updateUser(res.data);
         })
         .catch((err) => {
-          toast.error("Error updating name");
+          const message = api.getErrorMessage(err);
+          toast.error(message);
         })
         .finally(() => {
           nameStatus.handlers.setLoading(false);
@@ -58,19 +66,26 @@ const useSettings = () => {
       username: auth.state.user?.username,
     },
     validationSchema: Yup.object().shape({
-      username: Yup.string().optional(),
+      username: Yup.string().trim().required("Required").test({
+        message: "Username is already taken",
+        test: usernameAvailability.test,
+      }),
     }),
+    validateOnChange: false,
+    validateOnBlur: true,
     onSubmit: (values) => {
       usernameStatus.handlers.setLoading(true);
       api.users
         .changeUsername(values)
         .then((res) => {
+          api.handleError(res);
           toast.success("Username updated successfully");
           setEditingUsername(false);
           auth.updateUser(res.data);
         })
         .catch((err) => {
-          toast.error("Error updating username");
+          const message = api.getErrorMessage(err);
+          toast.error(message);
         })
         .finally(() => {
           usernameStatus.handlers.setLoading(false);
@@ -83,19 +98,30 @@ const useSettings = () => {
       email: auth.state.user?.email,
     },
     validationSchema: Yup.object().shape({
-      email: Yup.string().optional().email(),
+      email: Yup.string()
+        .trim()
+        .required("Required")
+        .email("Invalid email")
+        .test({
+          message: "Email is already taken",
+          test: emailAvailability.test,
+        }),
     }),
+    validateOnChange: false,
+    validateOnBlur: true,
     onSubmit: (values, handlers) => {
       emailStatus.handlers.setLoading(true);
       api.users
         .changeEmail(values)
         .then((res) => {
+          api.handleError(res);
           toast.success("Email updated successfully");
           setEditingEmail(false);
           auth.updateUser(res.data);
         })
         .catch((err) => {
-          toast.error("Error updating email");
+          const message = api.getErrorMessage(err);
+          toast.error(message);
         })
         .finally(() => {
           emailStatus.handlers.setLoading(false);
@@ -119,17 +145,21 @@ const useSettings = () => {
         .required("Required")
         .oneOf([Yup.ref("password")], "Passwords must match"),
     }),
+    validateOnChange: false,
+    validateOnBlur: true,
     onSubmit: (values, handlers) => {
       passwordStatus.handlers.setLoading(true);
       api.users
         .changePassword({ password: values.password })
         .then((res) => {
+          api.handleError(res);
           toast.success("Password updated successfully");
           setEditingPassword(false);
           handlers.resetForm();
         })
         .catch((err) => {
-          toast.error("Error updating password");
+          const message = api.getErrorMessage(err);
+          toast.error(message);
         })
         .finally(() => {
           passwordStatus.handlers.setLoading(false);
@@ -153,17 +183,21 @@ const useSettings = () => {
           (value) => value && value.size <= MAX_IMAGE_FILE_SIZE
         ),
     }),
+    validateOnChange: false,
+    validateOnBlur: true,
     onSubmit: (values, handlers) => {
       profileImageStatus.handlers.setLoading(true);
       api.users
         .changeProfileImage(values)
         .then((res) => {
+          api.handleError(res);
           toast.success("Profile image updated successfully");
           handlers.resetForm();
           auth.updateProfileImage(res.data.profile_image);
         })
         .catch((err) => {
-          toast.error("Error updating profile image");
+          const message = api.getErrorMessage(err);
+          toast.error(message);
         })
         .finally(() => {
           profileImageStatus.handlers.setLoading(false);
@@ -175,17 +209,22 @@ const useSettings = () => {
     profileImageRemoveStatus.handlers.setLoading(true);
     api.users
       .removeProfileImage()
-      .then(() => {
+      .then((res) => {
+        api.handleError(res);
         toast.success("Profile image removed successfully");
         auth.updateProfileImage(null);
       })
       .catch((err) => {
-        toast.error("Error removing profile image");
+        const message = api.getErrorMessage(err);
+        toast.error(message);
       })
       .finally(() => {
         profileImageRemoveStatus.handlers.setLoading(false);
       });
   };
+
+  emailAvailability.useReset(changeEmailForm.values.email);
+  usernameAvailability.useReset(changeUsernameForm.values.username);
 
   useSignalEffect(
     (signal) => {
@@ -200,8 +239,8 @@ const useSettings = () => {
 
   // Select username from suggestions
   const selectUsername = (username) => {
-    changeUsernameForm.handlers.setFieldValue("username", username);
-    changeUsernameForm.handlers.setFieldError("username", null);
+    changeUsernameForm.setFieldValue("username", username);
+    changeUsernameForm.setFieldError("username", null);
   };
 
   // If username is one out of the suggestions
@@ -224,6 +263,7 @@ const useSettings = () => {
         setEditing: setEditingEmail,
         status: emailStatus.state,
         defaultValue: auth.state.user?.email || "(Unset)",
+        emailAvailability: emailAvailability.state,
       },
       changeName: {
         form: changeNameForm,
@@ -245,6 +285,7 @@ const useSettings = () => {
           select: selectUsername,
           isSelected: isUsername,
         },
+        usernameAvailability: usernameAvailability.state,
       },
       changeProfileImage: {
         form: changeProfileImageForm,

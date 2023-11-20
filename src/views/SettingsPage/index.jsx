@@ -138,6 +138,9 @@ const SettingsPage = () => {
               onChange={settings.forms.changeUsername.form.handleChange(
                 "username"
               )}
+              loading={
+                settings.forms.changeUsername.usernameAvailability.loading
+              }
               onBlur={settings.forms.changeUsername.form.handleBlur("username")}
             />
             {settings.forms.changeUsername.suggestions.status.loading ? (
@@ -194,6 +197,7 @@ const SettingsPage = () => {
               error={settings.forms.changeEmail.form.errors.email}
               onChange={settings.forms.changeEmail.form.handleChange("email")}
               onBlur={settings.forms.changeEmail.form.handleBlur("email")}
+              loading={settings.forms.changeEmail.emailAvailability.loading}
             />
           </EditContainer>
           <EditContainer
