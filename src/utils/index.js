@@ -29,6 +29,14 @@ export const constructURL = (baseURL, query) => {
   }
 };
 
+export const snakeCaseToSentenceCase = (snakeCaseString = "") => {
+  const words = snakeCaseString.split("_");
+  const sentenceCaseWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  );
+  return sentenceCaseWords.join(" ");
+};
+
 export const isValidFileType = (fileName, fileType) => {
   return (
     fileName &&
@@ -73,4 +81,8 @@ export const getPercentageTimeLeft = (startDateString, endDateString) => {
 
 export const formatNumber = (value = 0) => {
   return Intl.NumberFormat("en-US").format(value);
+};
+
+export const sleep = (ms = 2000) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 };

@@ -1,7 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import React from "react";
 
-const Modal = ({ shown = false, hide = () => {}, children }) => {
+const Modal = ({ shown = false, hide = () => {}, title = "", children }) => {
   if (shown) {
     return (
       <div
@@ -13,7 +12,7 @@ const Modal = ({ shown = false, hide = () => {}, children }) => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex flex-row items-center justify-between">
-            <h2 className="text-2xl text-blue-700">Apply Filters</h2>
+            <h2 className="text-2xl text-blue-700">{title}</h2>
             <button
               className="hover:text-blue-700 transition-all"
               onClick={hide}

@@ -2,27 +2,29 @@ import api from "@/services/api";
 import useRequestStatus from "./useRequestStatus";
 
 const useLoadUsernames = () => {
-  const requestStatus = useRequestStatus();
+  const loadUsernamesStatus = useRequestStatus();
 
-  const load = (firstName = "", lastName = "") => {
-    requestStatus.reset();
-    requestStatus.setLoading(true);
+  const load = (firstName = "", lastName = "", signal) => {
+    loadUsernamesStatus.handlers.reset();
+    loadUsernamesStatus.handlers.setLoading(true);
     api.users
-      .getUsernameSuggestions({ firstName, lastName })
+      .getUsernameSuggestions({ firstName, lastName }, signal)
       .then((res) => {
-        requestStatus.setData(res.data);
+        loadUsernamesStatus.handlers.setData(res.data);
+        loadUsernamesStatus.handlers.setLoading(false);
       })
       .catch((err) => {
-        requestStatus.setError("Couldn't fetch suggestions");
-      })
-      .finally(() => {
-        requestStatus.setLoading(false);
+        if (!api.isAborted(err)) {
+          const message = api.getErrorMessage(err);
+          loadUsernamesStatus.handlers.setError(message);
+          loadUsernamesStatus.handlers.setLoading(false);
+        }
       });
   };
 
-  const clear = requestStatus.reset;
+  const clear = loadUsernamesStatus.handlers.reset;
 
-  return { requestStatus, load, clear };
+  return { status: loadUsernamesStatus.state, load, clear };
 };
 
 export default useLoadUsernames;

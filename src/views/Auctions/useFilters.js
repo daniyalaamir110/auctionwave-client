@@ -1,8 +1,8 @@
 import useQuery from "@/hooks/useQuery";
+import useSignalEffect from "@/hooks/useSignalEffect";
 import api from "@/services/api";
 import { clean, constructURL } from "@/utils";
 import { useFormik } from "formik";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -15,6 +15,8 @@ const useFilters = () => {
   const minPrice = query.get("minPrice") || "";
   const maxPrice = query.get("maxPrice") || "";
   const search = query.get("search") || "";
+
+  const filterCount = !!category + !!minPrice + !!maxPrice;
 
   const form = useFormik({
     initialValues: {
@@ -57,19 +59,33 @@ const useFilters = () => {
     },
   });
 
-  useEffect(() => {
-    if (!!category) {
-      api.categories
-        .getById(category)
-        .then((res) => {
-          const category = res.data;
-          form.setFieldValue("category", category);
-        })
-        .catch((err) => {});
-    }
-  }, [category]);
+  const clearFilters = () => {
+    const url = constructURL("/app/auctions", { search });
+    navigate(url);
+  };
 
-  return { form };
+  useSignalEffect(
+    (signal) => {
+      if (!!category) {
+        api.categories
+          .getById(category, signal)
+          .then((res) => {
+            api.handleError(res);
+            const category = res.data;
+            form.setFieldValue("category", category);
+          })
+          .catch((err) => {
+            if (!api.isAborted(err)) {
+              const message = api.getErrorMessage(err);
+              toast.error(message);
+            }
+          });
+      }
+    },
+    [category]
+  );
+
+  return { form, filterCount, clearFilters };
 };
 
 export default useFilters;

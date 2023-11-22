@@ -1,24 +1,27 @@
 import AppLogoWithoutTitleSrc from "@/assets/images/app-logo-without-title.png";
 import Avatar from "@/components/Avatar";
+import Button from "@/components/Button";
+import useAuth from "@/redux/auth/useAuth";
 import {
   ArrowLeftOnRectangleIcon,
   Bars3Icon,
   BellIcon,
   ChevronDownIcon,
-  HomeIcon,
-  ListBulletIcon,
-  MegaphoneIcon,
 } from "@heroicons/react/24/outline";
+import { useEffect } from "react";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  useMatch,
+  useNavigate,
+} from "react-router-dom";
 import AccountPopover from "./AccountPopover";
 import useAccountPopover from "./AccountPopover/useAccountPopover";
-import useAuth from "@/redux/auth/useAuth";
-import Button from "@/components/Button";
-import { Link, NavLink, useMatch, useNavigate } from "react-router-dom";
+import navbarConfig from "./navbarConfig";
 import useNavbarCollapse from "./useNavbarCollapse";
 
-const NavItem = ({ text, to = "/", icon = null }) => {
-  const match = useMatch(to);
-
+const NavItem = ({ text, to = "/", icon = null, match = false }) => {
   return (
     <NavLink
       to={to}
@@ -35,21 +38,15 @@ const NavItem = ({ text, to = "/", icon = null }) => {
 };
 
 const NavItemList = () => {
-  return (
-    <>
-      <NavItem text="Home" to="/" icon={<HomeIcon width={16} />} />
-      <NavItem
-        text="Categories"
-        to="/app/categories"
-        icon={<ListBulletIcon width={16} />}
-      />
-      <NavItem
-        text="Auctions"
-        to="/app/auctions"
-        icon={<MegaphoneIcon width={16} />}
-      />
-    </>
-  );
+  const location = useLocation();
+
+  const isMatch = (pathname) => {
+    return pathname === location.pathname;
+  };
+
+  return navbarConfig.items.map((item, idx) => (
+    <NavItem {...item} match={isMatch(item.to)} key={item.to} />
+  ));
 };
 
 const Navbar = ({ onClickMenu = () => {} }) => {
@@ -58,19 +55,20 @@ const Navbar = ({ onClickMenu = () => {} }) => {
   const navigate = useNavigate();
   const navbarCollapse = useNavbarCollapse();
   const isHome = useMatch("/");
+  const location = useLocation();
+
+  useEffect(navbarCollapse.hide, [location.pathname]);
+
+  const navigateToLogin = () => navigate("/auth/login");
 
   return (
-    <div
-      className={`transition-all max-h-full shadow duration-700 z-10 ${
-        navbarCollapse.collapsed ? "max-h-[5rem]" : "max-h-full"
-      }`}
-    >
+    <>
       <div className="flex flex-row p-[1rem] h-[5rem] gap-[1rem] items-center justify-between">
         <div className="flex flex-row gap-[1rem] items-center">
           {!isHome && (
             <Bars3Icon
               width={24}
-              className="hover:text-blue-700 transition-all cursor-pointer md:hidden"
+              className="hover:text-blue-700 transition-all cursor-pointer lg:hidden"
               onClick={onClickMenu}
             />
           )}
@@ -82,7 +80,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
                 className="w-[4rem]"
               />
             </Link>
-            <div className="hidden md:flex flex-row gap-[1rem] p-[1rem]">
+            <div className="hidden lg:flex flex-row gap-[1rem] p-[1rem]">
               <NavItemList />
             </div>
           </div>
@@ -90,7 +88,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
         <div className="flex flex-row gap-[1rem]"></div>
         <div className="flex flex-row items-center gap-[1rem] justify-end">
           <button
-            className={`md:hidden transition-all hover:text-blue-700 ${
+            className={`lg:hidden transition-all hover:text-blue-700 ${
               navbarCollapse.collapsed ? "" : "rotate-180"
             }`}
             onClick={navbarCollapse.toggle}
@@ -110,7 +108,7 @@ const Navbar = ({ onClickMenu = () => {} }) => {
                     accountPopover.shown && "scale-110"
                   }`}
                 >
-                  <Avatar />
+                  <Avatar src={auth.state.user?.profile_image} />
                 </button>
                 <AccountPopover
                   shown={accountPopover.shown}
@@ -122,19 +120,22 @@ const Navbar = ({ onClickMenu = () => {} }) => {
             <Button
               text="Log in"
               leftIcon={<ArrowLeftOnRectangleIcon width={16} />}
-              onClick={() => navigate("/auth/login")}
+              onClick={navigateToLogin}
             />
           )}
         </div>
       </div>
-      {!navbarCollapse.collapsed && (
-        <div className="overflow-scroll md:hidden">
-          <div className="flex flex-col gap-[0.5rem] p-[1rem]">
-            <NavItemList />
-          </div>
+      <div
+        className={`overflow-scroll lg:hidden transition-all duration-700 ${
+          navbarCollapse.collapsed ? "max-h-0" : "max-h-full"
+        }`}
+      >
+        <div className="flex flex-col gap-[0.5rem] p-[1rem]">
+          <NavItemList />
         </div>
-      )}
-    </div>
+      </div>
+      <div className="shadow border-b border-transparent" />
+    </>
   );
 };
 

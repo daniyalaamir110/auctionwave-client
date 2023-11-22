@@ -1,7 +1,7 @@
 import AppLogoWithTitleSrc from "@/assets/images/app-logo-with-title.png";
+import { ArrowLeftIcon, HomeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import Button from "../Button";
-import { ArrowLeftIcon, HomeIcon } from "@heroicons/react/24/outline";
 
 const AuthContainer = ({
   children,

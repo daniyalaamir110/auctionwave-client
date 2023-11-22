@@ -1,7 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useCategories from "./useCategories";
+import useSignalEffect from "./useSignalEffect";
 
-const useSearchCategories = ({ fetchFirst = false } = {}) => {
+/**
+ * This hook handles the categories from server
+ * @param {boolean} fetchFirst
+ * Should automatically fetch the categories initially?
+ * @returns
+ */
+const useSearchCategories = (fetchFirst = false) => {
   const categories = useCategories();
 
   const [value, setValue] = useState("");
@@ -10,21 +17,24 @@ const useSearchCategories = ({ fetchFirst = false } = {}) => {
     setValue(e.target.value);
   };
 
-  const handleSubmit = () => {
-    categories.get({ search: value, pageSize: 20 });
+  const handleSubmit = (signal) => {
+    categories.get({ search: value, pageSize: 20 }, signal);
   };
 
-  useEffect(() => {
-    if (fetchFirst) {
-      handleSubmit();
-    }
-  }, [fetchFirst]);
+  useSignalEffect(
+    (signal) => {
+      if (fetchFirst) {
+        categories.get({ search: value, pageSize: 20 }, signal);
+      }
+    },
+    [fetchFirst]
+  );
 
   return {
     value,
-    categories,
+    status: categories.status,
     handleChange,
-    handleSubmit,
+    handleSubmit: () => handleSubmit(),
   };
 };
 

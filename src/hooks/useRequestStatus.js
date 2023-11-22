@@ -17,22 +17,25 @@ const actions = {
 
 const reducer = createReducer(initialState, (builder) => {
   builder.addCase(actions.setState, (state, { payload }) => {
-    state = { ...state, ...payload };
+    return { ...state, ...payload };
   });
   builder.addCase(actions.setLoading, (state, { payload }) => {
-    state.loading = payload;
+    return { ...state, loading: payload };
   });
   builder.addCase(actions.setError, (state, { payload }) => {
-    state.error = payload;
+    return { ...state, error: payload };
   });
   builder.addCase(actions.setData, (state, { payload }) => {
-    state.data = payload;
+    return { ...state, data: payload };
   });
-  builder.addCase(actions.reset, (state) => {
-    state = initialState;
-  });
+  builder.addCase(actions.reset, () => ({ ...initialState }));
 });
 
+/**
+ * This hook manages the state of API request. It provides
+ * functions to alter the state, and state variables to leverge
+ * the app UI logic.
+ */
 const useRequestStatus = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -59,14 +62,18 @@ const useRequestStatus = () => {
   const { loading, error, data } = state;
 
   return {
-    loading,
-    error,
-    data,
-    setState,
-    setLoading,
-    setError,
-    setData,
-    reset,
+    state: {
+      loading,
+      error,
+      data,
+    },
+    handlers: {
+      setState,
+      setLoading,
+      setError,
+      setData,
+      reset,
+    },
   };
 };
 

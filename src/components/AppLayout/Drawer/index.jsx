@@ -5,7 +5,7 @@ import SideMenu from "../SideMenu";
 const Drawer = ({ shown = false, hide = () => {} }) => {
   return (
     <div
-      className={`md:hidden fixed bg-black bg-opacity-50 w-[100svw] h-[100svh] top-0 transition-all ${
+      className={`lg:hidden fixed bg-black bg-opacity-50 w-[100svw] h-[100svh] top-0 transition-all ${
         !shown ? "bg-transparent -z-50" : "z-50"
       }`}
       onClick={hide}

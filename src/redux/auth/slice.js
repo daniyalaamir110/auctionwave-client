@@ -14,14 +14,21 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
+    logout: (state, { payload = "Logged out" }) => {
       state.success = initialState.success;
       state.error = initialState.error;
       state.user = initialState.user;
       state.verifying = initialState.verifying;
       state.loading = initialState.loading;
-      localStorage.clear();
-      toast.info("Logged out");
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      toast.info(payload);
+    },
+    updateUser: (state, { payload }) => {
+      state.user = payload;
+    },
+    updateProfileImage: (state, { payload }) => {
+      state.user.profile_image = payload;
     },
   },
   extraReducers: (builder) => {
@@ -33,9 +40,10 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(login.fulfilled, (state) => {
+      .addCase(login.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.success = true;
+        state.user = payload;
       })
       .addCase(login.rejected, (state, { payload }) => {
         state.loading = false;
@@ -48,9 +56,10 @@ const authSlice = createSlice({
         state.verifying = true;
         state.error = null;
       })
-      .addCase(verify.fulfilled, (state) => {
+      .addCase(verify.fulfilled, (state, { payload }) => {
         state.verifying = false;
         state.success = true;
+        state.user = payload;
       })
       .addCase(verify.rejected, (state, { payload }) => {
         state.verifying = false;

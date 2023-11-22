@@ -1,4 +1,4 @@
-import { MAX_FILE_SIZE } from "@/constants";
+import { MAX_IMAGE_FILE_SIZE } from "@/constants";
 import useRequestStatus from "@/hooks/useRequestStatus";
 import api from "@/services/api";
 import { isValidFileType } from "@/utils";
@@ -9,7 +9,7 @@ import * as Yup from "yup";
 
 const useCreateAuction = () => {
   // Initializing the hooks
-  const requestStatus = useRequestStatus();
+  const createAuctionStatus = useRequestStatus();
 
   // Initializing the form
   const form = useFormik({
@@ -24,7 +24,7 @@ const useCreateAuction = () => {
     },
     validationSchema: Yup.object().shape({
       title: Yup.string().trim().required("Required"),
-      description: Yup.string().trim().required("Required"),
+      description: Yup.string().trim().required("Required").max(500),
       category: Yup.object().required("Category is required"),
       image: Yup.mixed()
         .required("Required")
@@ -34,7 +34,7 @@ const useCreateAuction = () => {
         .test(
           "is-valid-size",
           "Max allowed size is 5MB",
-          (value) => value && value.size <= MAX_FILE_SIZE
+          (value) => value && value.size <= MAX_IMAGE_FILE_SIZE
         ),
       basePrice: Yup.number()
         .required("Base price is required")
@@ -67,7 +67,6 @@ const useCreateAuction = () => {
     }),
     validateOnMount: true,
     validateOnBlur: true,
-    validateOnChange: false,
     onSubmit: (values, helpers) => {
       const { validTillDate, validTillTime } = values;
       const combinedDateTime = moment(
@@ -76,16 +75,28 @@ const useCreateAuction = () => {
       );
       const validTill = combinedDateTime.toISOString().slice(0, -1);
       values.validTill = validTill;
-      values.category = values.category.id;
-      api.auctions.create(values).then(() => {
-        toast.success("Auction created");
-      });
+      createAuctionStatus.handlers.reset();
+      createAuctionStatus.handlers.setLoading(true);
+      api.auctions
+        .create({ ...values, category: values.category.id })
+        .then((res) => {
+          api.handleError(res);
+          toast.success("Auction created");
+          helpers.resetForm();
+        })
+        .catch((err) => {
+          const message = api.getErrorMessage(err);
+          toast.error(message);
+        })
+        .finally(() => {
+          createAuctionStatus.handlers.setLoading(false);
+        });
     },
   });
 
   return {
     form,
-    requestStatus,
+    status: createAuctionStatus.state,
   };
 };
 

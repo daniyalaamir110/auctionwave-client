@@ -6,7 +6,7 @@ import {
 import React from "react";
 import LoadingSpinner from "../LoadingSpinner";
 
-const FileInput = ({
+const ImageInput = ({
   label = "",
   required = false,
   id = "",
@@ -21,6 +21,8 @@ const FileInput = ({
   const errorToShow = touched && !loading ? error : "";
 
   const valid = !loading && !error && !!value;
+
+  const url = value ? URL.createObjectURL(value) : null;
 
   return (
     <div className="w-full">
@@ -47,7 +49,7 @@ const FileInput = ({
         <div className="flex items-center justify-center w-full">
           <label
             htmlFor={id}
-            className={`flex flex-col items-center justify-center w-full h-64 border-2 ${
+            className={`flex flex-col items-center justify-center w-full h-[24rem] border-2 relative overflow-hidden ${
               valid
                 ? "border-green-500"
                 : !!errorToShow
@@ -55,7 +57,14 @@ const FileInput = ({
                 : "border-neutral-500"
             } hover:border-blue-700 hover:text-blue-700 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-white transition-all`}
           >
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+            {url && (
+              <img
+                src={url}
+                alt="preview"
+                className="max-w-full max-h-full object-contain absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+              />
+            )}
+            <div className="flex flex-col items-center justify-center p-[1rem] rounded-lg z-10 bg-white bg-opacity-50">
               <svg
                 className="w-8 h-8 mb-4"
                 aria-hidden="true"
@@ -101,4 +110,4 @@ const FileInput = ({
   );
 };
 
-export default FileInput;
+export default ImageInput;

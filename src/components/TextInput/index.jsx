@@ -64,7 +64,7 @@ const TextInput = ({
           <textarea
             id={id}
             name={name}
-            className={`border-[1px] text-neutral-900 text-sm rounded-md outline-transparent focus:outline-blue-700 block w-full p-2.5 placeholder:text-neutral-400 placeholder:select-none transition-all disabled:bg-neutral-100 ${
+            className={`border text-neutral-900 text-sm rounded-md outline-transparent focus:outline-blue-700 block w-full p-2.5 placeholder:text-neutral-400 placeholder:select-none transition-all disabled:bg-neutral-100 ${
               valid
                 ? "border-green-500"
                 : !!errorToShow
@@ -85,7 +85,7 @@ const TextInput = ({
             <input
               id={id}
               name={name}
-              className={`border-[1px] text-neutral-900 text-sm rounded-md outline-transparent focus:outline-blue-700 block w-full p-2.5 placeholder:text-neutral-400 placeholder:select-none transition-all disabled:bg-neutral-100 ${
+              className={`border text-neutral-900 text-sm rounded-md outline-transparent focus:outline-blue-700 block w-full p-2.5 placeholder:text-neutral-400 placeholder:select-none transition-all disabled:bg-neutral-100 ${
                 valid
                   ? "border-green-500"
                   : !!errorToShow

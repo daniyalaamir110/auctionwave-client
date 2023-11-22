@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
-import FileInput from "@/components/FileInput";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import ImageInput from "@/components/ImageInput";
+import LoadingItems from "@/components/LoadingItems";
 import SearchInput from "@/components/SearchInput";
 import TextInput from "@/components/TextInput";
 import useSearchCategories from "@/hooks/useSearchCategories";
@@ -10,11 +10,11 @@ import useCreateAuction from "./useCreateAuction";
 const CreateAuction = () => {
   const createAuction = useCreateAuction();
 
-  const searchCategories = useSearchCategories({ fetchFirst: true });
+  const searchCategories = useSearchCategories(true);
 
   return (
     <div className="flex flex-col gap-[2rem]">
-      <h1 className="text-4xl">Create Auction</h1>
+      <h1 className="sm:text-4xl text-3xl">Create Auction</h1>
       <div className="flex flex-col gap-[1rem] max-w-[36rem] w-full">
         <div className="flex flex-row gap-[1rem] items-center">
           <TextInput
@@ -33,9 +33,7 @@ const CreateAuction = () => {
           />
           {!!createAuction.form.values.category && (
             <button
-              onClick={() => {
-                createAuction.form.setFieldValue("category", null);
-              }}
+              onClick={() => createAuction.form.setFieldValue("category", null)}
               className="p-[0.25rem] bg-cerise-100 text-cerise-700 rounded-full h-fit w-fit shadow border border-cerise-200 hover:bg-cerise-200 transition-all active:bg-cerise-300"
             >
               <NoSymbolIcon width={16} />
@@ -49,46 +47,39 @@ const CreateAuction = () => {
             value={searchCategories.value}
             id="searchCategories"
             name="searchCategories"
-            loading={searchCategories.categories.requestStatus.loading}
+            loading={searchCategories.status.loading}
             onChange={searchCategories.handleChange}
             onSubmit={searchCategories.handleSubmit}
           />
-          {searchCategories.categories.requestStatus.loading ? (
-            <div className="flex flex-row gap-[0.5rem] items-center text-blue-800">
-              <p className="text-xs">Loading Categories</p>
-              <LoadingSpinner />
-            </div>
-          ) : searchCategories.categories.requestStatus.error ? (
-            <p className="text-xs">
-              {searchCategories.categories.requestStatus.error}
-            </p>
+          {searchCategories.status.loading ? (
+            <LoadingItems text="Loading Categories" />
+          ) : searchCategories.status.error ? (
+            <p className="text-xs">{searchCategories.status.error}</p>
           ) : (
             <div className="flex flex-row gap-[0.5rem] items-center flex-wrap">
-              {searchCategories.categories.requestStatus.data?.results?.map?.(
-                (categoryObj) => {
-                  const selected =
-                    categoryObj.id === createAuction.form.values.category?.id;
-                  return (
-                    <button
-                      key={categoryObj.id}
-                      disabled={selected}
-                      className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
-                        selected
-                          ? "bg-blue-700 text-white"
-                          : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
-                      }`}
-                      onClick={() =>
-                        createAuction.form.setFieldValue(
-                          "category",
-                          categoryObj
-                        )
-                      }
-                    >
-                      {categoryObj.title}
-                    </button>
-                  );
-                }
-              )}
+              {searchCategories.status.data?.results?.map?.((categoryObj) => {
+                const selected =
+                  categoryObj.id === createAuction.form.values.category?.id;
+                return (
+                  <button
+                    key={categoryObj.id}
+                    disabled={selected}
+                    className={`px-[0.5rem] py-[0.25rem] rounded-lg transition-all ${
+                      selected
+                        ? "bg-blue-700 text-white"
+                        : "bg-blue-100 text-blue-900 hover:bg-blue-200 active:bg-blue-300"
+                    }`}
+                    onClick={() => {
+                      createAuction.form.setFieldValue("category", categoryObj);
+                      setTimeout(() => {
+                        createAuction.form.setFieldTouched("category", true);
+                      }, 0);
+                    }}
+                  >
+                    {categoryObj.title}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -98,6 +89,7 @@ const CreateAuction = () => {
           required
           name="title"
           id="title"
+          disabled={createAuction.status.loading}
           value={createAuction.form.values.title}
           touched={createAuction.form.touched.title}
           error={createAuction.form.errors.title}
@@ -112,6 +104,7 @@ const CreateAuction = () => {
           numberOfLines={4}
           name="description"
           id="description"
+          disabled={createAuction.status.loading}
           value={createAuction.form.values.description}
           touched={createAuction.form.touched.description}
           error={createAuction.form.errors.description}
@@ -126,6 +119,7 @@ const CreateAuction = () => {
           isNumber
           name="basePrice"
           id="basePrice"
+          disabled={createAuction.status.loading}
           value={createAuction.form.values.basePrice}
           touched={createAuction.form.touched.basePrice}
           error={createAuction.form.errors.basePrice}
@@ -140,6 +134,7 @@ const CreateAuction = () => {
           isDate
           name="validTillDate"
           id="validTillDate"
+          disabled={createAuction.status.loading}
           value={createAuction.form.values.validTillDate}
           touched={createAuction.form.touched.validTillDate}
           error={createAuction.form.errors.validTillDate}
@@ -154,6 +149,7 @@ const CreateAuction = () => {
           isTime
           name="validTillTime"
           id="validTillTime"
+          disabled={createAuction.status.loading}
           value={createAuction.form.values.validTillTime}
           touched={createAuction.form.touched.validTillTime}
           error={createAuction.form.errors.validTillTime}
@@ -169,15 +165,16 @@ const CreateAuction = () => {
           value={createAuction.form.values.details}
           touched={createAuction.form.touched.details}
           error={createAuction.form.errors.details}
-                    onChange={createAuction.form.handleChange("details")}
+          onChange={createAuction.form.handleChange("details")}
           onBlur={createAuction.form.handleBlur("details")}
         /> */}
-        <FileInput
+        <ImageInput
           label="Display image"
           helperText="Provide a suitable image for your auction item to display"
           required
           name="image"
           id="image"
+          disabled={createAuction.status.loading}
           value={createAuction.form.values.image}
           touched={createAuction.form.touched.image}
           error={createAuction.form.errors.image}
@@ -193,6 +190,7 @@ const CreateAuction = () => {
           text="Done"
           leftIcon={<CheckIcon width={16} />}
           onClick={createAuction.form.handleSubmit}
+          loading={createAuction.status.loading}
         />
       </div>
     </div>

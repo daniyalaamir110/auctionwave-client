@@ -14,15 +14,31 @@ const useAuth = () => {
     dispatch(asyncActions.verify());
   };
 
-  const refresh = () => {
-    dispatch(asyncActions.refresh());
+  const refresh = (signal) => {
+    dispatch(asyncActions.refresh(signal));
   };
 
   const logout = () => {
     dispatch(actions.logout());
   };
 
-  return { state, login, verify, refresh, logout };
+  const updateUser = (user) => {
+    dispatch(actions.updateUser(user));
+  };
+
+  const updateProfileImage = (profileImage) => {
+    dispatch(actions.updateProfileImage(profileImage));
+  };
+
+  return {
+    state,
+    login,
+    verify,
+    refresh,
+    logout,
+    updateUser,
+    updateProfileImage,
+  };
 };
 
 export default useAuth;
