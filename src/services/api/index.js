@@ -1,7 +1,6 @@
 import { actions } from "@/redux/auth/slice";
 import { constructURL, sleep, snakeCaseToSentenceCase } from "@/utils";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const apiInstance = axios.create({
   baseURL: "http://localhost:8000",
@@ -28,9 +27,10 @@ apiInstance.interceptors.response.use(
   (res) => res,
   async (err) => {
     if (err?.response?.data?.code === "token_not_valid") {
-      toast.error("Session expired. Please log in again.");
       const store = await import("@/redux/store");
-      store.dispatch(actions.logout());
+      store.default.dispatch(
+        actions.logout("Token expired. Please log in again.")
+      );
     }
 
     return err;

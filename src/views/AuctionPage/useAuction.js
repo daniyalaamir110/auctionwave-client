@@ -117,7 +117,7 @@ const useAuction = () => {
       bidAmount: "",
     },
     validationSchema: Yup.object().shape({
-      bidAmount: Yup.number().required().min(status.data?.base_price),
+      bidAmount: Yup.number().required().min(status.state.data?.base_price),
     }),
     validateOnBlur: true,
     validateOnChange: false,

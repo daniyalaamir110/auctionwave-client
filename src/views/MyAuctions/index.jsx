@@ -50,14 +50,14 @@ const MyAuctions = () => {
         <div className="flex flex-row gap-[0.25rem] shrink-0">
           <Button
             variant="secondary"
-            text="Apply Filters"
             leftIcon={<AdjustmentsHorizontalIcon width={16} />}
             onClick={filtersModal.show}
             badgeCount={filters.filterCount}
           />
           {filters.filterCount > 0 && (
             <Button
-              leftIcon={<XMarkIcon width={16} onClick={filters.clearFilters} />}
+              onClick={filters.clearFilters}
+              leftIcon={<XMarkIcon width={16} />}
             />
           )}
         </div>
