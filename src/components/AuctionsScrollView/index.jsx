@@ -15,6 +15,7 @@ const AuctionsScrolView = ({
   emptyText = "Nothing to show",
   icon = <ClockIcon width={24} />,
   my = false,
+  btn = null,
 }) => {
   const auctionsRef = useRef();
   const [showLeftButton, setShowLeftButton] = useState(false);
@@ -45,9 +46,12 @@ const AuctionsScrolView = ({
 
   return (
     <div className="relative max-w-[74rem] w-full">
-      <div className="flex flex-row gap-[0.5rem] items-center">
-        {icon}
-        <h2 className="text-2xl py-[1rem]">{title}</h2>
+      <div className="flex sm:flex-row flex-col justify-between gap-[1rem] sm:items-center py-[1rem]">
+        <div className="flex flex-row gap-[0.5rem] items-center">
+          {icon}
+          <h2 className="text-2xl">{title}</h2>
+        </div>
+        {btn}
       </div>
       {!loading && !auctions?.length && <Note text={emptyText} />}
       <div
