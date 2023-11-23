@@ -3,110 +3,110 @@ import AuctionsScrolView from "@/components/AuctionsScrollView";
 import BidItem from "@/components/BidItem";
 import BidItemLoading from "@/components/BidItem/BidItemLoading";
 import useAuth from "@/redux/auth/useAuth";
-import { ClockIcon } from "@heroicons/react/24/outline";
-// import { PureComponent } from "react";
-// import {
-//   Bar,
-//   BarChart,
-//   CartesianGrid,
-//   Cell,
-//   Pie,
-//   PieChart,
-//   Rectangle,
-//   Tooltip,
-//   XAxis,
-//   YAxis,
-// } from "recharts";
+import { ChartBarIcon, ClockIcon } from "@heroicons/react/24/outline";
+import { PureComponent } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  Rectangle,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import useDashboard from "./useDashboard";
 
-// const RADIAN = Math.PI / 180;
+const RADIAN = Math.PI / 180;
 
-// const renderCustomizedLabel =
-//   (data) =>
-//   ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-//     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-//     const x = cx + radius * Math.cos(-midAngle * RADIAN);
-//     const y = cy + radius * Math.sin(-midAngle * RADIAN);
+const renderCustomizedLabel =
+  (data) =>
+  ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-//     return (
-//       <text
-//         x={x}
-//         y={y}
-//         fill="white"
-//         textAnchor="middle"
-//         dominantBaseline="central"
-//         className="text-xs"
-//       >
-//         {/* {`${(percent * 100).toFixed(0)}%`} */}
-//         {data?.[index]?.category__title} ({percent * 100}%)
-//       </text>
-//     );
-//   };
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+        className="text-xs"
+      >
+        {/* {`${(percent * 100).toFixed(0)}%`} */}
+        {data?.[index]?.category__title} ({percent * 100}%)
+      </text>
+    );
+  };
 
-// class CategoriesPieChart extends PureComponent {
-//   render() {
-//     const data = this.props.data;
+class CategoriesPieChart extends PureComponent {
+  render() {
+    const data = this.props.data;
 
-//     return (
-//       <PieChart width={400} height={400}>
-//         <Pie
-//           data={data}
-//           cx="50%"
-//           cy="50%"
-//           labelLine={false}
-//           label={renderCustomizedLabel(data)}
-//           outerRadius={150}
-//           className="fill-blue-700"
-//           dataKey="product_count"
-//           nameKey="category__title"
-//         >
-//           {data?.map((entry, index) => (
-//             <Cell key={`cell-${index}`} className="fill-blue-700" />
-//           ))}
-//         </Pie>
-//         <Tooltip />
-//       </PieChart>
-//     );
-//   }
-// }
+    console.log(data);
 
-// class CategoriesBarChart extends PureComponent {
-//   render() {
-//     const data = this.props.data;
+    return (
+      <PieChart width={400} height={400}>
+        <Pie
+          data={data}
+          cx="50%"
+          cy="50%"
+          labelLine={false}
+          label={renderCustomizedLabel(data)}
+          outerRadius={150}
+          className="fill-blue-700"
+          dataKey="product_count"
+          nameKey="category__title"
+        >
+          {data?.map((entry, index) => (
+            <Cell key={`cell-${index}`} className="fill-blue-700" />
+          ))}
+        </Pie>
+        <Tooltip />
+      </PieChart>
+    );
+  }
+}
 
-//     return (
-//       <BarChart
-//         width={Math.max(data?.length * 200, 400)}
-//         height={500}
-//         data={data}
-//         margin={{
-//           bottom: 100,
-//         }}
-//       >
-//         <CartesianGrid strokeDasharray="3 3" />
-//         <XAxis dataKey="category__title" fontSize={12} interval={0} />
-//         <YAxis allowDecimals={false} />
-//         <Tooltip />
-//         <Bar
-//           dataKey="product_count"
-//           className="fill-blue-600 stroke-blue-700 stroke-1 shadow-lg"
-//           maxBarSize={50}
-//           activeBar={<Rectangle />}
-//         />
-//       </BarChart>
-//     );
-//   }
-// }
+class CategoriesBarChart extends PureComponent {
+  render() {
+    const data = this.props.data;
+
+    return (
+      <BarChart
+        width={Math.max(data?.length * 200, 400)}
+        height={400}
+        data={data}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="category__title" fontSize={12} interval={0} />
+        <YAxis allowDecimals={false} />
+        <Tooltip />
+        <Bar
+          dataKey="product_count"
+          className="fill-blue-600 stroke-blue-700 stroke-1 shadow-lg"
+          maxBarSize={50}
+          activeBar={<Rectangle />}
+        />
+      </BarChart>
+    );
+  }
+}
 
 const Stat = ({ title = "", value = "", loading = false }) => {
+  if (loading) {
+    return (
+      <div className="bg-neutral-100 min-h-[8rem] lg:w-[calc(100%/4-3rem/4)] w-[calc(100%/2-1rem/2)] p-[1rem] rounded-lg flex flex-col justify-between gap-[1rem] animate-pulse" />
+    );
+  }
   return (
-    <div className="bg-blue-50 flex-1 min-h-[6rem] p-[1rem] rounded-lg shadow-md flex flex-col justify-between gap-[1rem]">
-      {!loading && (
-        <>
-          <h2 className="">{title}</h2>
-          <p className=" text-4xl">{value}</p>
-        </>
-      )}
+    <div className="bg-blue-50 lg:w-[calc(100%/4-3rem/4)] w-[calc(100%/2-1rem/2)] min-h-[8rem] p-[1rem] rounded-lg shadow-md flex flex-col justify-between gap-[1rem]">
+      <h2 className="">{title}</h2>
+      <p className=" text-4xl">{value}</p>
     </div>
   );
 };
@@ -123,7 +123,7 @@ const Dashbaord = () => {
           Welcome {auth.state.user?.first_name}
         </h1>
       </div>
-      <div className="flex flex-row gap-[1rem]">
+      <div className="flex flex-row gap-[1rem] flex-wrap">
         <Stat
           title="ONGOING AUCTIONS"
           value={dashboard.status.data?.stats.ongoing_auctions_count}
@@ -204,22 +204,34 @@ const Dashbaord = () => {
           )}
         </div>
       </div>
-      {/* {!dashboard.status.loading ? (
-        <div className="flex flex-row gap-[1rem] justify-between">
-          <div className="max-w-1/2 w-fit overflow-scroll flex flex-col gap-[1rem] items-end">
-            <h2 className="text-xl ml-[3.75rem] text-blue-700 self-start">
-              Auction counts by category
-            </h2>
-            <CategoriesBarChart data={dashboard.status.data?.category_counts} />
-          </div>
-          <div className="max-w-1/2 w-fit overflow-scroll flex flex-col gap-[1rem] items-end">
-            <h2 className="text-xl ml-[3.75rem] text-blue-700 self-start">
-              Auction percentages by category
-            </h2>
-            <CategoriesPieChart data={dashboard.status.data?.category_counts} />
-          </div>
+      <div>
+        <div className="flex flex-row gap-[0.5rem] items-center">
+          <ChartBarIcon width={24} />
+          <h2 className="text-2xl py-[1rem]">Insights</h2>
         </div>
-      ) : null} */}
+        {dashboard.status.loading ? (
+          <div className="bg-neutral-100 p-[2rem] shadow-md rounded-lg h-[32rem] animate-pulse" />
+        ) : (
+          <div className="flex flex-row gap-[1rem] justify-between bg-blue-100 p-[2rem] shadow-md rounded-lg">
+            <div className="max-w-1/2 w-fit overflow-scroll flex flex-col gap-[1rem] items-end">
+              <h2 className="text-xl ml-[3.75rem] text-blue-700 self-start">
+                Auction counts by category
+              </h2>
+              <CategoriesBarChart
+                data={dashboard.status.data?.category_counts}
+              />
+            </div>
+            <div className="max-w-1/2 w-fit overflow-scroll flex flex-col gap-[1rem] items-end">
+              <h2 className="text-xl ml-[3.75rem] text-blue-700 self-start">
+                Auction percentages by category
+              </h2>
+              <CategoriesPieChart
+                data={dashboard.status.data?.category_counts}
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

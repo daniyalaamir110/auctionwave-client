@@ -1,12 +1,12 @@
-import usePagination from "@/components/Pagination/usePagination";
-import BidItem from "../../components/BidItem";
-import BidItemLoading from "../../components/BidItem/BidItemLoading";
-import useBids from "./useBids";
-import Pagination from "@/components/Pagination";
-import Tab from "@/components/Tab";
-import useTabConfig from "./useTabConfig";
-import useTab from "@/components/Tab/useTab";
 import NoResultsIllustraionSrc from "@/assets/images/no-results-illustration.svg";
+import BidItem from "@/components/BidItem";
+import BidItemLoading from "@/components/BidItem/BidItemLoading";
+import Pagination from "@/components/Pagination";
+import usePagination from "@/components/Pagination/usePagination";
+import Tab from "@/components/Tab";
+import useTab from "@/components/Tab/useTab";
+import useBids from "./useBids";
+import useTabConfig from "./useTabConfig";
 
 const BidsPage = () => {
   const bids = useBids();
@@ -15,6 +15,7 @@ const BidsPage = () => {
   const noResults = !bids.status.loading && !bids.status.data?.results?.length;
   const count = bids.status.data?.count || 0;
   const pagination = usePagination({ count, pageSize: 10 });
+
   return (
     <div className="flex flex-col gap-[2rem] min-h-full max-w-[72rem]">
       <div className="flex flex-col gap-[2rem] flex-1 w-full">
