@@ -165,13 +165,13 @@ const AuctionPage = () => {
                 <div className="flex flex-col gap-[0.5rem]">
                   {auction.status.data?.is_creator ? (
                     <Button
-                      text="Go to auction"
+                      text="Go to auctions"
                       variant="secondary"
                       rightIcon={
                         <ArrowTopRightOnSquareIcon className="w-[1rem]" />
                       }
                       onClick={() => {
-                        navigate(`/app/auctions/my/${auction.status.data?.id}`);
+                        navigate("/app/auctions/my");
                       }}
                     />
                   ) : !currentUserBid || !auction.bid.canBid ? (

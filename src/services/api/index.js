@@ -225,6 +225,11 @@ const auctions = {
     return apiInstance.post(url, data, { headers });
   },
 
+  sellById: (id = 0) => {
+    const url = `/products/sell/${id}/`;
+    return apiInstance.patch(url);
+  },
+
   getById: (id = 0, signal) => {
     const url = `/products/${id}`;
     return apiInstance.get(url, { signal });

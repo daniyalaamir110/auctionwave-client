@@ -28,7 +28,7 @@ const useBids = () => {
             const message = api.getErrorMessage(err);
             bidsStatus.handlers.setError(message);
             bidsStatus.handlers.setLoading(false);
-            toast(message);
+            toast.error(message);
           }
         });
     },
