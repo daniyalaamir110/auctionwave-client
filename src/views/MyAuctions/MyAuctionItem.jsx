@@ -34,7 +34,9 @@ const MyAuctionItem = ({ auction, type }) => {
           <p className="text-sm text-blue-700">
             {type === "ongoing" ? "Ending" : "Ended"}{" "}
             {getTimeLeft(auction.valid_till)} • Winner –{" "}
-            {!auction.highest_bid ? (
+            {type === "ongoing" ? (
+              "(TBD)"
+            ) : !auction.highest_bid ? (
               "(None)"
             ) : (
               <a
