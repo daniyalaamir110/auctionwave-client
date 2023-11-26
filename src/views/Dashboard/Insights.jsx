@@ -1,6 +1,7 @@
 import { ChartBarIcon } from "@heroicons/react/24/outline";
 import CategoriesBarChart from "./CategoriesBarChart";
 import CategoriesPieChart from "./CategoriesPieChart";
+import Note from "@/components/Note";
 
 const Insights = ({ loading = false, categoryCounts = [] }) => {
   return (
@@ -11,6 +12,8 @@ const Insights = ({ loading = false, categoryCounts = [] }) => {
       </div>
       {loading ? (
         <div className="bg-neutral-100 p-[2rem] shadow-md rounded-lg h-[32rem] animate-pulse" />
+      ) : !categoryCounts.length ? (
+        <Note text="By far you don't have any activity for insights to be shown" />
       ) : (
         <div className="flex xl:flex-row flex-col items-center gap-[1rem] justify-between bg-gradient-to-b from-blue-50 to-blue-300 p-[2rem] shadow-md rounded-lg">
           <div className="max-w-1/2 w-fit overflow-scroll flex flex-col gap-[1rem] items-end">

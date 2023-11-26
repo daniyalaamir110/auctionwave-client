@@ -14,7 +14,7 @@ const Stat = ({ title = "", value = "", loading = false }) => {
   }
   return (
     <div className="bg-blue-50 lg:w-[calc(100%/4-3rem/4)] w-[calc(100%/2-1rem/2)] min-h-[12rem] p-[1rem] rounded-lg shadow-md flex flex-col justify-between gap-[1rem]">
-      <h2 className="">{title}</h2>
+      <h2 className="text-sm">{title}</h2>
       <p className="text-blue-700 text-4xl">{value}</p>
       <Button
         text="See all"

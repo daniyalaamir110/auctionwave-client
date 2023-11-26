@@ -23,7 +23,7 @@ const sideMenuConifg = {
       icon: <ChatBubbleBottomCenterIcon width={16} />,
     },
     {
-      text: "Settings",
+      text: "Account Settings",
       to: "/app/settings",
       icon: <Cog8ToothIcon width={16} />,
     },

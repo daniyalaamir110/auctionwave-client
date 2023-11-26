@@ -13,6 +13,8 @@ import Page403 from "@/views/Page403";
 import Page404 from "@/views/Page404";
 import SettingsPage from "@/views/SettingsPage";
 import Signup from "@/views/Signup";
+import UserPage from "@/views/UserPage";
+import UsersPage from "@/views/UsersPage";
 import {
   BrowserRouter,
   Navigate,
@@ -65,6 +67,10 @@ const Router = () => {
                 <Route index element={<MyAuctions />} />
               </Route>
               <Route path=":id" element={<AuctionPage />} />
+            </Route>
+            <Route path="users">
+              <Route index element={<UsersPage />} />
+              <Route path=":id" element={<UserPage />} />
             </Route>
             <Route element={<ProtectedRoute />}>
               <Route path="bids" element={<BidsPage />} />

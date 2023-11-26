@@ -12,7 +12,7 @@ const Avatar = ({ loading = false, large = false, src = null }) => {
       }}
     >
       {loading ? (
-        <LoadingSpinner />
+        <LoadingSpinner large />
       ) : (
         <img
           src={!src ? DefaultAvatarSrc : src}

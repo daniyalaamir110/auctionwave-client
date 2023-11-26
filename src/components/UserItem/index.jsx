@@ -5,7 +5,7 @@ export const UserItemLoading = () => {
   return (
     <div className="flex flex-row gap-[1rem] items-center">
       <div className="shrink-0 w-[3rem] h-[3rem] rounded-full bg-neutral-200" />
-      <div className="flex flex-col gap-[0.5rem] hover:scale-105 transition-all">
+      <div className="flex flex-col gap-[0.5rem] transition-all">
         <div className="rounded-md w-[6rem] bg-neutral-200 h-[1.25rem]" />
         <div className="rounded-md w-[4rem] bg-neutral-200 h-[1rem]" />
       </div>
@@ -26,7 +26,7 @@ const UserItem = ({ user }) => {
       </div>
       <Link
         to={`/app/users/${user.id}`}
-        className="flex flex-col hover:scale-105 transition-all"
+        className="flex flex-col transition-all"
       >
         <h3 className="text-md text-blue-700">
           {name}
