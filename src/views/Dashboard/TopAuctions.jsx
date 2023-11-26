@@ -23,7 +23,6 @@ const TopAuctions = ({ auctions = [], loading = false }) => {
             variant="secondary"
           />
         }
-        my
       />
     </div>
   );

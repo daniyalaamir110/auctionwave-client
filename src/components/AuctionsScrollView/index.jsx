@@ -14,7 +14,6 @@ const AuctionsScrolView = ({
   auctions = [],
   emptyText = "Nothing to show",
   icon = <ClockIcon width={24} />,
-  my = false,
   btn = null,
 }) => {
   const auctionsRef = useRef();
@@ -68,7 +67,7 @@ const AuctionsScrolView = ({
           : auctions?.map((item) => (
               <Link
                 key={item.id}
-                to={`/app/auctions${my ? "/my" : ""}/${item.id}`}
+                to={`/app/auctions/${item.id}`}
                 className="w-[16rem] h-[16rem] rounded-lg shadow-md shrink-0 flex flex-row items-center justify-center overflow-x-hidden relative hover:shadow-lg transition-all"
               >
                 <img
