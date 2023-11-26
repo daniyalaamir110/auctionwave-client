@@ -5,8 +5,14 @@ import {
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const Stat = ({ title = "", value = "", loading = false }) => {
+const Stat = ({
+  title = "",
+  value = "",
+  loading = false,
+  onViewAllClick = () => {},
+}) => {
   if (loading) {
     return (
       <div className="bg-neutral-100 min-h-[12rem] lg:w-[calc(100%/4-3rem/4)] w-[calc(100%/2-1rem/2)] p-[1rem] rounded-lg flex flex-col justify-between gap-[1rem] animate-pulse" />
@@ -21,6 +27,7 @@ const Stat = ({ title = "", value = "", loading = false }) => {
         variant="secondary"
         leftIcon={<EyeIcon width={16} />}
         rightIcon={<ArrowRightIcon width={16} />}
+        onClick={onViewAllClick}
       />
     </div>
   );
@@ -42,6 +49,8 @@ const StatContainer = ({ loading = false, children }) => {
 };
 
 const Stats = ({ loading = false, stats = {} }) => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className="flex flex-row gap-[0.5rem] items-center">
@@ -53,21 +62,33 @@ const Stats = ({ loading = false, stats = {} }) => {
           title="ONGOING AUCTIONS"
           value={stats?.ongoing_auctions_count}
           loading={loading}
+          onViewAllClick={() => {
+            navigate(`/app/auctions/my?status=ongoing`);
+          }}
         />
         <Stat
           title="COMPLETED AUCTIONS"
           value={stats?.completed_auctions_count}
           loading={loading}
+          onViewAllClick={() => {
+            navigate(`/app/auctions/my?status=sold`);
+          }}
         />
         <Stat
           title="PENDING BIDS"
           value={stats?.pending_bids_count}
           loading={loading}
+          onViewAllClick={() => {
+            navigate(`/app/bids?status=pending`);
+          }}
         />
         <Stat
           title="SUCCESSFUL BIDS"
           value={stats?.successful_bids_count}
           loading={loading}
+          onViewAllClick={() => {
+            navigate(`/app/bids?status=won`);
+          }}
         />
       </StatContainer>
     </div>

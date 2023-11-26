@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 const items = [
   { name: "Auctions", id: "auctions", icon: <MegaphoneIcon width={16} /> },
-  { name: "Completed", id: "sold", icon: <CheckBadgeIcon width={16} /> },
-  { name: "Won", id: "won", icon: <TrophyIcon width={16} /> },
+  // { name: "Completed", id: "sold", icon: <CheckBadgeIcon width={16} /> },
+  // { name: "Won", id: "won", icon: <TrophyIcon width={16} /> },
 ];
 
 const useTabConfig = () => {

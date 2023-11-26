@@ -97,10 +97,10 @@ const Navbar = ({ onClickMenu = () => {} }) => {
           </button>
           {auth.state.success ? (
             <>
-              <BellIcon
+              {/* <BellIcon
                 width={24}
                 className="hover:text-blue-700 transition-all cursor-pointer"
-              />
+              /> */}
               <div className="relative">
                 <button
                   onClick={accountPopover.toggle}
