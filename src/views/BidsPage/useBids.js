@@ -16,7 +16,7 @@ const useBids = () => {
       bidsStatus.handlers.reset();
       bidsStatus.handlers.setLoading(true);
       api.bids
-        .get({ bidsStatus: status, page, pageSize: 10 }, signal)
+        .get({ status, page, pageSize: 10 }, signal)
         .then((res) => {
           api.handleError(res);
           const { data } = res;
@@ -28,7 +28,7 @@ const useBids = () => {
             const message = api.getErrorMessage(err);
             bidsStatus.handlers.setError(message);
             bidsStatus.handlers.setLoading(false);
-            toast(message);
+            toast.error(message);
           }
         });
     },

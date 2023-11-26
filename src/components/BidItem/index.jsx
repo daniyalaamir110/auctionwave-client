@@ -4,6 +4,13 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 const BidItem = ({ bid, serialNo = 1 }) => {
+  const status = bid.product.status;
+  const color =
+    status === "ongoing"
+      ? "bg-green-500"
+      : status === "finished"
+      ? "bg-gold-500"
+      : "bg-blue-500";
   return (
     <tr className="bg-white border-b border-b-neutral-200 hover:bg-neutral-50">
       <td className="px-6 py-4 min-w-max whitespace-nowrap">{serialNo}</td>
@@ -23,8 +30,8 @@ const BidItem = ({ bid, serialNo = 1 }) => {
         {formatNumber(bid.bid_amount)}
       </td>
       <td className="px-6 py-4 min-w-max whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>{" "}
+        <div className="flex items-center uppercase">
+          <div className={`h-2.5 w-2.5 rounded-full ${color} mr-2`}></div>{" "}
           {bid.product.status}
         </div>
       </td>

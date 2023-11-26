@@ -36,7 +36,7 @@ const Pagination = ({
   last,
 }) => {
   return (
-    <div className="flex flex-row gap-[0.25rem] items-center justify-center">
+    <div className="flex flex-row gap-[0.25rem] items-center justify-center p-[0.25rem]">
       {shouldShowFirst && (
         <>
           <PaginationButton onClick={first}>1</PaginationButton>

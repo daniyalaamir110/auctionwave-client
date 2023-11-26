@@ -88,6 +88,23 @@ const users = {
     return apiInstance.post(url, data);
   },
 
+  getById: (id = 0, signal) => {
+    const url = `/users/${id}/`;
+    return apiInstance.get(url, { signal });
+  },
+
+  get: ({ search = "", pageSize = 10, page = 1 }, signal) => {
+    const query = {
+      search,
+      page_size: pageSize,
+      page,
+    };
+
+    const url = constructURL("/users/", query);
+
+    return apiInstance.get(url, { signal });
+  },
+
   getUsernameSuggestions: ({ firstName = "", lastName = "" }, signal) => {
     const url = "/users/username-suggestions/";
     const data = {
@@ -157,6 +174,7 @@ const auctions = {
     {
       search = "",
       category = 0,
+      creator = "",
       minPrice = "",
       maxPrice = "",
       ordering = "",
@@ -169,6 +187,7 @@ const auctions = {
     const query = {
       search,
       category,
+      creator,
       min_price: minPrice,
       max_price: maxPrice,
       ordering,
@@ -204,6 +223,11 @@ const auctions = {
     const url = "/products/";
 
     return apiInstance.post(url, data, { headers });
+  },
+
+  sellById: (id = 0) => {
+    const url = `/products/sell/${id}/`;
+    return apiInstance.patch(url);
   },
 
   getById: (id = 0, signal) => {

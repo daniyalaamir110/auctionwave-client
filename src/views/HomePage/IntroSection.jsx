@@ -26,7 +26,14 @@ const IntroSection = () => {
           treasures.
         </p>
         <div className="flex flex-row gap-[1rem]">
-          <Button text="Get started" large leftIcon={<BoltIcon width={20} />} />
+          <Button
+            text="Get started"
+            large
+            leftIcon={<BoltIcon width={20} />}
+            onClick={() => {
+              navigate("/auth/signup");
+            }}
+          />
           <Button
             text="Go to app"
             large

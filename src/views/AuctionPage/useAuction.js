@@ -42,14 +42,17 @@ const useAuction = () => {
     api.auctions
       .getTopBidsById(id)
       .then((res) => {
+        api.handleError(res);
         const { data } = res;
-        topBidsStatus.setData(data);
-      })
-      .catch(() => {
-        topBidsStatus.handlers.setError("Error");
-      })
-      .finally(() => {
+        topBidsStatus.handlers.setData(data);
         topBidsStatus.handlers.setLoading(false);
+      })
+      .catch((err) => {
+        if (!api.isAborted(err)) {
+          const message = api.getErrorMessage(err);
+          topBidsStatus.handlers.setError(message);
+          topBidsStatus.handlers.setLoading(false);
+        }
       });
   };
 

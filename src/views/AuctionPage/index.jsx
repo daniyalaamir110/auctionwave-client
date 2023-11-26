@@ -49,6 +49,12 @@ const AuctionPage = () => {
                 <h2 className="uppercase text-sm text-blue-900">Description</h2>
                 <Paragraph text={auction.status.data?.description} />
               </div>
+              <div className="p-[0rem] flex flex-row gap-[1rem] justify-between items-center">
+                <h2 className="uppercase text-sm text-blue-900">Base price</h2>
+                <p className="text-blue-800">
+                  PKR {formatNumber(auction.status.data?.base_price)}
+                </p>
+              </div>
               <div className="w-full min-h-[10rem] max-h-[20rem] cursor-pointer bg-neutral-100 relative rounded-md overflow-hidden flex flex-col items-center justify-center">
                 <img
                   src={auction.status.data?.image}
@@ -108,6 +114,11 @@ const AuctionPage = () => {
                       text="View Profile"
                       variant="secondary"
                       rightIcon={<ArrowTopRightOnSquareIcon width={16} />}
+                      onClick={() => {
+                        navigate(
+                          `/app/users/${auction.status.data?.creator?.id}`
+                        );
+                      }}
                     />
                   </div>
                 </div>
@@ -154,13 +165,13 @@ const AuctionPage = () => {
                 <div className="flex flex-col gap-[0.5rem]">
                   {auction.status.data?.is_creator ? (
                     <Button
-                      text="Go to auction"
+                      text="Go to auctions"
                       variant="secondary"
                       rightIcon={
                         <ArrowTopRightOnSquareIcon className="w-[1rem]" />
                       }
                       onClick={() => {
-                        navigate(`/app/auctions/my/${auction.status.data?.id}`);
+                        navigate("/app/auctions/my");
                       }}
                     />
                   ) : !currentUserBid || !auction.bid.canBid ? (

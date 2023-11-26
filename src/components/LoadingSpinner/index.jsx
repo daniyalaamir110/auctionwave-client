@@ -1,8 +1,10 @@
-const LoadingSpinner = () => (
+const LoadingSpinner = ({ large = false }) => (
   <svg
     aria-hidden
     role="status"
-    className="inline w-[16px] h-[14px] animate-spin"
+    className={`inline ${
+      large ? "w-[32px] h-[32px]" : "w-[16px] h-[14px]"
+    } animate-spin`}
     viewBox="0 0 100 101"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

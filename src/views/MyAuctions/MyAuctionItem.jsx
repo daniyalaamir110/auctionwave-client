@@ -3,13 +3,17 @@ import { getTimeLeft } from "@/utils";
 import {
   ArrowRightIcon,
   CheckCircleIcon,
+  CheckIcon,
   ClockIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import useSellAuction from "./useSellAuction";
 
 const MyAuctionItem = ({ auction, type }) => {
   const navigate = useNavigate();
+
+  const sellAuction = useSellAuction();
 
   return (
     <div className="p-[1rem] rounded-lg shadow-md bg-blue-50 flex flex-row gap-[1rem]">
@@ -29,17 +33,38 @@ const MyAuctionItem = ({ auction, type }) => {
           )}
           <p className="text-sm text-blue-700">
             {type === "ongoing" ? "Ending" : "Ended"}{" "}
-            {getTimeLeft(auction.valid_till)}
+            {getTimeLeft(auction.valid_till)} • Winner –{" "}
+            {!auction.highest_bid ? (
+              "(None)"
+            ) : (
+              <a
+                target="_blank"
+                href={`/app/users/${auction.highest_bid.bidder?.id}`}
+                className="underline text-blue-700"
+              >
+                @{auction.highest_bid.bidder?.username}
+              </a>
+            )}
           </p>
         </div>
-        <Button
-          text="Go to auction"
-          variant="secondary"
-          rightIcon={<ArrowRightIcon width={16} />}
-          onClick={() => {
-            navigate(`${auction.id}`);
-          }}
-        />
+        {auction.status === "ongoing" ? (
+          <Button
+            text="Go to auction"
+            variant="secondary"
+            rightIcon={<ArrowRightIcon width={16} />}
+            onClick={() => {
+              navigate(`/app/auctions/${auction.id}`);
+            }}
+          />
+        ) : auction.status === "finished" ? (
+          <Button
+            text="Mark as sold"
+            leftIcon={<CheckIcon width={16} />}
+            loading={sellAuction.status.loading}
+            disabled={!auction.highest_bid}
+            onClick={() => sellAuction.sell(auction.id)}
+          />
+        ) : null}
       </div>
     </div>
   );

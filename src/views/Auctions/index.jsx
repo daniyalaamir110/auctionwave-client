@@ -6,8 +6,8 @@ import {
   AdjustmentsHorizontalIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import AuctionItem from "./AuctionItem";
-import AuctionItemLoading from "./AuctionItemLoading";
+import AuctionItem from "@/components/AuctionItem";
+import AuctionItemLoading from "@/components/AuctionItem/AuctionItemLoading";
 import FiltersModal from "./FiltersModal";
 import useAvailableAuctions from "./useAvailableAuctions";
 import useSearch from "./useSearch";
