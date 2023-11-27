@@ -3,7 +3,7 @@ import { constructURL, sleep, snakeCaseToSentenceCase } from "@/utils";
 import axios from "axios";
 
 const apiInstance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: process.env.REACT_APP_BACKEND_URL || "http://localhost:8000",
   validateStatus: (status) => {
     return status >= 200 && status < 300;
   },

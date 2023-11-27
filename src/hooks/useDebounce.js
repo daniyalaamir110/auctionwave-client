@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import useSignalEffect from "./useSignalEffect";
 
 const useDebounce = (callback = () => {}, timer = 0, dependencyArray = []) => {

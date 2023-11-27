@@ -1,7 +1,6 @@
 import Button from "@/components/Button";
 import useAuth from "@/redux/auth/useAuth";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import sideMenuConifg from "./sideMenuConfig";
 

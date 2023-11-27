@@ -16,6 +16,7 @@ const useSignalEffect = (callback, dependencyArray) => {
       controller.abort();
       cleanup();
     };
+    // eslint-disable-next-line
   }, dependencyArray);
 };
 

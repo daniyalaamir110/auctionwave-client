@@ -41,6 +41,7 @@ const MyAuctionItem = ({ auction, type }) => {
             ) : (
               <a
                 target="_blank"
+                rel="noreferrer"
                 href={`/app/users/${auction.highest_bid.bidder?.id}`}
                 className="underline text-blue-700"
               >

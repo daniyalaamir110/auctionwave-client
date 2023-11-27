@@ -5,7 +5,6 @@ import useAuth from "@/redux/auth/useAuth";
 import {
   ArrowLeftOnRectangleIcon,
   Bars3Icon,
-  BellIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect } from "react";
@@ -57,7 +56,10 @@ const Navbar = ({ onClickMenu = () => {} }) => {
   const isHome = useMatch("/");
   const location = useLocation();
 
-  useEffect(navbarCollapse.hide, [location.pathname]);
+  useEffect(() => {
+    navbarCollapse.hide();
+    // eslint-disable-next-line
+  }, [location.pathname]);
 
   const navigateToLogin = () => navigate("/auth/login");
 

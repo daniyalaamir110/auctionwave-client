@@ -1,9 +1,5 @@
 import useQuery from "@/hooks/useQuery";
-import {
-  CheckBadgeIcon,
-  MegaphoneIcon,
-  TrophyIcon,
-} from "@heroicons/react/24/outline";
+import { MegaphoneIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
 const items = [

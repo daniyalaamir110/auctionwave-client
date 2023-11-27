@@ -18,10 +18,12 @@ const useTab = ({
 
   useEffect(() => {
     onTabChange(selectedTab);
+    // eslint-disable-next-line
   }, [selectedTabIdx]);
 
   useEffect(() => {
     setSelectedTabIdx(getInitialTabIdx());
+    // eslint-disable-next-line
   }, [query]);
 
   return { getTabClickHandler, selectedTabIdx, selectedTab, items };
